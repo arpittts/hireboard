@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+
+# Environment files (NEVER commit secrets)
+.env
+.env.local
+.env.production
+
+# Database files
+*.db
+*.db-shm
+*.db-wal
+hireboard.db
+
+# Logs
+*.log
+server.log
+npm-debug.log*
+
+# Runtime
+.DS_Store
+*.pem
+
+# Build artifacts
+dist/
+build/

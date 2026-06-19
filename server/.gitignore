@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Environment (contains DB credentials + JWT secret)
+.env
+
+# Database
+*.db
+*.db-shm
+*.db-wal
+hireboard.db
+
+# Logs
+*.log
+server.log
+
+# Runtime
+.DS_Store
