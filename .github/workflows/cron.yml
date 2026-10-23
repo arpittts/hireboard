@@ -27,8 +27,12 @@ jobs:
         run: |
           curl --fail-with-body --silent --show-error --retry 3 --retry-all-errors --retry-delay 20 --max-time 120 \
             -X POST -H "X-Cron-Secret: $CRON_SECRET" "$API_URL/api/internal/reminders"
+          echo
 
+      # Runs even if reminders failed: the two jobs don't depend on each other.
       - name: Delete expired demo accounts
+        if: ${{ !cancelled() }}
         run: |
           curl --fail-with-body --silent --show-error --retry 3 --retry-all-errors --retry-delay 20 --max-time 120 \
             -X POST -H "X-Cron-Secret: $CRON_SECRET" "$API_URL/api/internal/cleanup"
+          echo

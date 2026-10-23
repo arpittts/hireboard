@@ -23,21 +23,57 @@ export type SendEmail = (to: string, subject: string, html: string) => Promise<v
 
 let transporter: Transporter | null = null;
 
-export const emailConfigured = () => Boolean(config.SMTP_HOST && config.SMTP_USER && config.SMTP_PASS);
+// No single email may hang the daily job (Render's free plan silently drops SMTP).
+const SEND_TIMEOUT_MS = 15_000;
 
-// The real sender, built on first use. Returns null when SMTP isn't configured.
-export function smtpSender(): SendEmail | null {
-  if (!emailConfigured()) return null;
+const useBrevo = () => Boolean(config.BREVO_API_KEY);
+const useSmtp = () => Boolean(config.SMTP_HOST && config.SMTP_USER && config.SMTP_PASS);
+export const emailConfigured = () => useBrevo() || useSmtp();
+
+// "HireBoard <you@gmail.com>" → { name: 'HireBoard', email: 'you@gmail.com' }
+export function parseFrom(from: string): { name?: string; email: string } {
+  const match = from.match(/^\s*(.*?)\s*<([^>]+)>\s*$/);
+  return match ? { name: match[1] || undefined, email: match[2] } : { email: from.trim() };
+}
+
+// Brevo's transactional email API, over HTTPS (port 443).
+function brevoSender(): SendEmail {
+  return async (to, subject, html) => {
+    const res = await fetch('https://api.brevo.com/v3/smtp/email', {
+      method: 'POST',
+      headers: { 'api-key': config.BREVO_API_KEY!, 'Content-Type': 'application/json', accept: 'application/json' },
+      body: JSON.stringify({ sender: parseFrom(config.EMAIL_FROM), to: [{ email: to }], subject, htmlContent: html }),
+      signal: AbortSignal.timeout(SEND_TIMEOUT_MS),
+    });
+    if (!res.ok) {
+      const body = await res.text();
+      throw new Error(`Brevo answered ${res.status}: ${body.slice(0, 300)}`);
+    }
+  };
+}
+
+function smtpSender(): SendEmail {
   transporter ??= nodemailer.createTransport({
     host: config.SMTP_HOST,
     port: config.SMTP_PORT,
     secure: config.SMTP_PORT === 465,
     auth: { user: config.SMTP_USER, pass: config.SMTP_PASS },
+    // Give up quickly instead of waiting minutes when the port is blocked.
+    connectionTimeout: SEND_TIMEOUT_MS,
+    greetingTimeout: SEND_TIMEOUT_MS,
+    socketTimeout: SEND_TIMEOUT_MS,
   });
   const mailer = transporter;
   return async (to, subject, html) => {
     await mailer.sendMail({ from: config.EMAIL_FROM, to, subject, html });
   };
+}
+
+// The configured sender (Brevo first), or null when email isn't set up.
+export function emailSender(): SendEmail | null {
+  if (useBrevo()) return brevoSender();
+  if (useSmtp()) return smtpSender();
+  return null;
 }
 
 // Names come from user input; escape them before putting them in HTML.

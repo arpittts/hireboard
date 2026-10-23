@@ -3,7 +3,7 @@ import { Router, type RequestHandler } from 'express';
 import { config } from '../config.js';
 import { pool } from '../db/pool.js';
 import { AppError } from '../middleware/errors.js';
-import { sendDueReminders, smtpSender } from '../services/reminders.js';
+import { emailSender, sendDueReminders } from '../services/reminders.js';
 
 // Routes for the daily GitHub Actions job. They need the X-Cron-Secret header.
 
@@ -22,9 +22,9 @@ export const internalRouter = Router();
 internalRouter.use(requireCronSecret);
 
 internalRouter.post('/reminders', async (_req, res) => {
-  const send = smtpSender();
+  const send = emailSender();
   if (!send) {
-    res.json({ skipped: true, reason: 'SMTP is not configured.' });
+    res.json({ skipped: true, reason: 'Email is not configured (set BREVO_API_KEY or SMTP_*).' });
     return;
   }
   const result = await sendDueReminders(send);

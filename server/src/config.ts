@@ -22,6 +22,9 @@ const envSchema = z.object({
   AI_MODE: z.enum(['live', 'record', 'replay']).default('live'),
   // Model calls allowed per day across all users, kept under the free-tier limit.
   AI_GLOBAL_DAILY_LIMIT: z.coerce.number().int().positive().default(300),
+  // Email. Render's free plan blocks SMTP ports, so production uses Brevo's HTTPS API;
+  // SMTP still works where those ports are open (for example locally).
+  BREVO_API_KEY: z.string().optional(),
   SMTP_HOST: z.string().optional(),
   SMTP_PORT: z.coerce.number().int().positive().default(587),
   SMTP_USER: z.string().optional(),
