@@ -36,7 +36,7 @@
 | Security | helmet headers, CORS allow-list, one JSON error format |
 | Tests & CI | Vitest + Supertest against a real Postgres; GitHub Actions |
 | AI | Vercel AI SDK + Gemini (free tier), Zod-validated structured output |
-| Email | Nodemailer, triggered daily by GitHub Actions |
+| Email | Brevo HTTPS API (SMTP via Nodemailer locally), triggered daily by GitHub Actions |
 | Deploy | Vercel (frontend) + Render (backend) + Neon (Postgres) |
 
 ## 🚀 Local Setup
@@ -127,7 +127,9 @@ CLIENT_URL=http://localhost:5173
 AUTH_RATE_LIMIT=10          # failed logins/registrations per IP per 15 minutes
 CRON_SECRET=any-long-random-string   # enables /api/internal/* for the daily job
 
-# Optional email reminders
+# Optional email reminders: BREVO_API_KEY (works on Render free), or SMTP_* (blocked on Render free)
+BREVO_API_KEY=your-brevo-key
+EMAIL_FROM=HireBoard <you@example.com>
 SMTP_HOST=smtp.gmail.com
 SMTP_PORT=587
 SMTP_USER=your@gmail.com
@@ -195,7 +197,7 @@ The free Render server sleeps, so it can't run its own timer. Instead, `.github/
 Setup:
 1. Render generates `CRON_SECRET` (from `render.yaml`). Copy it from the service's **Environment** tab.
 2. In GitHub → **Settings → Secrets and variables → Actions**, add `CRON_SECRET` (that value) and `API_URL` (`https://<your-service>.onrender.com`).
-3. For email, add `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` and `EMAIL_FROM` in Render (a Gmail app password works).
+3. For email, add `BREVO_API_KEY` and `EMAIL_FROM` (`HireBoard <your verified sender address>`) in Render. Render's free plan blocks outgoing SMTP (ports 25, 465 and 587), so production sends through [Brevo](https://www.brevo.com)'s free HTTPS email API. `SMTP_*` still works where those ports are open, such as locally.
 4. Run it once by hand: GitHub → **Actions → Daily jobs → Run workflow**.
 
 Note: Render's free service sleeps after 15 minutes without traffic, so the first request after a pause takes about a minute. The app shows a "waking the free server" banner meanwhile.

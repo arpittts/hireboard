@@ -32,6 +32,9 @@ services:
       # AI (Gemini free tier). Paste the key in Render's Environment tab.
       - key: GEMINI_API_KEY
         sync: false
+      # Email over HTTPS (Render's free plan blocks SMTP). Paste in Render's Environment tab.
+      - key: BREVO_API_KEY
+        sync: false
       - key: LLM_MODEL
         value: gemini-3.5-flash-lite
       - key: AI_GLOBAL_DAILY_LIMIT
