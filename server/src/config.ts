@@ -12,6 +12,8 @@ const envSchema = z.object({
   CLIENT_URL: z.string().optional(),
   // Failed login/register attempts allowed per IP in 15 minutes.
   AUTH_RATE_LIMIT: z.coerce.number().int().positive().default(10),
+  // Shared with the GitHub Actions schedule; the /api/internal routes are off without it.
+  CRON_SECRET: z.string().min(16).optional(),
   SMTP_HOST: z.string().optional(),
   SMTP_PORT: z.coerce.number().int().positive().default(587),
   SMTP_USER: z.string().optional(),

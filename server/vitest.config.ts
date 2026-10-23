@@ -10,6 +10,8 @@ export default defineConfig({
         process.env.TEST_DATABASE_URL ?? 'postgresql://hireboard:hireboard@localhost:5433/hireboard_test',
       JWT_SECRET: 'test-secret',
       CLIENT_URL: 'http://localhost:5173',
+      CRON_SECRET: 'test-cron-secret-0123456789',
+      SMTP_HOST: '',
     },
   },
 });

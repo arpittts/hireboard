@@ -4,14 +4,16 @@ import helmet from 'helmet';
 import { config, isProduction } from './config.js';
 import { AppError, errorHandler, unknownRoute } from './middleware/errors.js';
 import { createAuthLimiters } from './middleware/rateLimit.js';
+import { accountRouter } from './routes/account.js';
 import { applicationsRouter } from './routes/applications.js';
 import { authRouter } from './routes/auth.js';
 import { dashboardRouter } from './routes/dashboard.js';
+import { internalRouter } from './routes/internal.js';
 
 const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174', config.CLIENT_URL].filter(Boolean);
 
 // Builds the Express app without starting it, so tests can call it directly.
-export function createApp({ authRateLimit = config.AUTH_RATE_LIMIT } = {}) {
+export function createApp({ authRateLimit = config.AUTH_RATE_LIMIT, demoRateLimit = 10 } = {}) {
   const app = express();
 
   // Render puts one proxy in front of the app; trust it so rate limits see the real client IP.
@@ -32,9 +34,11 @@ export function createApp({ authRateLimit = config.AUTH_RATE_LIMIT } = {}) {
   app.get('/api/health', (_req, res) => {
     res.json({ status: 'ok', timestamp: new Date().toISOString() });
   });
-  app.use('/api/auth', authRouter(createAuthLimiters(authRateLimit)));
+  app.use('/api/auth', authRouter(createAuthLimiters(authRateLimit, demoRateLimit)));
   app.use('/api/applications', applicationsRouter);
   app.use('/api/dashboard', dashboardRouter);
+  app.use('/api/internal', internalRouter);
+  app.use('/api', accountRouter); // /api/settings, /api/export
 
   app.use(unknownRoute);
   app.use(errorHandler);
