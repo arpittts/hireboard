@@ -57,7 +57,9 @@ async function request(method, path, { params, body, responseType } = {}) {
   const headers = {};
   const token = localStorage.getItem('hireboard_token');
   if (token) headers.Authorization = `Bearer ${token}`;
-  if (body !== undefined) headers['Content-Type'] = 'application/json';
+  // FormData (file uploads) sets its own multipart Content-Type; everything else is JSON.
+  const isForm = body instanceof FormData;
+  if (body !== undefined && !isForm) headers['Content-Type'] = 'application/json';
 
   const finish = trackRequest();
   let res;
@@ -65,7 +67,7 @@ async function request(method, path, { params, body, responseType } = {}) {
     res = await fetch(buildUrl(path, params), {
       method,
       headers,
-      body: body === undefined ? undefined : JSON.stringify(body),
+      body: body === undefined || isForm ? body : JSON.stringify(body),
     });
   } finally {
     // Network failures (server unreachable) throw a TypeError with no `response`.

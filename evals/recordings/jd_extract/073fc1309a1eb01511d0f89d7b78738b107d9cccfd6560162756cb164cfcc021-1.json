@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"company_name\": \"Pixel Parade Studio\",\n  \"role\": \"Game Artist (2D)\",\n  \"location\": null,\n  \"work_mode\": \"remote\",\n  \"type\": \"freelance\",\n  \"salary\": {\n    \"raw\": \"$2,000 for the full set\",\n    \"min\": 2000,\n    \"max\": 2000,\n    \"currency\": \"USD\",\n    \"period\": \"project\"\n  },\n  \"deadline\": \"2026-12-01\",\n  \"url\": null,\n  \"requirements\": [\n    {\n      \"text\": \"Portfolio with anime-style work\",\n      \"kind\": \"must\",\n      \"skills\": []\n    },\n    {\n      \"text\": \"Experience with Clip Studio Paint, Photoshop, or Krita\",\n      \"kind\": \"must\",\n      \"skills\": [\n        \"Clip Studio Paint\",\n        \"Photoshop\",\n        \"Krita\"\n      ]\n    }\n  ],\n  \"confidence\": {\n    \"company_name\": \"high\",\n    \"role\": \"high\",\n    \"location\": \"high\",\n    \"type\": \"high\",\n    \"salary\": \"high\",\n    \"deadline\": \"high\"\n  }\n}",
+  "inputTokens": 752,
+  "outputTokens": 302
+}

@@ -1,0 +1,27 @@
+Riya Sharma
+riya.sharma@example.com | +91 90000 11111 | github.com/riya-example | Pune, India
+
+EDUCATION
+B.Tech in Computer Science and Engineering, Pune Institute of Technology, 2023 – 2027
+CGPA: 8.6 / 10
+
+EXPERIENCE
+Machine Learning Intern, Brightcart Retail Analytics, May 2026 – Jul 2026
+• Built a retrieval-augmented chatbot over 4,000 product manuals using Python, FastAPI and pgvector.
+• Wrote an evaluation set of 150 questions and raised answer accuracy from 71% to 86% by tuning chunk size and prompts.
+• Containerised the service with Docker and deployed it on a company VM.
+
+PROJECTS
+StudyBuddy – AI flashcards from lecture notes (Python, Gemini API, React)
+• Generates flashcards from uploaded PDFs with structured JSON output validated by Pydantic.
+• Used by 120 classmates during end-semester exams.
+Traffic sign classifier (PyTorch)
+• Trained a CNN on the GTSRB dataset reaching 97% test accuracy; compared it with a fine-tuned ResNet-18.
+
+SKILLS
+Languages: Python, JavaScript, SQL, C++
+ML and AI: PyTorch, scikit-learn, Hugging Face Transformers, LangChain, prompt engineering
+Tools: Git, Docker, PostgreSQL, Linux
+
+ACHIEVEMENTS
+• Finalist, Smart India Hackathon 2025 (team of 6).

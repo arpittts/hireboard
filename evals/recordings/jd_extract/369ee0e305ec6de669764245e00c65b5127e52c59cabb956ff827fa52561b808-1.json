@@ -1,0 +1,5 @@
+{
+  "text": "{\"company_name\": \"Lumen Robotics\", \"role\": \"Embedded Software Intern\", \"location\": \"Pune\", \"work_mode\": \"onsite\", \"type\": \"internship\", \"salary\": {\"raw\": \"₹35,000/month\", \"min\": 35000.0, \"max\": 35000.0, \"currency\": \"INR\", \"period\": \"month\"}, \"deadline\": \"2026-12-01\", \"url\": null, \"requirements\": [{\"text\": \"Experience in C/C++\", \"kind\": \"must\", \"skills\": [\"C/C++\"]}, {\"text\": \"Experience with microcontrollers like STM32\", \"kind\": \"must\", \"skills\": [\"STM32\", \"microcontrollers\"]}, {\"text\": \"Ability to read datasheets\", \"kind\": \"must\", \"skills\": []}, {\"text\": \"Experience with ROS 2\", \"kind\": \"nice\", \"skills\": [\"ROS 2\"]}, {\"text\": \"Experience with RTOS\", \"kind\": \"nice\", \"skills\": [\"RTOS\"]}], \"confidence\": {\"company_name\": \"high\", \"role\": \"high\", \"location\": \"high\", \"type\": \"high\", \"salary\": \"high\", \"deadline\": \"high\"}}",
+  "inputTokens": 764,
+  "outputTokens": 282
+}

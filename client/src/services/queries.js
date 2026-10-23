@@ -136,3 +136,82 @@ export function useExtractJobDescription() {
     onSettled: () => queryClient.invalidateQueries({ queryKey: ['ai-usage'] }),
   });
 }
+
+// --- Resumes and the requirements checklist ------------------------------------
+
+export function useResumes() {
+  return useQuery({ queryKey: ['resumes'], queryFn: async () => (await api.get('/resumes')).data });
+}
+
+export function useResume(id) {
+  return useQuery({
+    queryKey: ['resumes', id],
+    queryFn: async () => (await api.get(`/resumes/${id}`)).data,
+    enabled: Boolean(id),
+  });
+}
+
+// { title, file } uploads a PDF; { title, text } sends pasted text.
+export function useAddResume() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ title, file, text }) => {
+      if (file) {
+        const form = new FormData();
+        form.append('title', title);
+        form.append('file', file);
+        return (await api.post('/resumes', form)).data;
+      }
+      return (await api.post('/resumes', { title, text })).data;
+    },
+    onSuccess: (resume) => {
+      queryClient.invalidateQueries({ queryKey: ['resumes'] });
+      queryClient.invalidateQueries({ queryKey: ['ai-usage'] });
+      toast.success(`Saved "${resume.title}" with ${resume.bulletCount} lines`);
+    },
+  });
+}
+
+export function useActivateResume() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (id) => (await api.put(`/resumes/${id}/activate`)).data,
+    onSuccess: (resume) => {
+      queryClient.invalidateQueries({ queryKey: ['resumes'] });
+      toast.success(`"${resume.title}" is now your active resume`);
+    },
+    onError: (err) => toast.error(errorMessage(err)),
+  });
+}
+
+export function useDeleteResume() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (id) => (await api.delete(`/resumes/${id}`)).data,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['resumes'] });
+      toast.success('Resume deleted');
+    },
+    onError: (err) => toast.error(errorMessage(err)),
+  });
+}
+
+export function useRequirementCheck(applicationId) {
+  return useQuery({
+    queryKey: ['requirements', applicationId],
+    queryFn: async () => (await api.get(`/applications/${applicationId}/requirements`)).data,
+  });
+}
+
+export function useRunRequirementCheck(applicationId) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async () => (await api.post(`/applications/${applicationId}/requirements`)).data,
+    onSuccess: (check) => {
+      queryClient.setQueryData(['requirements', applicationId], check);
+      // The check may have read the job description and saved its requirements.
+      queryClient.invalidateQueries({ queryKey: keys.application(applicationId) });
+      queryClient.invalidateQueries({ queryKey: ['ai-usage'] });
+    },
+  });
+}

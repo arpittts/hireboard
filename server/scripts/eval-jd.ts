@@ -6,18 +6,11 @@
 // Prints per-field accuracy, checks the prompt-injection items, writes a report to
 // evals/reports/, and exits with code 1 if a target is missed (so CI can gate on it).
 
-import fs from 'node:fs';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { config } from '../src/config.js';
 import { pool } from '../src/db/pool.js';
 import { runMigrations } from '../src/db/migrate.js';
-import { AppError } from '../src/middleware/errors.js';
 import { extractJobDescription, type JdResult } from '../src/ai/jdExtract.js';
-
-const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
-const DATASET = path.join(ROOT, 'evals/datasets/jd_extraction.json');
-const REPORTS = path.join(ROOT, 'evals/reports');
+import { pct, percentile, publishReport, readDataset, withRetry } from './evalUtils.js';
 
 const TARGET_FIELD_ACCURACY = 0.9;
 const FIELDS = ['company_name', 'role', 'location', 'work_mode', 'type', 'salary', 'deadline', 'url'] as const;
@@ -36,11 +29,6 @@ interface Item {
   skills: string[];
   injection?: { forbidden: string[]; requireMustRequirement?: boolean };
 }
-
-const percentile = (values: number[], p: number) => {
-  const sorted = [...values].sort((a, b) => a - b);
-  return sorted[Math.min(sorted.length - 1, Math.floor(p * sorted.length))] ?? 0;
-};
 
 const norm = (v: string) => v.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
 
@@ -82,24 +70,8 @@ function injectionLeaks(item: Item, result: JdResult): string[] {
   return leaks;
 }
 
-async function extractWithRetry(item: Item, today: string): Promise<JdResult> {
-  for (let attempt = 1; ; attempt++) {
-    try {
-      return await extractJobDescription(item.text, { userId: null, today, useCache: false });
-    } catch (err) {
-      // Free-tier rate limits and the odd hung request: wait and try again a few times.
-      if (err instanceof AppError && ['AI_BUSY', 'AI_TIMEOUT'].includes(err.code) && attempt < 4) {
-        console.log(`  ${item.id}: ${err.code}, waiting 30 s and retrying`);
-        await new Promise((r) => setTimeout(r, 30_000));
-        continue;
-      }
-      throw err;
-    }
-  }
-}
-
 async function main() {
-  const dataset: { today: string; items: Item[] } = JSON.parse(fs.readFileSync(DATASET, 'utf8'));
+  const dataset = readDataset<{ today: string; items: Item[] }>('jd_extraction.json');
   await runMigrations();
   console.log(`JD extraction eval: ${dataset.items.length} postings, mode=${config.AI_MODE}, model=${config.LLM_MODEL}\n`);
 
@@ -113,7 +85,9 @@ async function main() {
 
   for (const item of dataset.items) {
     const callStarted = Date.now();
-    const result = await extractWithRetry(item, dataset.today);
+    const result = await withRetry(item.id, () =>
+      extractJobDescription(item.text, { userId: null, today: dataset.today, useCache: false }),
+    );
     latencies.push(Date.now() - callStarted);
     const wrong: string[] = [];
     for (const field of FIELDS) {
@@ -129,8 +103,6 @@ async function main() {
     if (leaks.length) injectionFailures.push(`${item.id}: ${leaks.join(', ')}`);
     misses.push(...wrong.map((w) => `${item.id} ${w}`));
     console.log(`  ${item.id}  ${wrong.length === 0 ? 'all fields correct' : `${wrong.length} wrong`}${leaks.length ? '  INJECTION LEAK' : ''}`);
-    // Stay well under the free tier's per-minute limit when calling the live model.
-    if (config.AI_MODE !== 'replay') await new Promise((r) => setTimeout(r, 8_000));
   }
 
   const n = dataset.items.length;
@@ -138,7 +110,6 @@ async function main() {
   const accuracy = totalCorrect / (n * FIELDS.length);
   const injectionItems = dataset.items.filter((i) => i.injection).length;
   const passed = accuracy >= TARGET_FIELD_ACCURACY && injectionFailures.length === 0;
-  const pct = (x: number) => `${(x * 100).toFixed(1)}%`;
 
   const report = [
     `# JD extraction eval (${new Date().toISOString().slice(0, 10)})`,
@@ -169,14 +140,7 @@ async function main() {
     '',
   ].join('\n');
 
-  console.log(`\n${report}`);
-  // Only a live run (record mode) updates the committed report; a replay just checks it.
-  if (config.AI_MODE === 'record') {
-    fs.mkdirSync(REPORTS, { recursive: true });
-    const reportFile = path.join(REPORTS, 'jd_extract.md');
-    fs.writeFileSync(reportFile, report);
-    console.log(`Report written to ${path.relative(ROOT, reportFile)}`);
-  }
+  publishReport('jd_extract.md', report);
   await pool.end();
   process.exit(passed ? 0 : 1);
 }

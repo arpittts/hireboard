@@ -10,6 +10,8 @@ import { applicationsRouter } from './routes/applications.js';
 import { authRouter } from './routes/auth.js';
 import { dashboardRouter } from './routes/dashboard.js';
 import { internalRouter } from './routes/internal.js';
+import { requirementsRouter } from './routes/requirements.js';
+import { resumesRouter } from './routes/resumes.js';
 
 const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174', config.CLIENT_URL].filter(Boolean);
 
@@ -37,6 +39,8 @@ export function createApp({ authRateLimit = config.AUTH_RATE_LIMIT, demoRateLimi
   });
   app.use('/api/auth', authRouter(createAuthLimiters(authRateLimit, demoRateLimit)));
   app.use('/api/applications', applicationsRouter);
+  app.use('/api/applications', requirementsRouter);
+  app.use('/api/resumes', resumesRouter);
   app.use('/api/dashboard', dashboardRouter);
   app.use('/api/internal', internalRouter);
   app.use('/api/ai', aiRouter);

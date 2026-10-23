@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"company_name\": \"CodeHarbor Academy\",\n  \"role\": \"Teaching Assistant – Data Science Bootcamp\",\n  \"location\": null,\n  \"work_mode\": \"remote\",\n  \"type\": \"contract\",\n  \"salary\": {\n    \"raw\": \"₹600 per hour\",\n    \"min\": 600,\n    \"max\": 600,\n    \"currency\": \"INR\",\n    \"period\": \"hour\"\n  },\n  \"deadline\": null,\n  \"url\": null,\n  \"requirements\": [\n    {\n      \"text\": \"Know Python\",\n      \"kind\": \"must\",\n      \"skills\": [\"Python\"]\n    },\n    {\n      \"text\": \"Know pandas\",\n      \"kind\": \"must\",\n      \"skills\": [\"pandas\"]\n    },\n    {\n      \"text\": \"Know basic ML (scikit-learn)\",\n      \"kind\": \"must\",\n      \"skills\": [\"scikit-learn\", \"Machine Learning\"]\n    },\n    {\n      \"text\": \"Enjoy explaining things\",\n      \"kind\": \"must\",\n      \"skills\": []\n    }\n  ],\n  \"confidence\": {\n    \"company_name\": \"high\",\n    \"role\": \"high\",\n    \"location\": \"high\",\n    \"type\": \"high\",\n    \"salary\": \"high\",\n    \"deadline\": \"high\"\n  }\n}",
+  "inputTokens": 757,
+  "outputTokens": 330
+}

@@ -44,6 +44,12 @@ export const errorHandler: ErrorRequestHandler = (err, req, res, _next) => {
     res.status(400).json({ error: { code: 'VALIDATION', message: 'Some fields are invalid.', fields } });
     return;
   }
+  // Upload errors from multer (file too big, too many files).
+  if (err?.name === 'MulterError') {
+    const message = err.code === 'LIMIT_FILE_SIZE' ? 'The file is too large (2 MB at most).' : 'The upload could not be read.';
+    res.status(400).json({ error: { code: 'VALIDATION', message } });
+    return;
+  }
   if (err?.type === 'entity.parse.failed') {
     res.status(400).json({ error: { code: 'BAD_JSON', message: 'Request body is not valid JSON.' } });
     return;

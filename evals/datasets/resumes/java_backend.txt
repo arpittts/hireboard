@@ -1,0 +1,20 @@
+Kabir Mehta
+kabir.mehta@example.com · 9000022222 · linkedin.com/in/kabir-example
+
+Education
+B.E. Information Technology, Western Ghats College of Engineering, 2022 – 2026, CGPA 7.9
+
+Experience
+Backend Developer Intern – Ledgerly Payments (Jan 2026 – Jun 2026)
+- Built REST APIs in Java 17 and Spring Boot for merchant settlement reports.
+- Wrote PostgreSQL queries and Flyway migrations; cut the slowest report from 9 s to 1.2 s with indexes.
+- Added Kafka consumers to process payment events and wrote JUnit tests for them.
+- Took part in the team's on-call rotation for two months.
+
+Projects
+Library management system: Spring Boot, MySQL, JWT authentication, deployed on AWS EC2.
+URL shortener in Go with Redis caching, load-tested to 2,000 requests per second.
+
+Technical skills
+Java, Spring Boot, Go, SQL, PostgreSQL, MySQL, Redis, Kafka, Git, Linux, AWS (EC2, S3)
+Data structures and algorithms: 400+ problems solved on competitive programming sites.

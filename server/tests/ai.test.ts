@@ -1,10 +1,9 @@
 import { APICallError } from 'ai';
-import { MockLanguageModelV4 } from 'ai/test';
 import { afterEach, describe, expect, it } from 'vitest';
 import { setModelForTests } from '../src/ai/provider.js';
 import { checkExtraction, type JdExtraction } from '../src/ai/jdExtract.js';
 import { pool } from '../src/db/pool.js';
-import { api, createUser, useTestDatabase } from './helpers.js';
+import { api, createUser, fakeModel, useTestDatabase } from './helpers.js';
 
 useTestDatabase();
 
@@ -26,29 +25,6 @@ const goodReply: JdExtraction = {
   ],
   confidence: { company_name: 'high', role: 'high', location: 'high', type: 'high', salary: 'high', deadline: 'high' },
 };
-
-// A fake model that answers with the given texts in turn, and counts its calls.
-function fakeModel(...replies: (string | Error)[]) {
-  let calls = 0;
-  const model = new MockLanguageModelV4({
-    doGenerate: async () => {
-      const reply = replies[Math.min(calls, replies.length - 1)];
-      calls += 1;
-      if (reply instanceof Error) throw reply;
-      return {
-        content: [{ type: 'text', text: reply }],
-        finishReason: { unified: 'stop', raw: undefined },
-        usage: {
-          inputTokens: { total: 500, noCache: 500, cacheRead: undefined, cacheWrite: undefined },
-          outputTokens: { total: 120, text: 120, reasoning: undefined },
-        },
-        warnings: [],
-      };
-    },
-  });
-  setModelForTests(model);
-  return { calls: () => calls };
-}
 
 const extract = (auth: string, text = JD) => api().post('/api/ai/jd/extract').set('Authorization', auth).send({ text });
 

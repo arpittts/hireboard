@@ -1,5 +1,0 @@
-{
-  "text": "{\n  \"company_name\": \"Indic Language Lab\",\n  \"role\": \"Research Assistant (NLP)\",\n  \"location\": \"Varanasi\",\n  \"work_mode\": \"onsite\",\n  \"type\": \"contract\",\n  \"salary\": {\n    \"raw\": \"₹42,000 per month\",\n    \"min\": 42000,\n    \"max\": 42000,\n    \"currency\": \"INR\",\n    \"period\": \"month\"\n  },\n  \"deadline\": \"2026-11-09\",\n  \"url\": null,\n  \"requirements\": [\n    {\n      \"text\": \"B.Tech, M.Tech, or M.Sc. degree\",\n      \"kind\": \"must\",\n      \"skills\": []\n    },\n    {\n      \"text\": \"Experience with Python and deep learning\",\n      \"kind\": \"must\",\n      \"skills\": [\n        \"Python\",\n        \"Deep Learning\"\n      ]\n    },\n    {\n      \"text\": \"Knowledge of any Indian language besides Hindi and English\",\n      \"kind\": \"nice\",\n      \"skills\": []\n    }\n  ],\n  \"confidence\": {\n    \"company_name\": \"high\",\n    \"role\": \"high\",\n    \"location\": \"high\",\n    \"type\": \"high\",\n    \"salary\": \"high\",\n    \"deadline\": \"high\"\n  }\n}",
-  "inputTokens": 781,
-  "outputTokens": 336
-}
