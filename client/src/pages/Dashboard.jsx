@@ -29,7 +29,7 @@ export default function Dashboard() {
 
   const pieData = stats?.statusBreakdown?.map(s => ({ name: s.status.charAt(0).toUpperCase() + s.status.slice(1), value: s.count, color: STATUS_COLORS[s.status] || '#6C5CE7' })) || [];
 
-  const formatDate = (d) => d ? new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : '';
+  const formatDate = (d) => d ? new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' }) : '';
 
   return (
     <div>

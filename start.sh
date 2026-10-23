@@ -4,6 +4,9 @@
 
 set -e
 
+# Postgres refuses to start on macOS without a valid locale
+export LC_ALL="${LC_ALL:-en_US.UTF-8}"
+
 PG_BIN="/Users/arpit/.homebrew/Cellar/postgresql@17/17.10/bin"
 PG_DATA="/Users/arpit/.homebrew/var/postgresql@17"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"

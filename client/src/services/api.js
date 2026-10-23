@@ -20,7 +20,9 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
+    // A wrong password on the login form is also a 401; let the form show its error.
+    const isAuthForm = /\/auth\/(login|register)$/.test(error.config?.url || '');
+    if (error.response?.status === 401 && !isAuthForm) {
       localStorage.removeItem('hireboard_token');
       localStorage.removeItem('hireboard_user');
       window.location.href = '/login';

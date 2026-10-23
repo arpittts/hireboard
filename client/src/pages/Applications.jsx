@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Plus, Search, Trash2, Edit3, ExternalLink, MapPin, Calendar, Star, Filter, User, Mail, Phone } from 'lucide-react';
+import { Plus, Search, Trash2, Edit3, ExternalLink, MapPin, Calendar, Star, User, Mail, Phone } from 'lucide-react';
 import api from '../services/api';
 import ApplicationModal from '../components/ApplicationModal';
 
@@ -49,7 +49,7 @@ export default function Applications() {
     } catch (err) { console.error(err); }
   };
 
-  const formatDate = (d) => d ? new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '—';
+  const formatDate = (d) => d ? new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) : '—';
 
   if (loading) return <div style={{ display: 'flex', justifyContent: 'center', paddingTop: 100 }}><div className="spinner" /></div>;
 
