@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Plus, Search, Trash2, Edit3, ExternalLink, MapPin, Calendar, Star, User, Mail, Phone } from 'lucide-react';
 import api from '../services/api';
 import ApplicationModal from '../components/ApplicationModal';
@@ -12,19 +12,21 @@ export default function Applications() {
   const [statusFilter, setStatusFilter] = useState('');
   const [detailApp, setDetailApp] = useState(null);
 
-  const fetchApps = async () => {
-    try {
-      const params = {};
-      if (search) params.search = search;
-      if (statusFilter) params.status = statusFilter;
-      const res = await api.get('/applications', { params });
-      setApps(res.data);
-    } catch (err) { console.error(err); }
-    finally { setLoading(false); }
-  };
+  const fetchApps = useCallback(() => {
+    const params = {};
+    if (search) params.search = search;
+    if (statusFilter) params.status = statusFilter;
+    return api.get('/applications', { params })
+      .then(res => setApps(res.data))
+      .catch(err => console.error(err))
+      .finally(() => setLoading(false));
+  }, [search, statusFilter]);
 
-  useEffect(() => { fetchApps(); }, [statusFilter]);
-  useEffect(() => { const t = setTimeout(fetchApps, 300); return () => clearTimeout(t); }, [search]);
+  // Wait until the user stops typing before searching; filters apply at once.
+  useEffect(() => {
+    const t = setTimeout(fetchApps, search ? 300 : 0);
+    return () => clearTimeout(t);
+  }, [fetchApps, search]);
 
   const handleSave = async (formData) => {
     if (editApp) {
@@ -178,7 +180,9 @@ export default function Applications() {
         </div>
       )}
 
-      <ApplicationModal isOpen={modalOpen} onClose={() => { setModalOpen(false); setEditApp(null); }} onSave={handleSave} application={editApp} />
+      {modalOpen && (
+        <ApplicationModal key={editApp?.id ?? 'new'} onClose={() => { setModalOpen(false); setEditApp(null); }} onSave={handleSave} application={editApp} />
+      )}
     </div>
   );
 }

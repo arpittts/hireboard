@@ -7,8 +7,10 @@ services:
     plan: free
     region: singapore
     rootDir: server
-    buildCommand: npm ci
-    startCommand: node index.js
+    # --include=dev: NODE_ENV=production would otherwise skip TypeScript, which the build needs.
+    buildCommand: npm ci --include=dev && npm run build
+    # Apply new database migrations, then start the API.
+    startCommand: node dist/db/migrate.js && node dist/index.js
     healthCheckPath: /api/health
     autoDeploy: true
     envVars:

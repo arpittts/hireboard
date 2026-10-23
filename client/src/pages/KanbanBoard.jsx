@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { Plus, MapPin, Calendar, ExternalLink, Star } from 'lucide-react';
 import api from '../services/api';
@@ -17,15 +17,14 @@ export default function KanbanBoard() {
   const [modalOpen, setModalOpen] = useState(false);
   const [editApp, setEditApp] = useState(null);
 
-  const fetchApps = async () => {
-    try {
-      const res = await api.get('/applications');
-      setApps(res.data);
-    } catch (err) { console.error(err); }
-    finally { setLoading(false); }
-  };
+  const fetchApps = useCallback(() => {
+    return api.get('/applications')
+      .then(res => setApps(res.data))
+      .catch(err => console.error(err))
+      .finally(() => setLoading(false));
+  }, []);
 
-  useEffect(() => { fetchApps(); }, []);
+  useEffect(() => { fetchApps(); }, [fetchApps]);
 
   const onDragEnd = async (result) => {
     if (!result.destination) return;
@@ -132,7 +131,9 @@ export default function KanbanBoard() {
         </div>
       </DragDropContext>
 
-      <ApplicationModal isOpen={modalOpen} onClose={() => { setModalOpen(false); setEditApp(null); }} onSave={handleSave} application={editApp} />
+      {modalOpen && (
+        <ApplicationModal key={editApp?.id ?? 'new'} onClose={() => { setModalOpen(false); setEditApp(null); }} onSave={handleSave} application={editApp} />
+      )}
     </div>
   );
 }

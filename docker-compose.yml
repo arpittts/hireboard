@@ -1,0 +1,21 @@
+# Local Postgres with pgvector for development and tests.
+# Start it with: docker compose up -d db
+services:
+  db:
+    image: pgvector/pgvector:pg17
+    environment:
+      POSTGRES_USER: hireboard
+      POSTGRES_PASSWORD: hireboard
+      POSTGRES_DB: hireboard
+    ports:
+      - "5433:5432"   # 5433 so it doesn't clash with a Homebrew Postgres on 5432
+    volumes:
+      - hireboard-db:/var/lib/postgresql/data
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hireboard"]
+      interval: 2s
+      retries: 30
+
+volumes:
+  hireboard-db:
