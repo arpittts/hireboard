@@ -2,8 +2,10 @@
 
 > A premium personal job & internship application tracker with Kanban board, analytics dashboard, and email reminders.
 
+**Live demo:** https://hireboard-mu.vercel.app (the free backend sleeps when idle, so the first request can take up to a minute)
+
 ![HireBoard](https://img.shields.io/badge/HireBoard-v1.0.0-6C5CE7?style=for-the-badge)
-![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react)
+![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react)
 ![Node.js](https://img.shields.io/badge/Node.js-22-339933?style=flat-square&logo=node.js)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17-336791?style=flat-square&logo=postgresql)
 
@@ -22,7 +24,7 @@
 
 | Layer | Technology |
 |---|---|
-| Frontend | React 18, Vite, React Router, Recharts, @hello-pangea/dnd |
+| Frontend | React 19, Vite, React Router 7, Recharts, @hello-pangea/dnd |
 | Backend | Node.js, Express.js |
 | Database | PostgreSQL 17 |
 | Auth | JWT (jsonwebtoken) + bcryptjs |
@@ -58,12 +60,11 @@ npm run db:init
 
 ### 4. Start Development
 ```bash
-# Terminal 1 - Backend
-npm run server
-
-# Terminal 2 - Frontend
-npm run client
+# Backend + frontend together
+npm run dev
 ```
+
+Or run them in two terminals with `npm run server` and `npm run client`.
 
 - Frontend: http://localhost:5173
 - Backend: http://localhost:5001

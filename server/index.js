@@ -7,7 +7,7 @@ const dashboardRoutes = require('./routes/dashboard');
 const { initEmailService, startReminderCron } = require('./services/emailReminder');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 // Middleware
 const allowedOrigins = [

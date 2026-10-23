@@ -7,7 +7,10 @@
     "server": "cd server && node index.js",
     "client": "cd client && npm run dev",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "install:all": "cd server && npm install && cd ../client && npm install",
+    "install:all": "npm install && cd server && npm install && cd ../client && npm install",
     "db:init": "cd server && node config/initDb.js"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.6"
   }
 }

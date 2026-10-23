@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 
+// Today in the user's timezone (toISOString would give the UTC date).
+const today = () => new Date().toLocaleDateString('en-CA');
+
 const STATUSES = ['wishlist', 'applied', 'interview', 'offer', 'rejected', 'accepted', 'withdrawn'];
 const TYPES = ['job', 'internship', 'freelance', 'contract'];
 const PRIORITIES = ['low', 'medium', 'high'];
@@ -8,7 +11,7 @@ const PRIORITIES = ['low', 'medium', 'high'];
 export default function ApplicationModal({ isOpen, onClose, onSave, application }) {
   const [form, setForm] = useState({
     company_name: '', role: '', type: 'job', status: 'applied',
-    application_date: new Date().toISOString().split('T')[0],
+    application_date: today(),
     deadline: '', url: '', location: '', salary: '', notes: '',
     contact_name: '', contact_email: '', contact_phone: '', contact_linkedin: '',
     follow_up_date: '', priority: 'medium',
@@ -38,7 +41,7 @@ export default function ApplicationModal({ isOpen, onClose, onSave, application 
     } else {
       setForm({
         company_name: '', role: '', type: 'job', status: 'applied',
-        application_date: new Date().toISOString().split('T')[0],
+        application_date: today(),
         deadline: '', url: '', location: '', salary: '', notes: '',
         contact_name: '', contact_email: '', contact_phone: '', contact_linkedin: '',
         follow_up_date: '', priority: 'medium',
