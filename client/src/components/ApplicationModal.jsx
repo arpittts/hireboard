@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { errorMessage } from '../services/api';
 import { X } from 'lucide-react';
 
 // Today in the user's timezone (toISOString would give the UTC date).
@@ -8,57 +9,39 @@ const STATUSES = ['wishlist', 'applied', 'interview', 'offer', 'rejected', 'acce
 const TYPES = ['job', 'internship', 'freelance', 'contract'];
 const PRIORITIES = ['low', 'medium', 'high'];
 
-export default function ApplicationModal({ isOpen, onClose, onSave, application }) {
-  const [form, setForm] = useState({
-    company_name: '', role: '', type: 'job', status: 'applied',
-    application_date: today(),
-    deadline: '', url: '', location: '', salary: '', notes: '',
-    contact_name: '', contact_email: '', contact_phone: '', contact_linkedin: '',
-    follow_up_date: '', priority: 'medium',
-  });
+const EMPTY_FORM = {
+  company_name: '', role: '', type: 'job', status: 'applied',
+  deadline: '', url: '', location: '', salary: '', notes: '',
+  contact_name: '', contact_email: '', contact_phone: '', contact_linkedin: '',
+  follow_up_date: '', priority: 'medium',
+};
+
+// The form starts from the application being edited, or empty for a new one.
+// The parent gives each application its own `key`, so the form resets when that changes.
+function initialForm(application) {
+  if (!application) return { ...EMPTY_FORM, application_date: today() };
+  const form = { application_date: application.application_date?.split('T')[0] || '' };
+  for (const [key, empty] of Object.entries(EMPTY_FORM)) {
+    const value = application[key];
+    form[key] = typeof value === 'string' && key.endsWith('date') ? value.split('T')[0] : value || empty;
+  }
+  return form;
+}
+
+export default function ApplicationModal({ onClose, onSave, application }) {
+  const [form, setForm] = useState(() => initialForm(application));
   const [saving, setSaving] = useState(false);
-
-  useEffect(() => {
-    if (application) {
-      setForm({
-        company_name: application.company_name || '',
-        role: application.role || '',
-        type: application.type || 'job',
-        status: application.status || 'applied',
-        application_date: application.application_date?.split('T')[0] || '',
-        deadline: application.deadline?.split('T')[0] || '',
-        url: application.url || '',
-        location: application.location || '',
-        salary: application.salary || '',
-        notes: application.notes || '',
-        contact_name: application.contact_name || '',
-        contact_email: application.contact_email || '',
-        contact_phone: application.contact_phone || '',
-        contact_linkedin: application.contact_linkedin || '',
-        follow_up_date: application.follow_up_date?.split('T')[0] || '',
-        priority: application.priority || 'medium',
-      });
-    } else {
-      setForm({
-        company_name: '', role: '', type: 'job', status: 'applied',
-        application_date: today(),
-        deadline: '', url: '', location: '', salary: '', notes: '',
-        contact_name: '', contact_email: '', contact_phone: '', contact_linkedin: '',
-        follow_up_date: '', priority: 'medium',
-      });
-    }
-  }, [application, isOpen]);
-
-  if (!isOpen) return null;
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSaving(true);
+    setError('');
     try {
       await onSave(form);
       onClose();
     } catch (err) {
-      console.error(err);
+      setError(errorMessage(err, 'Could not save the application.'));
     } finally {
       setSaving(false);
     }
@@ -165,6 +148,7 @@ export default function ApplicationModal({ isOpen, onClose, onSave, application 
               <textarea value={form.notes} onChange={e => update('notes', e.target.value)} placeholder="Add any notes about this application..." rows={4} style={{ resize: 'vertical' }} />
             </div>
           </div>
+          {error && <div role="alert" style={{ background: 'var(--red-bg)', color: 'var(--red)', padding: '10px 14px', borderRadius: 8, fontSize: 13, margin: '0 24px 12px' }}>{error}</div>}
           <div className="modal-footer">
             <button type="button" className="btn btn-secondary" onClick={onClose}>Cancel</button>
             <button type="submit" className="btn btn-primary" disabled={saving}>

@@ -33,7 +33,7 @@ cd "$SCRIPT_DIR/server"
 lsof -ti:5001 | xargs kill -9 2>/dev/null || true
 sleep 1
 
-node index.js &
+npm run dev &
 BACKEND_PID=$!
 sleep 2
 

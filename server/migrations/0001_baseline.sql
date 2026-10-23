@@ -1,5 +1,6 @@
--- HireBoard Database Schema
--- Run this to initialize the database
+-- 0001 baseline: the v1 schema, unchanged.
+-- Every statement is idempotent, so it also applies cleanly to a database
+-- that was created from the old schema.sql (like the live Neon one).
 
 -- Enable UUID extension
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";

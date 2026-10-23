@@ -32,3 +32,13 @@ api.interceptors.response.use(
 );
 
 export default api;
+
+// A readable message from a failed request. The API answers
+// { error: { message, fields } }; a field message is more specific, so prefer it.
+export function errorMessage(err, fallback = 'Something went wrong. Please try again.') {
+  const error = err.response?.data?.error;
+  if (!error) return err.response ? fallback : 'Cannot reach the server. Please try again in a minute.';
+  if (typeof error === 'string') return error;
+  const firstField = error.fields && Object.values(error.fields)[0];
+  return firstField || error.message || fallback;
+}

@@ -16,3 +16,6 @@ server.log
 
 # Runtime
 .DS_Store
+
+# Compiled TypeScript
+dist/
