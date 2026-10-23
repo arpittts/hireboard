@@ -3,15 +3,17 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, Edit3, ExternalLink, Link2, Mail, Phone, Trash2, User } from 'lucide-react';
 import ApplicationModal from '../components/ApplicationModal';
 import ConfirmDialog from '../components/ConfirmDialog';
+import InterviewPrep from '../components/InterviewPrep';
 import RequirementsChecklist from '../components/RequirementsChecklist';
 import StatusMenu from '../components/StatusMenu';
 import { useApplication, useDeleteApplication, useSaveApplication } from '../services/queries';
 
-// More tabs (interview prep, drafts) arrive in later phases.
+// A Drafts tab arrives in Phase 4.
 const TABS = [
   { id: 'overview', label: 'Overview' },
   { id: 'job', label: 'Job description' },
   { id: 'requirements', label: 'Requirements' },
+  { id: 'interview', label: 'Interview prep' },
   { id: 'history', label: 'History' },
 ];
 
@@ -180,6 +182,7 @@ export default function ApplicationDetail() {
         {tab === 'overview' && <Overview app={app} />}
         {tab === 'job' && <JobDescription app={app} onEdit={() => setEditing(true)} />}
         {tab === 'requirements' && <RequirementsChecklist application={app} />}
+        {tab === 'interview' && <InterviewPrep application={app} />}
         {tab === 'history' && <History history={app.statusHistory} />}
       </div>
 

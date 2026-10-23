@@ -1,0 +1,5 @@
+{
+  "text": "{\"action\": \"follow_up\", \"follow_up\": \"Can you walk me through your process for chunking the product catalogue data and what retrieval strategy you would use?\"}",
+  "inputTokens": 405,
+  "outputTokens": 37
+}

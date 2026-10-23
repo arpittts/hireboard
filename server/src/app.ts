@@ -10,6 +10,7 @@ import { applicationsRouter } from './routes/applications.js';
 import { authRouter } from './routes/auth.js';
 import { dashboardRouter } from './routes/dashboard.js';
 import { internalRouter } from './routes/internal.js';
+import { interviewsRouter, questionsRouter } from './routes/interviews.js';
 import { requirementsRouter } from './routes/requirements.js';
 import { resumesRouter } from './routes/resumes.js';
 
@@ -40,6 +41,8 @@ export function createApp({ authRateLimit = config.AUTH_RATE_LIMIT, demoRateLimi
   app.use('/api/auth', authRouter(createAuthLimiters(authRateLimit, demoRateLimit)));
   app.use('/api/applications', applicationsRouter);
   app.use('/api/applications', requirementsRouter);
+  app.use('/api/applications', questionsRouter);
+  app.use('/api/interviews', interviewsRouter);
   app.use('/api/resumes', resumesRouter);
   app.use('/api/dashboard', dashboardRouter);
   app.use('/api/internal', internalRouter);

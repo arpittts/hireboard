@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"action\": \"follow_up\",\n  \"follow_up\": \"What specific projects or work at Northwind Analytics caught your attention?\"\n}",
+  "inputTokens": 397,
+  "outputTokens": 34
+}

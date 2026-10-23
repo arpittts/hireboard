@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"action\": \"follow_up\",\n  \"follow_up\": \"What specific types of tests do you usually implement, and how do you handle errors in your API?\"\n}",
+  "inputTokens": 354,
+  "outputTokens": 41
+}

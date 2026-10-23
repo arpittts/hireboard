@@ -16,6 +16,7 @@ const Applications = lazy(() => import('./pages/Applications'));
 const ApplicationDetail = lazy(() => import('./pages/ApplicationDetail'));
 const Settings = lazy(() => import('./pages/Settings'));
 const Resume = lazy(() => import('./pages/Resume'));
+const Interview = lazy(() => import('./pages/Interview'));
 
 const Spinner = () => <div className="loading-screen"><div className="spinner" /></div>;
 
@@ -43,6 +44,7 @@ function AppRoutes() {
           <Route path="applications" element={<Applications />} />
           <Route path="applications/:id" element={<ApplicationDetail />} />
           <Route path="resume" element={<Resume />} />
+          <Route path="interviews/:id" element={<Interview />} />
           <Route path="settings" element={<Settings />} />
         </Route>
         <Route path="*" element={<Navigate to="/" />} />

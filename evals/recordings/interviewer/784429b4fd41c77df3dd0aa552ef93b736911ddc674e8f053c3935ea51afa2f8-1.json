@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"action\": \"follow_up\",\n  \"follow_up\": \"What was your specific role and how did you prioritize tasks to meet that deadline?\"\n}",
+  "inputTokens": 419,
+  "outputTokens": 37
+}
