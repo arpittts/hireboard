@@ -1,0 +1,6 @@
+{
+  // Type-checks everything (app, tests, scripts) without emitting files.
+  "extends": "./tsconfig.json",
+  "compilerOptions": { "noEmit": true, "rootDir": "." },
+  "include": ["src", "tests", "scripts", "vitest.config.ts"]
+}

@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"company_name\": \"Wavelength Media\",\n  \"role\": \"Full Stack Engineer Intern\",\n  \"location\": \"Kolkata\",\n  \"work_mode\": \"hybrid\",\n  \"type\": \"internship\",\n  \"salary\": {\n    \"raw\": \"₹22,000/month\",\n    \"min\": 22000,\n    \"max\": 22000,\n    \"currency\": \"INR\",\n    \"period\": \"month\"\n  },\n  \"deadline\": \"2026-11-26\",\n  \"url\": null,\n  \"requirements\": [\n    {\n      \"text\": \"Know React\",\n      \"kind\": \"must\",\n      \"skills\": [\n        \"React\"\n      ]\n    },\n    {\n      \"text\": \"Know SQL\",\n      \"kind\": \"must\",\n      \"skills\": [\n        \"SQL\"\n      ]\n    },\n    {\n      \"text\": \"TypeScript preferred\",\n      \"kind\": \"nice\",\n      \"skills\": [\n        \"TypeScript\"\n      ]\n    }\n  ],\n  \"confidence\": {\n    \"company_name\": \"high\",\n    \"role\": \"high\",\n    \"location\": \"high\",\n    \"type\": \"high\",\n    \"salary\": \"high\",\n    \"deadline\": \"high\"\n  }\n}",
+  "inputTokens": 744,
+  "outputTokens": 323
+}

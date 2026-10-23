@@ -8,6 +8,9 @@ import { AppError, notFound } from '../middleware/errors.js';
 import { seedDemoData } from '../services/demoSeed.js';
 import type { RequestHandler } from 'express';
 
+// Demo visitors share the free AI allowance, so each gets fewer requests.
+const DEMO_AI_DAILY_LIMIT = 15;
+
 const AVATAR_COLORS = ['#6C5CE7', '#00B894', '#E17055', '#0984E3', '#E84393', '#00CEC9', '#FDCB6E'];
 
 const email = z.string().trim().toLowerCase().pipe(z.email('Enter a valid email.')).pipe(z.string().max(255));
@@ -126,9 +129,9 @@ export function authRouter(limiters: AuthLimiters) {
     const unusablePassword = await bcrypt.hash(crypto.randomBytes(32).toString('hex'), 4);
     const user = await withTransaction(async (client) => {
       const created = await client.query<UserRow>(
-        `INSERT INTO users (name, email, password_hash, avatar_color, is_demo)
-         VALUES ('Demo User', $1, $2, '#6C5CE7', TRUE) RETURNING ${USER_COLUMNS}`,
-        [`demo-${crypto.randomUUID()}@demo.invalid`, unusablePassword],
+        `INSERT INTO users (name, email, password_hash, avatar_color, is_demo, ai_daily_limit)
+         VALUES ('Demo User', $1, $2, '#6C5CE7', TRUE, $3) RETURNING ${USER_COLUMNS}`,
+        [`demo-${crypto.randomUUID()}@demo.invalid`, unusablePassword, DEMO_AI_DAILY_LIMIT],
       );
       await seedDemoData(client, created.rows[0].id);
       return created.rows[0];

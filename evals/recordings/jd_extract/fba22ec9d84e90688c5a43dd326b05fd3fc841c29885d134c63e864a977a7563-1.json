@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"company_name\": \"Harbor Health Tech\",\n  \"role\": \"Data Analyst Intern\",\n  \"location\": \"Hyderabad\",\n  \"work_mode\": \"onsite\",\n  \"type\": \"internship\",\n  \"salary\": {\n    \"raw\": \"20k per month\",\n    \"min\": 20000,\n    \"max\": 20000,\n    \"currency\": \"INR\",\n    \"period\": \"month\"\n  },\n  \"deadline\": \"2026-12-10\",\n  \"url\": null,\n  \"requirements\": [\n    {\n      \"text\": \"Final or pre-final year student\",\n      \"kind\": \"must\",\n      \"skills\": []\n    },\n    {\n      \"text\": \"Proficiency in Excel and SQL\",\n      \"kind\": \"must\",\n      \"skills\": [\n        \"Excel\",\n        \"SQL\"\n      ]\n    },\n    {\n      \"text\": \"Experience with Python and pandas\",\n      \"kind\": \"nice\",\n      \"skills\": [\n        \"Python\",\n        \"pandas\"\n      ]\n    }\n  ],\n  \"confidence\": {\n    \"company_name\": \"high\",\n    \"role\": \"high\",\n    \"location\": \"high\",\n    \"type\": \"high\",\n    \"salary\": \"high\",\n    \"deadline\": \"high\"\n  }\n}",
+  "inputTokens": 787,
+  "outputTokens": 332
+}

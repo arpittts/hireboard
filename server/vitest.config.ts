@@ -12,6 +12,9 @@ export default defineConfig({
       CLIENT_URL: 'http://localhost:5173',
       CRON_SECRET: 'test-cron-secret-0123456789',
       SMTP_HOST: '',
+      // Tests never call a real model; they use a fake one (setModelForTests).
+      GEMINI_API_KEY: '',
+      AI_MODE: 'live',
     },
   },
 });

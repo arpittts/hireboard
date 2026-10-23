@@ -13,7 +13,7 @@ export function useTestDatabase() {
     await runMigrations();
   });
   beforeEach(async () => {
-    await pool.query('TRUNCATE users CASCADE');
+    await pool.query('TRUNCATE users, llm_calls, llm_cache CASCADE');
   });
   afterAll(async () => {
     await pool.end();

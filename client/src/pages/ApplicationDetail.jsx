@@ -6,9 +6,10 @@ import ConfirmDialog from '../components/ConfirmDialog';
 import StatusMenu from '../components/StatusMenu';
 import { useApplication, useDeleteApplication, useSaveApplication } from '../services/queries';
 
-// More tabs (job description, interview prep, drafts) arrive in later phases.
+// More tabs (requirements check, interview prep, drafts) arrive in later phases.
 const TABS = [
   { id: 'overview', label: 'Overview' },
+  { id: 'job', label: 'Job description' },
   { id: 'history', label: 'History' },
 ];
 
@@ -60,6 +61,49 @@ function Overview({ app }) {
           ? <p style={{ fontSize: 14, color: 'var(--text-secondary)', whiteSpace: 'pre-wrap', background: 'var(--bg-card)', padding: 14, borderRadius: 8 }}>{app.notes}</p>
           : <p style={{ fontSize: 13, color: 'var(--text-muted)' }}>No notes yet. Use Edit to add some.</p>}
       </div>
+    </>
+  );
+}
+
+function JobDescription({ app, onEdit }) {
+  const requirements = app.jd_extraction?.requirements ?? [];
+  if (!app.job_description && requirements.length === 0) {
+    return (
+      <div className="empty-state" style={{ padding: 40 }}>
+        <div className="empty-state-title">No job description saved</div>
+        <div className="empty-state-text">Paste the posting when you add an application, or add it here with Edit. Later features use it to prepare you for interviews.</div>
+        <button className="btn btn-secondary" onClick={onEdit}>Add job description</button>
+      </div>
+    );
+  }
+  const ordered = [...requirements.filter(r => r.kind === 'must'), ...requirements.filter(r => r.kind === 'nice')];
+  return (
+    <>
+      {ordered.length > 0 && (
+        <div className="detail-section">
+          <div className="detail-section-title">Requirements ({requirements.filter(r => r.kind === 'must').length} must-have)</div>
+          <div className="req-list">
+            {ordered.map((r, i) => (
+              <div key={i} className="req-item">
+                <span className={`req-kind req-kind-${r.kind}`}>{r.kind === 'must' ? 'Must' : 'Nice'}</span>
+                <div>
+                  {r.text}
+                  {r.skills.length > 0 && <div>{r.skills.map(s => <span key={s} className="skill-chip">{s}</span>)}</div>}
+                </div>
+              </div>
+            ))}
+          </div>
+          <p style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 8 }}>
+            Read by AI ({app.jd_extraction.model}, {app.jd_extraction.promptVersion}). It can miss or misread details; the posting below is the source.
+          </p>
+        </div>
+      )}
+      {app.job_description && (
+        <div className="detail-section">
+          <div className="detail-section-title">Original posting</div>
+          <p style={{ fontSize: 14, color: 'var(--text-secondary)', whiteSpace: 'pre-wrap', background: 'var(--bg-card)', padding: 14, borderRadius: 8 }}>{app.job_description}</p>
+        </div>
+      )}
     </>
   );
 }
@@ -131,7 +175,9 @@ export default function ApplicationDetail() {
       </div>
 
       <div role="tabpanel">
-        {tab === 'overview' ? <Overview app={app} /> : <History history={app.statusHistory} />}
+        {tab === 'overview' && <Overview app={app} />}
+        {tab === 'job' && <JobDescription app={app} onEdit={() => setEditing(true)} />}
+        {tab === 'history' && <History history={app.statusHistory} />}
       </div>
 
       {editing && (

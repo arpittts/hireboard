@@ -5,6 +5,7 @@ import { config, isProduction } from './config.js';
 import { AppError, errorHandler, unknownRoute } from './middleware/errors.js';
 import { createAuthLimiters } from './middleware/rateLimit.js';
 import { accountRouter } from './routes/account.js';
+import { aiRouter } from './routes/ai.js';
 import { applicationsRouter } from './routes/applications.js';
 import { authRouter } from './routes/auth.js';
 import { dashboardRouter } from './routes/dashboard.js';
@@ -38,6 +39,7 @@ export function createApp({ authRateLimit = config.AUTH_RATE_LIMIT, demoRateLimi
   app.use('/api/applications', applicationsRouter);
   app.use('/api/dashboard', dashboardRouter);
   app.use('/api/internal', internalRouter);
+  app.use('/api/ai', aiRouter);
   app.use('/api', accountRouter); // /api/settings, /api/export
 
   app.use(unknownRoute);

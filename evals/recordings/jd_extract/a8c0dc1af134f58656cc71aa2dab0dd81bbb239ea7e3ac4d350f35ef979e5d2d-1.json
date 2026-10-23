@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"company_name\": \"Nimbus Hosting\",\n  \"role\": \"Cloud Support Associate\",\n  \"location\": \"Indore\",\n  \"work_mode\": \"onsite\",\n  \"type\": \"job\",\n  \"salary\": {\n    \"raw\": \"3.6 LPA + shift allowance\",\n    \"min\": 360000,\n    \"max\": 360000,\n    \"currency\": \"INR\",\n    \"period\": \"year\"\n  },\n  \"deadline\": null,\n  \"url\": null,\n  \"requirements\": [\n    {\n      \"text\": \"Linux basics\",\n      \"kind\": \"must\",\n      \"skills\": [\n        \"Linux\"\n      ]\n    },\n    {\n      \"text\": \"Networking basics\",\n      \"kind\": \"must\",\n      \"skills\": [\n        \"Networking\"\n      ]\n    },\n    {\n      \"text\": \"Good written English\",\n      \"kind\": \"must\",\n      \"skills\": [\n        \"Written English\"\n      ]\n    }\n  ],\n  \"confidence\": {\n    \"company_name\": \"high\",\n    \"role\": \"high\",\n    \"location\": \"high\",\n    \"type\": \"high\",\n    \"salary\": \"high\",\n    \"deadline\": \"high\"\n  }\n}",
+  "inputTokens": 767,
+  "outputTokens": 312
+}

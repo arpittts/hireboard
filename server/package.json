@@ -7,10 +7,14 @@
     "dev": "tsx watch src/index.ts",
     "build": "tsc -p tsconfig.json",
     "migrate": "tsx src/db/migrate.ts",
-    "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "vitest run"
+    "typecheck": "tsc -p tsconfig.check.json",
+    "test": "vitest run",
+    "eval:jd": "AI_MODE=replay tsx scripts/eval-jd.ts",
+    "eval:jd:record": "AI_MODE=record tsx scripts/eval-jd.ts"
   },
   "dependencies": {
+    "@ai-sdk/google": "^4.0.104",
+    "ai": "^7.0.150",
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",

@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Bell, Download, Trash2 } from 'lucide-react';
+import { Bell, Download, Sparkles, Trash2 } from 'lucide-react';
 import { toast } from '../services/toast';
 import ConfirmDialog from '../components/ConfirmDialog';
 import { useAuth } from '../context/auth';
 import api, { errorMessage } from '../services/api';
-import { useSettings, useUpdateSettings } from '../services/queries';
+import { useAiUsage, useSettings, useUpdateSettings } from '../services/queries';
 
 function Reminders() {
   const { data: settings, isPending } = useSettings();
@@ -30,6 +30,28 @@ function Reminders() {
           ? 'Not available in the demo account: its email address is not real.'
           : 'Sent once a day at about 9:00 India time, at most 5 a day. Rejected, accepted and withdrawn applications are skipped.'}
         {!settings.isDemo && !settings.emailConfigured && ' Email sending is not set up on this server yet, so nothing will be sent for now.'}
+      </p>
+    </>
+  );
+}
+
+function AiUsage() {
+  const { data: usage, isPending } = useAiUsage();
+  if (isPending || !usage) return <div className="spinner" style={{ width: 18, height: 18, borderWidth: 2 }} />;
+  if (!usage.enabled) return <p style={{ fontSize: 13, color: 'var(--text-muted)' }}>AI features are not set up on this server yet.</p>;
+  const percent = Math.min(100, Math.round((usage.usedToday / usage.dailyLimit) * 100));
+  return (
+    <>
+      <div style={{ fontSize: 14 }}>
+        <strong>{usage.usedToday}</strong> of {usage.dailyLimit} AI requests used today
+      </div>
+      <div className="usage-bar" role="progressbar" aria-valuenow={usage.usedToday} aria-valuemin={0} aria-valuemax={usage.dailyLimit} aria-label="AI requests used today">
+        <div style={{ width: `${percent}%` }} />
+      </div>
+      <p style={{ fontSize: 13, color: 'var(--text-muted)' }}>
+        Resets at midnight India time. {usage.cachedToday > 0 && `${usage.cachedToday} answer${usage.cachedToday === 1 ? ' was' : 's were'} reused from earlier requests and didn't count. `}
+        {usage.avgLatencyMs && `Average answer time ${(usage.avgLatencyMs / 1000).toFixed(1)} s. `}
+        Model: {usage.model} (Google's free tier, so only public job postings are sent).
       </p>
     </>
   );
@@ -97,6 +119,11 @@ export default function Settings() {
       <section className="card settings-section" aria-labelledby="reminders-title">
         <h2 id="reminders-title" className="chart-title"><Bell size={16} style={{ verticalAlign: 'middle', marginRight: 6 }} />Follow-up reminders</h2>
         <Reminders />
+      </section>
+
+      <section className="card settings-section" aria-labelledby="ai-title">
+        <h2 id="ai-title" className="chart-title"><Sparkles size={16} style={{ verticalAlign: 'middle', marginRight: 6 }} />AI usage</h2>
+        <AiUsage />
       </section>
 
       <section className="card settings-section" aria-labelledby="export-title">
