@@ -1,4 +1,5 @@
 import type pg from 'pg';
+import { DEMO_JOBS, DEMO_RESUME } from './demoAi.js';
 
 // Synthetic data for "Try the demo". Every company, person and link is made up
 // (example.com addresses), and dates are relative to today so the dashboard
@@ -94,6 +95,7 @@ const WISHLIST = new Set(['Paperkite']);
 const dayOffset = (days: number) => new Date(Date.now() + days * 86_400_000).toISOString().slice(0, 10);
 
 export async function seedDemoData(client: pg.PoolClient, userId: string): Promise<void> {
+  const appIds = new Map<string, string>();
   for (const demo of DEMO_APPLICATIONS) {
     const firstStatus: Status = WISHLIST.has(demo.company) ? 'wishlist' : 'applied';
     const finalStatus = demo.path.length ? demo.path[demo.path.length - 1][0] : firstStatus;
@@ -114,6 +116,7 @@ export async function seedDemoData(client: pg.PoolClient, userId: string): Promi
       ],
     );
     const appId = inserted.rows[0].id;
+    appIds.set(demo.company, appId);
 
     // History: created, then each status change on its own day.
     let previous: Status = firstStatus;
@@ -130,6 +133,25 @@ export async function seedDemoData(client: pg.PoolClient, userId: string): Promi
       );
       previous = status;
     }
+  }
+
+  // AI results, made once by the real model (scripts/gen-demo-ai.ts) so the demo
+  // shows them instantly without using the shared free AI allowance.
+  const resume = await client.query<{ id: string }>(
+    'INSERT INTO resumes (user_id, title, raw_text, parsed, is_active) VALUES ($1, $2, $3, $4, TRUE) RETURNING id',
+    [userId, DEMO_RESUME.title, DEMO_RESUME.rawText, JSON.stringify(DEMO_RESUME.parsed)],
+  );
+  for (const job of DEMO_JOBS) {
+    const appId = appIds.get(job.company);
+    if (!appId) continue;
+    await client.query(
+      `UPDATE applications SET job_description = $1, jd_extraction = $2, source = 'jd_paste' WHERE id = $3`,
+      [job.jobDescription, JSON.stringify({ requirements: job.requirements, model: job.model, promptVersion: 'jd_extract.v1', warnings: [] }), appId],
+    );
+    await client.query(
+      `INSERT INTO requirement_checks (application_id, resume_id, verdicts, model, prompt_version) VALUES ($1, $2, $3, $4, $5)`,
+      [appId, resume.rows[0].id, JSON.stringify(job.verdicts), job.model, job.promptVersion],
+    );
   }
 }
 

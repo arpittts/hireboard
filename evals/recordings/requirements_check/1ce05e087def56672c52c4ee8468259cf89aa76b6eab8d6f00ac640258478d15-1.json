@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"verdicts\": [\n    {\n      \"requirement_id\": \"r1\",\n      \"verdict\": \"missing\",\n      \"bullet_ids\": [],\n      \"reason\": \"Your resume doesn't mention Kubernetes.\"\n    },\n    {\n      \"requirement_id\": \"r2\",\n      \"verdict\": \"missing\",\n      \"bullet_ids\": [],\n      \"reason\": \"Your resume doesn't mention Terraform.\"\n    },\n    {\n      \"requirement_id\": \"r3\",\n      \"verdict\": \"missing\",\n      \"bullet_ids\": [],\n      \"reason\": \"Your resume doesn't mention AWS.\"\n    },\n    {\n      \"requirement_id\": \"r4\",\n      \"verdict\": \"missing\",\n      \"bullet_ids\": [],\n      \"reason\": \"Your resume doesn't mention scripting in Bash or Python.\"\n    },\n    {\n      \"requirement_id\": \"r5\",\n      \"verdict\": \"missing\",\n      \"bullet_ids\": [],\n      \"reason\": \"Your resume doesn't mention Prometheus and Grafana.\"\n    }\n  ]\n}",
+  "inputTokens": 572,
+  "outputTokens": 260
+}

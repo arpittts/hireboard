@@ -3,13 +3,15 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, Edit3, ExternalLink, Link2, Mail, Phone, Trash2, User } from 'lucide-react';
 import ApplicationModal from '../components/ApplicationModal';
 import ConfirmDialog from '../components/ConfirmDialog';
+import RequirementsChecklist from '../components/RequirementsChecklist';
 import StatusMenu from '../components/StatusMenu';
 import { useApplication, useDeleteApplication, useSaveApplication } from '../services/queries';
 
-// More tabs (requirements check, interview prep, drafts) arrive in later phases.
+// More tabs (interview prep, drafts) arrive in later phases.
 const TABS = [
   { id: 'overview', label: 'Overview' },
   { id: 'job', label: 'Job description' },
+  { id: 'requirements', label: 'Requirements' },
   { id: 'history', label: 'History' },
 ];
 
@@ -177,6 +179,7 @@ export default function ApplicationDetail() {
       <div role="tabpanel">
         {tab === 'overview' && <Overview app={app} />}
         {tab === 'job' && <JobDescription app={app} onEdit={() => setEditing(true)} />}
+        {tab === 'requirements' && <RequirementsChecklist application={app} />}
         {tab === 'history' && <History history={app.statusHistory} />}
       </div>
 

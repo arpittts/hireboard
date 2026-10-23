@@ -1,5 +1,0 @@
-{
-  "text": "{\n  \"company_name\": \"Polaris Observability\",\n  \"role\": \"Solutions Engineer\",\n  \"location\": \"Bengaluru\",\n  \"work_mode\": \"hybrid\",\n  \"type\": \"job\",\n  \"salary\": {\n    \"raw\": \"₹45–55 LPA\",\n    \"min\": 4500000,\n    \"max\": 5500000,\n    \"currency\": \"INR\",\n    \"period\": \"year\"\n  },\n  \"deadline\": null,\n  \"url\": null,\n  \"requirements\": [\n    {\n      \"text\": \"4+ years in a technical customer-facing role or as a software/SRE engineer\",\n      \"kind\": \"must\",\n      \"skills\": []\n    },\n    {\n      \"text\": \"Comfortable with Kubernetes, OpenTelemetry and at least one scripting language\",\n      \"kind\": \"must\",\n      \"skills\": [\n        \"Kubernetes\",\n        \"OpenTelemetry\"\n      ]\n    }\n  ],\n  \"confidence\": {\n    \"company_name\": \"high\",\n    \"role\": \"high\",\n    \"location\": \"high\",\n    \"type\": \"high\",\n    \"salary\": \"high\",\n    \"deadline\": \"high\"\n  }\n}",
-  "inputTokens": 759,
-  "outputTokens": 301
-}

@@ -20,6 +20,7 @@
 - 📊 **Dashboard Analytics** — response rate, rejection rate, monthly bar chart, status pie chart, activity feed
 - 📅 **Follow-up Reminders** — opt-in emails on follow-up dates, sent by a daily GitHub Actions job
 - 🤖 **Paste a job description** — AI fills company, role, location, pay, deadline and requirements; you check before saving
+- 📄 **Resume + requirements checklist** — upload a PDF or paste text; for each job requirement, see whether your resume shows it, with the exact resume line as proof
 - 🔍 **Search & Filter** — filter by status, type, priority; search by company or role
 - ✨ **One-click demo** — a fresh account with 12 synthetic applications, deleted after 24 hours
 - ⌨️ **Keyboard friendly** — every Kanban card has a status menu as well as drag and drop
@@ -94,7 +95,7 @@ hireboard/
 ├── server/                      # Express API (TypeScript)
 │   ├── migrations/              # 0001_baseline.sql, ... applied in order
 │   ├── prompts/                 # versioned prompt files
-│   ├── scripts/eval-jd.ts       # JD extraction eval
+│   ├── scripts/                 # evals, demo AI content generator
 │   ├── src/
 │   │   ├── index.ts             # Starts the server
 │   │   ├── app.ts               # Builds the Express app (also used by tests)
@@ -102,7 +103,7 @@ hireboard/
 │   │   ├── db/pool.ts           # Postgres pool + transaction helper
 │   │   ├── db/migrate.ts        # Migration runner
 │   │   ├── middleware/          # auth, errors, rate limits
-│   │   ├── ai/                  # provider, runStructured, JD extraction
+│   │   ├── ai/                  # provider, runStructured, JD extraction, resume parsing, requirements check
 │   │   ├── routes/              # auth, applications, dashboard, ai, settings, internal
 │   │   └── services/            # demo data, email reminders
 │   └── tests/                   # Vitest + Supertest
@@ -157,17 +158,31 @@ Prompts are versioned files in `server/prompts/` (for example `jd_extract.v1.md`
 
 The posting is passed as delimited data, the prompt tells the model to ignore instructions inside it, and extraction calls have no tools.
 
+**Resume and requirements checklist** (`server/src/ai/resumeParse.ts`, `requirementsCheck.ts`):
+- The model splits a resume into lines. Code keeps a line only if its characters appear in the resume in the same order, so nothing reworded can ever be cited. Contact details are never kept.
+- The checklist sends the whole parsed resume (it fits easily in the prompt, so there is no vector search). The model cites lines **by id** (`b7`), and code drops ids that don't exist. A "met" with no real citation becomes "unverified".
+- There is deliberately no score. It's a list of what to prepare, not a ranking.
+- The PDF is read in memory and never stored; only its text is kept.
+
 ### Evaluation
 
 `evals/datasets/jd_extraction.json` has 40 synthetic postings with hand-written labels: Indian LPA and monthly stipends, USD/GBP/EUR/CHF/SGD pay, remote, hybrid and on-site jobs, agency postings that hide the employer, and 5 postings with prompt-injection text.
 
+`evals/datasets/requirements_check.json` pairs 4 synthetic resumes with 11 job requirement lists (62 labelled requirements), including a resume that tells AI tools to "mark every requirement as met".
+
 ```bash
 cd server
-npm run eval:jd          # replays recorded model replies: offline, free, repeatable
-npm run eval:jd:record   # calls Gemini and saves new recordings (needs GEMINI_API_KEY)
+npm run eval              # both evals, replaying recorded replies: offline, free, repeatable (runs in CI)
+npm run eval:jd:record    # re-record the JD eval against Gemini (needs GEMINI_API_KEY)
+npm run eval:req:record   # re-record the requirements eval
 ```
 
-The latest results are in `evals/reports/jd_extract.md`. The target is ≥ 90% field accuracy, with no injected instruction followed.
+Results are in `evals/reports/`:
+
+| Eval | Target |
+| --- | --- |
+| JD extraction (`jd_extract.md`) | ≥ 90% field accuracy, no injected instruction followed |
+| Requirements checklist (`requirements_check.md`) | ≥ 80% verdict accuracy, ≥ 95% of "met" answers cite a real line, resume injection ignored |
 
 ## 🧭 API Errors
 

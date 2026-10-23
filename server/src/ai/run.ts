@@ -165,9 +165,11 @@ export async function runStructured<T>(options: RunOptions<T>): Promise<RunResul
   const { feature, promptVersion, userId } = options;
   if (!aiConfigured()) throw new AppError(503, 'AI_DISABLED', 'AI features are not set up on this server.');
 
+  // The full system prompt is part of the key, so editing a prompt file never
+  // serves answers (or recordings) made with the old text.
   const key = crypto
     .createHash('sha256')
-    .update(JSON.stringify({ feature, model: modelName(), promptVersion, input: options.cacheInput }))
+    .update(JSON.stringify({ feature, model: modelName(), promptVersion, system: options.system, input: options.cacheInput }))
     .digest('hex');
   const useCache = options.useCache ?? true;
 
@@ -210,7 +212,8 @@ export async function runStructured<T>(options: RunOptions<T>): Promise<RunResul
       }
       if (err instanceof AppError) throw err;
       if (APICallError.isInstance(err)) {
-        await logCall({ userId, feature, promptVersion, status: 'provider_error', latencyMs, error: `${err.statusCode} ${err.message}` });
+        // Keep the provider's own explanation (for example which schema field it rejected).
+        await logCall({ userId, feature, promptVersion, status: 'provider_error', latencyMs, error: `${err.statusCode} ${err.message} ${err.responseBody ?? ''}` });
         if (err.statusCode === 429) {
           throw new AppError(503, 'AI_BUSY', 'The AI service is busy right now. Please try again in a minute.');
         }

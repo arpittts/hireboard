@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"verdicts\": [\n    {\n      \"requirement_id\": \"r1\",\n      \"verdict\": \"met\",\n      \"bullet_ids\": [\n        \"b3\",\n        \"b7\"\n      ],\n      \"reason\": \"You have built projects using both Next.js and Astro.\"\n    },\n    {\n      \"requirement_id\": \"r2\",\n      \"verdict\": \"met\",\n      \"bullet_ids\": [\n        \"b4\",\n        \"b1\"\n      ],\n      \"reason\": \"Your experience includes turning Figma designs into functional code.\"\n    },\n    {\n      \"requirement_id\": \"r3\",\n      \"verdict\": \"met\",\n      \"bullet_ids\": [\n        \"b3\"\n      ],\n      \"reason\": \"Your Next.js websites achieve Lighthouse scores of 95+.\"\n    },\n    {\n      \"requirement_id\": \"r4\",\n      \"verdict\": \"met\",\n      \"bullet_ids\": [\n        \"b5\"\n      ],\n      \"reason\": \"Your café menu page successfully reads data from a Google Sheet.\"\n    },\n    {\n      \"requirement_id\": \"r5\",\n      \"verdict\": \"missing\",\n      \"bullet_ids\": [],\n      \"reason\": \"Your resume does not mention backend development with Node.js.\"\n    }\n  ]\n}",
+  "inputTokens": 568,
+  "outputTokens": 321
+}

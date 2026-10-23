@@ -1,5 +1,0 @@
-{
-  "text": "{\n  \"company_name\": \"Mosaic Learning\",\n  \"role\": \"Python Developer Intern\",\n  \"location\": null,\n  \"work_mode\": \"remote\",\n  \"type\": \"internship\",\n  \"salary\": {\n    \"raw\": \"₹10,000 total\",\n    \"min\": 10000.0,\n    \"max\": 10000.0,\n    \"currency\": \"INR\",\n    \"period\": null\n  },\n  \"deadline\": \"2026-11-03\",\n  \"url\": null,\n  \"requirements\": [\n    {\n      \"text\": \"Proficiency in Python\",\n      \"kind\": \"must\",\n      \"skills\": [\n        \"Python\"\n      ]\n    },\n    {\n      \"text\": \"Knowledge of basic Flask\",\n      \"kind\": \"must\",\n      \"skills\": [\n        \"Flask\"\n      ]\n    },\n    {\n      \"text\": \"Experience with Git\",\n      \"kind\": \"must\",\n      \"skills\": [\n        \"Git\"\n      ]\n    },\n    {\n      \"text\": \"Available 4 hours a day\",\n      \"kind\": \"must\",\n      \"skills\": []\n    }\n  ],\n  \"confidence\": {\n    \"company_name\": \"high\",\n    \"role\": \"high\",\n    \"location\": \"high\",\n    \"type\": \"high\",\n    \"salary\": \"high\",\n    \"deadline\": \"high\"\n  }\n}",
-  "inputTokens": 752,
-  "outputTokens": 357
-}

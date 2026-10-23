@@ -42,12 +42,18 @@ accountRouter.put('/settings', requireAuth, async (req, res) => {
 // Everything stored about the user, as a JSON download.
 accountRouter.get('/export', requireAuth, async (req, res) => {
   const userId = userIdOf(req);
-  const [user, applications, history] = await Promise.all([
+  const [user, applications, history, resumes, checks] = await Promise.all([
     pool.query('SELECT name, email, created_at, reminders_enabled FROM users WHERE id = $1', [userId]),
     pool.query('SELECT * FROM applications WHERE user_id = $1 ORDER BY created_at', [userId]),
     pool.query(
       `SELECT sh.* FROM status_history sh JOIN applications a ON a.id = sh.application_id
        WHERE a.user_id = $1 ORDER BY sh.changed_at`,
+      [userId],
+    ),
+    pool.query('SELECT title, raw_text, parsed, is_active, created_at FROM resumes WHERE user_id = $1 ORDER BY created_at', [userId]),
+    pool.query(
+      `SELECT rc.application_id, rc.verdicts, rc.model, rc.prompt_version, rc.created_at FROM requirement_checks rc
+       JOIN applications a ON a.id = rc.application_id WHERE a.user_id = $1 ORDER BY rc.created_at`,
       [userId],
     ),
   ]);
@@ -59,5 +65,7 @@ accountRouter.get('/export', requireAuth, async (req, res) => {
     user: user.rows[0],
     applications: applications.rows,
     statusHistory: history.rows,
+    resumes: resumes.rows,
+    requirementChecks: checks.rows,
   });
 });

@@ -1,0 +1,19 @@
+Arjun Nair
+arjun.nair@example.com | 9000044444
+
+Education
+B.Com (Hons) with minor in Statistics, Coastal University, 2023 – 2026
+
+Experience
+Operations Analyst Intern, Tidepool Logistics, Dec 2025 – Feb 2026
+- Cleaned shipment data in Excel (pivot tables, VLOOKUP) and built weekly dashboards in Power BI for the operations lead.
+- Wrote SQL queries to find delayed shipments; the report is now used every Monday.
+- Presented findings to a team of 10 in PowerPoint.
+
+Projects
+- Analysed 2 years of college canteen sales in Python (pandas, matplotlib) and suggested menu changes that cut waste by 15%.
+- Built a Google Analytics 4 and Looker Studio dashboard for a student club's website.
+
+Skills
+Excel, SQL, Power BI, Looker Studio, Python (pandas), Google Analytics 4, PowerPoint
+Certifications: Google Data Analytics Certificate (2025)

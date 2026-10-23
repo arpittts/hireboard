@@ -15,6 +15,7 @@ const KanbanBoard = lazy(() => import('./pages/KanbanBoard'));
 const Applications = lazy(() => import('./pages/Applications'));
 const ApplicationDetail = lazy(() => import('./pages/ApplicationDetail'));
 const Settings = lazy(() => import('./pages/Settings'));
+const Resume = lazy(() => import('./pages/Resume'));
 
 const Spinner = () => <div className="loading-screen"><div className="spinner" /></div>;
 
@@ -41,6 +42,7 @@ function AppRoutes() {
           <Route path="board" element={<KanbanBoard />} />
           <Route path="applications" element={<Applications />} />
           <Route path="applications/:id" element={<ApplicationDetail />} />
+          <Route path="resume" element={<Resume />} />
           <Route path="settings" element={<Settings />} />
         </Route>
         <Route path="*" element={<Navigate to="/" />} />

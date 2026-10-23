@@ -10,7 +10,10 @@
     "typecheck": "tsc -p tsconfig.check.json",
     "test": "vitest run",
     "eval:jd": "AI_MODE=replay tsx scripts/eval-jd.ts",
-    "eval:jd:record": "AI_MODE=record tsx scripts/eval-jd.ts"
+    "eval:jd:record": "AI_MODE=record tsx scripts/eval-jd.ts",
+    "eval:req": "AI_MODE=replay tsx scripts/eval-requirements.ts",
+    "eval:req:record": "AI_MODE=record tsx scripts/eval-requirements.ts",
+    "eval": "npm run eval:jd && npm run eval:req"
   },
   "dependencies": {
     "@ai-sdk/google": "^4.0.104",
@@ -22,8 +25,10 @@
     "express-rate-limit": "^8.7.1",
     "helmet": "^8.3.0",
     "jsonwebtoken": "^9.0.2",
+    "multer": "^2.5.0",
     "nodemailer": "^10.2.1",
     "pg": "^8.13.0",
+    "unpdf": "^1.9.1",
     "zod": "^4.6.7"
   },
   "type": "module",
@@ -31,6 +36,7 @@
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
+    "@types/multer": "^2.3.0",
     "@types/node": "^22.20.5",
     "@types/nodemailer": "^8.0.2",
     "@types/pg": "^8.23.1",

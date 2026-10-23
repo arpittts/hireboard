@@ -1,8 +1,10 @@
+import { MockLanguageModelV4 } from 'ai/test';
 import request from 'supertest';
 import { afterAll, beforeAll, beforeEach } from 'vitest';
 import { createApp } from '../src/app.js';
 import { runMigrations } from '../src/db/migrate.js';
 import { pool } from '../src/db/pool.js';
+import { setModelForTests } from '../src/ai/provider.js';
 
 export const app = createApp({ authRateLimit: 1000 });
 export const api = () => request(app);
@@ -38,4 +40,28 @@ export async function createApplication(auth: string, body: Record<string, unkno
     .send({ company_name: 'Acme', role: 'Software Engineer Intern', ...body });
   if (res.status !== 201) throw new Error(`create failed: ${res.status} ${JSON.stringify(res.body)}`);
   return res.body;
+}
+
+// A fake model that answers with the given replies in turn (the last one repeats),
+// and counts its calls. An Error reply is thrown instead.
+export function fakeModel(...replies: (string | object | Error)[]) {
+  let calls = 0;
+  const model = new MockLanguageModelV4({
+    doGenerate: async () => {
+      const reply = replies[Math.min(calls, replies.length - 1)];
+      calls += 1;
+      if (reply instanceof Error) throw reply;
+      return {
+        content: [{ type: 'text', text: typeof reply === 'string' ? reply : JSON.stringify(reply) }],
+        finishReason: { unified: 'stop', raw: undefined },
+        usage: {
+          inputTokens: { total: 500, noCache: 500, cacheRead: undefined, cacheWrite: undefined },
+          outputTokens: { total: 120, text: 120, reasoning: undefined },
+        },
+        warnings: [],
+      };
+    },
+  });
+  setModelForTests(model);
+  return { calls: () => calls };
 }

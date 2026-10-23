@@ -1,7 +1,7 @@
 import { Suspense, useState } from 'react';
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/auth';
-import { LayoutDashboard, Columns3, List, LogOut, Settings } from 'lucide-react';
+import { LayoutDashboard, Columns3, List, LogOut, Settings, FileText } from 'lucide-react';
 import { toast } from '../services/toast';
 import { errorMessage } from '../services/api';
 
@@ -9,6 +9,7 @@ const NAV = [
   { to: '/', label: 'Dashboard', icon: LayoutDashboard, end: true },
   { to: '/board', label: 'Kanban Board', icon: Columns3 },
   { to: '/applications', label: 'Applications', icon: List },
+  { to: '/resume', label: 'Resume', icon: FileText },
   { to: '/settings', label: 'Settings', icon: Settings },
 ];
 
