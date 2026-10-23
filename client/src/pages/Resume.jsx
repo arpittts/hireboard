@@ -9,7 +9,8 @@ const SECTION_LABELS = {
   education: 'Education', achievements: 'Achievements', other: 'Other',
 };
 
-// The parsed lines of one resume. Each line has an id that the checklist cites.
+// The parsed lines of one resume. Each line has an id (b1, b2, …) that the AI cites;
+// readers just see bullets.
 function ResumeLines({ id }) {
   const { data: resume, isPending } = useResume(id);
   if (isPending) return <div className="spinner" style={{ width: 18, height: 18, borderWidth: 2 }} />;
@@ -24,7 +25,7 @@ function ResumeLines({ id }) {
             )}
           </div>
           <ul className="resume-lines">
-            {section.bullets.map(b => <li key={b.id}><span className="line-id">{b.id}</span>{b.text}</li>)}
+            {section.bullets.map(b => <li key={b.id}><span className="line-bullet" aria-hidden>•</span>{b.text}</li>)}
           </ul>
         </div>
       ))}

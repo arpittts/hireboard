@@ -13,7 +13,9 @@
     "eval:jd:record": "AI_MODE=record tsx scripts/eval-jd.ts",
     "eval:req": "AI_MODE=replay tsx scripts/eval-requirements.ts",
     "eval:req:record": "AI_MODE=record tsx scripts/eval-requirements.ts",
-    "eval": "npm run eval:jd && npm run eval:req"
+    "eval": "npm run eval:jd && npm run eval:req && npm run eval:interview",
+    "eval:interview": "AI_MODE=replay tsx scripts/eval-interview.ts",
+    "eval:interview:record": "AI_MODE=record tsx scripts/eval-interview.ts"
   },
   "dependencies": {
     "@ai-sdk/google": "^4.0.104",

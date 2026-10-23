@@ -215,3 +215,80 @@ export function useRunRequirementCheck(applicationId) {
     },
   });
 }
+
+// --- Interview prep --------------------------------------------------------------
+
+export function useQuestionBank(applicationId) {
+  return useQuery({
+    queryKey: ['questions', applicationId],
+    queryFn: async () => (await api.get(`/applications/${applicationId}/questions`)).data,
+  });
+}
+
+export function useGenerateQuestions(applicationId) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async () => (await api.post(`/applications/${applicationId}/questions`)).data,
+    onSuccess: (bank) => {
+      queryClient.setQueryData(['questions', applicationId], bank);
+      queryClient.invalidateQueries({ queryKey: ['ai-usage'] });
+    },
+  });
+}
+
+// Save edits: [{ id?, text }] in the order to keep.
+export function useSaveQuestions(applicationId) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (questions) => (await api.put(`/applications/${applicationId}/questions`, { questions })).data,
+    onSuccess: (bank) => queryClient.setQueryData(['questions', applicationId], bank),
+    onError: (err) => toast.error(errorMessage(err, 'Could not save the questions.')),
+  });
+}
+
+export function useInterviews(applicationId) {
+  return useQuery({
+    queryKey: ['interviews', applicationId],
+    queryFn: async () => (await api.get(`/applications/${applicationId}/interviews`)).data,
+  });
+}
+
+export function useStartInterview(applicationId) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async () => (await api.post(`/applications/${applicationId}/interviews`)).data,
+    onSuccess: (session) => {
+      queryClient.setQueryData(['interview', session.id], session);
+      queryClient.invalidateQueries({ queryKey: ['interviews', applicationId] });
+    },
+    onError: (err) => toast.error(errorMessage(err, 'Could not start the interview.')),
+  });
+}
+
+export function useInterview(id) {
+  return useQuery({ queryKey: ['interview', id], queryFn: async () => (await api.get(`/interviews/${id}`)).data });
+}
+
+export function useAnswer(id) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (answer) => (await api.post(`/interviews/${id}/answer`, { answer })).data,
+    onSuccess: (session) => {
+      queryClient.setQueryData(['interview', id], session);
+      queryClient.invalidateQueries({ queryKey: ['interviews', session.application_id] });
+      queryClient.invalidateQueries({ queryKey: ['ai-usage'] });
+    },
+  });
+}
+
+export function useEndInterview(id) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async () => (await api.post(`/interviews/${id}/end`)).data,
+    onSuccess: (session) => {
+      queryClient.setQueryData(['interview', id], session);
+      queryClient.invalidateQueries({ queryKey: ['interviews', session.application_id] });
+    },
+    onError: (err) => toast.error(errorMessage(err)),
+  });
+}

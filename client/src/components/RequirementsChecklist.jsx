@@ -75,7 +75,7 @@ export default function RequirementsChecklist({ application }) {
                 </div>
                 <div style={{ fontSize: 13, color: 'var(--text-secondary)', marginTop: 4 }}>{v.reason}</div>
                 {v.evidence.map(e => (
-                  <blockquote key={e.bulletId} className="evidence"><span className="line-id">{e.bulletId}</span>{e.text}</blockquote>
+                  <blockquote key={e.bulletId} className="evidence">{e.text}</blockquote>
                 ))}
               </div>
             </div>
@@ -83,7 +83,7 @@ export default function RequirementsChecklist({ application }) {
         })}
       </div>
       <p style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 10 }}>
-        AI ({check.model}, {check.prompt_version}) cites resume lines by id, and only lines that exist are shown. It can still misjudge; you know your experience best.
+        AI ({check.model}, {check.prompt_version}) points to the resume lines it used, and only lines that really are in your resume are shown. It can still misjudge; you know your experience best.
       </p>
     </div>
   );

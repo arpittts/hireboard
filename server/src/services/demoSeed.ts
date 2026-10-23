@@ -152,6 +152,12 @@ export async function seedDemoData(client: pg.PoolClient, userId: string): Promi
       `INSERT INTO requirement_checks (application_id, resume_id, verdicts, model, prompt_version) VALUES ($1, $2, $3, $4, $5)`,
       [appId, resume.rows[0].id, JSON.stringify(job.verdicts), job.model, job.promptVersion],
     );
+    if (job.questions) {
+      await client.query(
+        'INSERT INTO question_banks (application_id, questions, model, prompt_version) VALUES ($1, $2, $3, $4)',
+        [appId, JSON.stringify(job.questions), job.model, job.questionsPromptVersion],
+      );
+    }
   }
 }
 

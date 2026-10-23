@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"action\": \"follow_up\",\n  \"follow_up\": \"How many questions did you create, and what criteria did you use to check the answers?\"\n}",
+  "inputTokens": 399,
+  "outputTokens": 39
+}

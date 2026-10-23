@@ -21,6 +21,7 @@
 - 📅 **Follow-up Reminders** — opt-in emails on follow-up dates, sent by a daily GitHub Actions job
 - 🤖 **Paste a job description** — AI fills company, role, location, pay, deadline and requirements; you check before saving
 - 📄 **Resume + requirements checklist** — upload a PDF or paste text; for each job requirement, see whether your resume shows it, with the exact resume line as proof
+- 🎤 **Interview prep** — the 10 questions an interviewer for this role is likely to ask (missing skills first), and a mock interview that asks five of them with follow-ups
 - 🔍 **Search & Filter** — filter by status, type, priority; search by company or role
 - ✨ **One-click demo** — a fresh account with 12 synthetic applications, deleted after 24 hours
 - ⌨️ **Keyboard friendly** — every Kanban card has a status menu as well as drag and drop
@@ -103,7 +104,7 @@ hireboard/
 │   │   ├── db/pool.ts           # Postgres pool + transaction helper
 │   │   ├── db/migrate.ts        # Migration runner
 │   │   ├── middleware/          # auth, errors, rate limits
-│   │   ├── ai/                  # provider, runStructured, JD extraction, resume parsing, requirements check
+│   │   ├── ai/                  # provider, runStructured, JD extraction, resume, requirements, questions, interviewer
 │   │   ├── routes/              # auth, applications, dashboard, ai, settings, internal
 │   │   └── services/            # demo data, email reminders
 │   └── tests/                   # Vitest + Supertest
@@ -164,6 +165,10 @@ The posting is passed as delimited data, the prompt tells the model to ignore in
 - There is deliberately no score. It's a list of what to prepare, not a ranking.
 - The PDF is read in memory and never stored; only its text is kept.
 
+**Interview prep** (`server/src/ai/questionBank.ts`, `interviewer.ts`):
+- The question bank is one call that writes 10 questions (behavioural, technical, about your resume, about the role). Code removes near-duplicates and resume questions that cite a line that doesn't exist. It also adds a fixed-wording question for any required skill the checklist found missing that the model forgot.
+- The mock interviewer is a state machine in code: 5 questions and at most one follow-up each, with no model call for skips or one-word answers. The model only decides "follow up or move on" and writes the follow-up. A follow-up containing feedback or praise ("great answer", "the ideal answer…") is dropped by code, because real interviewers don't grade you mid-interview.
+
 ### Evaluation
 
 `evals/datasets/jd_extraction.json` has 40 synthetic postings with hand-written labels: Indian LPA and monthly stipends, USD/GBP/EUR/CHF/SGD pay, remote, hybrid and on-site jobs, agency postings that hide the employer, and 5 postings with prompt-injection text.
@@ -175,6 +180,7 @@ cd server
 npm run eval              # both evals, replaying recorded replies: offline, free, repeatable (runs in CI)
 npm run eval:jd:record    # re-record the JD eval against Gemini (needs GEMINI_API_KEY)
 npm run eval:req:record   # re-record the requirements eval
+npm run eval:interview:record   # re-record the interview eval
 ```
 
 Results are in `evals/reports/`:
@@ -183,6 +189,7 @@ Results are in `evals/reports/`:
 | --- | --- |
 | JD extraction (`jd_extract.md`) | ≥ 90% field accuracy, no injected instruction followed |
 | Requirements checklist (`requirements_check.md`) | ≥ 80% verdict accuracy, ≥ 95% of "met" answers cite a real line, resume injection ignored |
+| Interview prep (`interview.md`) | ≥ 80% correct follow-up decisions on 20 scripted answers, 0 injected instructions obeyed, every missing required skill has a question |
 
 ## 🧭 API Errors
 

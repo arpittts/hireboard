@@ -42,7 +42,7 @@ accountRouter.put('/settings', requireAuth, async (req, res) => {
 // Everything stored about the user, as a JSON download.
 accountRouter.get('/export', requireAuth, async (req, res) => {
   const userId = userIdOf(req);
-  const [user, applications, history, resumes, checks] = await Promise.all([
+  const [user, applications, history, resumes, checks, banks, interviews] = await Promise.all([
     pool.query('SELECT name, email, created_at, reminders_enabled FROM users WHERE id = $1', [userId]),
     pool.query('SELECT * FROM applications WHERE user_id = $1 ORDER BY created_at', [userId]),
     pool.query(
@@ -56,6 +56,18 @@ accountRouter.get('/export', requireAuth, async (req, res) => {
        JOIN applications a ON a.id = rc.application_id WHERE a.user_id = $1 ORDER BY rc.created_at`,
       [userId],
     ),
+    pool.query(
+      `SELECT qb.application_id, qb.questions, qb.created_at FROM question_banks qb
+       JOIN applications a ON a.id = qb.application_id WHERE a.user_id = $1 ORDER BY qb.created_at`,
+      [userId],
+    ),
+    pool.query(
+      `SELECT s.id, s.application_id, s.status, s.questions, s.created_at, s.completed_at,
+              COALESCE((SELECT json_agg(json_build_object('speaker', t.speaker, 'kind', t.kind, 'content', t.content) ORDER BY t.id)
+                        FROM interview_turns t WHERE t.session_id = s.id), '[]') AS turns
+       FROM interview_sessions s WHERE s.user_id = $1 ORDER BY s.created_at`,
+      [userId],
+    ),
   ]);
   if (!user.rows[0]) throw notFound('User');
   const date = new Date().toISOString().slice(0, 10);
@@ -67,5 +79,7 @@ accountRouter.get('/export', requireAuth, async (req, res) => {
     statusHistory: history.rows,
     resumes: resumes.rows,
     requirementChecks: checks.rows,
+    questionBanks: banks.rows,
+    interviews: interviews.rows,
   });
 });
