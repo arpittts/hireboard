@@ -1,0 +1,26 @@
+# Render Blueprint for the HireBoard API (free plan).
+# Database: Neon free Postgres; paste its connection string as DATABASE_URL when Render asks.
+services:
+  - type: web
+    name: hireboard-api
+    runtime: node
+    plan: free
+    region: singapore
+    rootDir: server
+    buildCommand: npm ci
+    startCommand: node index.js
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: "22"
+      - key: CLIENT_URL
+        value: https://hireboard-mu.vercel.app
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        sync: false
