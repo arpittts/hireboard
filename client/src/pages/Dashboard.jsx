@@ -1,24 +1,17 @@
-import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/auth';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { TrendingUp, Send, ThumbsDown, Briefcase, Calendar, Clock } from 'lucide-react';
-import api from '../services/api';
+import { useStats } from '../services/queries';
 
 const STATUS_COLORS = { applied: '#0984e3', interview: '#fdcb6e', offer: '#00b894', rejected: '#e17055', wishlist: '#94a3b8', accepted: '#00b894', withdrawn: '#64748b' };
 
 export default function Dashboard() {
   const { user } = useAuth();
-  const [stats, setStats] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { data: stats, isPending, isError, refetch } = useStats();
 
-  useEffect(() => {
-    api.get('/dashboard/stats')
-      .then(res => setStats(res.data))
-      .catch(err => console.error(err))
-      .finally(() => setLoading(false));
-  }, []);
-
-  if (loading) return <div style={{ display: 'flex', justifyContent: 'center', paddingTop: 100 }}><div className="spinner" /></div>;
+  if (isError) return <div className="empty-state"><div className="empty-state-title">Couldn't load your dashboard</div><button className="btn btn-secondary" onClick={() => refetch()}>Try again</button></div>;
+  if (isPending) return <div style={{ display: 'flex', justifyContent: 'center', paddingTop: 100 }}><div className="spinner" /></div>;
 
   const greeting = () => {
     const h = new Date().getHours();
@@ -103,7 +96,7 @@ export default function Dashboard() {
             stats.upcomingFollowUps.map(f => (
               <div key={f.id} className="followup-item">
                 <div>
-                  <div style={{ fontSize: 14, fontWeight: 600 }}>{f.company_name}</div>
+                  <Link to={`/applications/${f.id}`} style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-primary)' }}>{f.company_name}</Link>
                   <div style={{ fontSize: 12, color: 'var(--text-secondary)' }}>{f.role}</div>
                 </div>
                 <div className="followup-date">
@@ -123,7 +116,7 @@ export default function Dashboard() {
                 <div className="activity-dot" style={{ background: STATUS_COLORS[a.to_status] || '#6C5CE7' }} />
                 <div>
                   <div className="activity-text">
-                    <strong>{a.company_name}</strong> → <span className={`badge badge-${a.to_status}`} style={{ fontSize: 10, padding: '2px 8px' }}>{a.to_status}</span>
+                    <Link to={`/applications/${a.application_id}`} style={{ color: 'var(--text-primary)', fontWeight: 700 }}>{a.company_name}</Link> → <span className={`badge badge-${a.to_status}`} style={{ fontSize: 10, padding: '2px 8px' }}>{a.to_status}</span>
                   </div>
                   <div className="activity-time">
                     <Clock size={10} style={{ marginRight: 4, verticalAlign: 'middle' }} />

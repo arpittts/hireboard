@@ -133,19 +133,24 @@ applicationsRouter.put('/:id', async (req, res) => {
   const body = updateSchema.parse(req.body);
   const userId = userIdOf(req);
   const app = await withTransaction(async (client) => {
-    const existing = await client.query(
-      'SELECT status FROM applications WHERE id = $1 AND user_id = $2 FOR UPDATE',
+    const existing = await client.query<{ status: string; follow_up_date: string | null }>(
+      'SELECT status, follow_up_date FROM applications WHERE id = $1 AND user_id = $2 FOR UPDATE',
       [id, userId],
     );
     if (!existing.rows[0]) throw notFound('Application');
-    const oldStatus: string = existing.rows[0].status;
+    const oldStatus = existing.rows[0].status;
 
     // Only the fields sent in the body are changed.
     const sent = WRITABLE.filter((col) => body[col] !== undefined);
+    const assignments = sent.map((col, i) => `${col} = $${i + 2}`);
+    // A new follow-up date deserves a new reminder.
+    if (body.follow_up_date !== undefined && body.follow_up_date !== existing.rows[0].follow_up_date) {
+      assignments.push('reminder_sent = FALSE');
+    }
     const updated =
       sent.length > 0
         ? await client.query(
-            `UPDATE applications SET ${sent.map((col, i) => `${col} = $${i + 2}`).join(', ')}
+            `UPDATE applications SET ${assignments.join(', ')}
              WHERE id = $1 RETURNING *`,
             [id, ...sent.map((col) => body[col])],
           )

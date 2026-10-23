@@ -2,14 +2,15 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/auth';
 import { errorMessage } from '../services/api';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Sparkles } from 'lucide-react';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
+  const { login, startDemo } = useAuth();
+  const [demoLoading, setDemoLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -23,6 +24,18 @@ export default function Login() {
       setError(errorMessage(err, 'Login failed'));
     } finally {
       setLoading(false);
+    }
+  };
+
+  const tryDemo = async () => {
+    setError('');
+    setDemoLoading(true);
+    try {
+      await startDemo();
+      navigate('/');
+    } catch (err) {
+      setError(errorMessage(err, 'Could not start the demo.'));
+      setDemoLoading(false);
     }
   };
 
@@ -52,6 +65,9 @@ export default function Login() {
             {loading ? <div className="spinner" style={{ width: 18, height: 18, borderWidth: 2 }} /> : <>Sign In <ArrowRight size={16} /></>}
           </button>
         </form>
+        <button type="button" className="btn btn-secondary btn-demo" onClick={tryDemo} disabled={demoLoading || loading}>
+          {demoLoading ? <div className="spinner" style={{ width: 18, height: 18, borderWidth: 2 }} /> : <><Sparkles size={16} /> Try the demo, no sign-up</>}
+        </button>
         <p style={{ textAlign: 'center', marginTop: 20, fontSize: 14, color: 'var(--text-secondary)' }}>
           Don't have an account? <Link to="/register" style={{ fontWeight: 600 }}>Sign up</Link>
         </p>

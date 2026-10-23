@@ -26,3 +26,6 @@ services:
         generateValue: true
       - key: DATABASE_URL
         sync: false
+      # Shared secret for the daily GitHub Actions job (copy it into the repo's Actions secrets).
+      - key: CRON_SECRET
+        generateValue: true

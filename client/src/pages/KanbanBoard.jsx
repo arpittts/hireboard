@@ -1,8 +1,10 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { Plus, MapPin, Calendar, ExternalLink, Star } from 'lucide-react';
-import api from '../services/api';
 import ApplicationModal from '../components/ApplicationModal';
+import StatusMenu from '../components/StatusMenu';
+import { useApplications, useMoveApplication, useSaveApplication } from '../services/queries';
 
 const COLUMNS = [
   { id: 'applied', title: 'Applied', color: '#0984e3', emoji: '📤' },
@@ -11,60 +13,36 @@ const COLUMNS = [
   { id: 'rejected', title: 'Rejected', color: '#e17055', emoji: '❌' },
 ];
 
+const formatDate = (d) => d ? new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' }) : '';
+
 export default function KanbanBoard() {
-  const [apps, setApps] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [editApp, setEditApp] = useState(null);
+  const navigate = useNavigate();
+  const { data: apps = [], isPending } = useApplications();
+  const move = useMoveApplication();
+  const save = useSaveApplication();
+  const [adding, setAdding] = useState(false);
 
-  const fetchApps = useCallback(() => {
-    return api.get('/applications')
-      .then(res => setApps(res.data))
-      .catch(err => console.error(err))
-      .finally(() => setLoading(false));
-  }, []);
-
-  useEffect(() => { fetchApps(); }, [fetchApps]);
-
-  const onDragEnd = async (result) => {
-    if (!result.destination) return;
-    const { draggableId, destination } = result;
-    const newStatus = destination.droppableId;
-    
-    // Optimistic update
-    setApps(prev => prev.map(a => a.id === draggableId ? { ...a, status: newStatus } : a));
-    
-    try {
-      await api.patch(`/applications/${draggableId}/status`, { status: newStatus });
-    } catch (err) {
-      console.error(err);
-      fetchApps(); // Revert on error
-    }
+  const onDragEnd = ({ draggableId, destination, source }) => {
+    if (!destination || destination.droppableId === source.droppableId) return;
+    move.mutate({ id: draggableId, status: destination.droppableId });
   };
 
-  const handleSave = async (formData) => {
-    if (editApp) {
-      await api.put(`/applications/${editApp.id}`, formData);
-    } else {
-      await api.post('/applications', formData);
-    }
-    fetchApps();
-  };
+  const columnApps = (status) => apps.filter(a => a.status === status);
+  const otherCount = apps.filter(a => !COLUMNS.some(c => c.id === a.status)).length;
 
-  const getColumnApps = (status) => apps.filter(a => a.status === status);
-
-  const formatDate = (d) => d ? new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' }) : '';
-
-  if (loading) return <div style={{ display: 'flex', justifyContent: 'center', paddingTop: 100 }}><div className="spinner" /></div>;
+  if (isPending) return <div style={{ display: 'flex', justifyContent: 'center', paddingTop: 100 }}><div className="spinner" /></div>;
 
   return (
     <div>
       <div className="page-header">
         <div>
           <h1 className="page-title">Kanban Board</h1>
-          <p className="page-subtitle">Drag and drop to update application status</p>
+          <p className="page-subtitle">
+            Drag cards between columns, or use the status menu on each card.
+            {otherCount > 0 && ` ${otherCount} wishlist, accepted or withdrawn application${otherCount === 1 ? '' : 's'} are in Applications.`}
+          </p>
         </div>
-        <button className="btn btn-primary" onClick={() => { setEditApp(null); setModalOpen(true); }}>
+        <button className="btn btn-primary" onClick={() => setAdding(true)}>
           <Plus size={16} /> Add Application
         </button>
       </div>
@@ -77,16 +55,12 @@ export default function KanbanBoard() {
                 <div className="kanban-column-title" style={{ color: col.color }}>
                   <span>{col.emoji}</span> {col.title}
                 </div>
-                <span className="kanban-column-count">{getColumnApps(col.id).length}</span>
+                <span className="kanban-column-count">{columnApps(col.id).length}</span>
               </div>
               <Droppable droppableId={col.id}>
                 {(provided, snapshot) => (
-                  <div
-                    ref={provided.innerRef}
-                    {...provided.droppableProps}
-                    className={`kanban-cards ${snapshot.isDraggingOver ? 'drag-over' : ''}`}
-                  >
-                    {getColumnApps(col.id).map((app, index) => (
+                  <div ref={provided.innerRef} {...provided.droppableProps} className={`kanban-cards ${snapshot.isDraggingOver ? 'drag-over' : ''}`}>
+                    {columnApps(col.id).map((app, index) => (
                       <Draggable key={app.id} draggableId={app.id} index={index}>
                         {(prov, snap) => (
                           <div
@@ -94,34 +68,34 @@ export default function KanbanBoard() {
                             {...prov.draggableProps}
                             {...prov.dragHandleProps}
                             className="kanban-card"
+                            aria-label={`${app.company_name}, ${app.role}`}
                             style={{ ...prov.draggableProps.style, opacity: snap.isDragging ? 0.8 : 1 }}
-                            onClick={() => { setEditApp(app); setModalOpen(true); }}
+                            onClick={() => navigate(`/applications/${app.id}`)}
                           >
                             <div className="kanban-card-company">{app.company_name}</div>
                             <div className="kanban-card-role">{app.role}</div>
                             <div className="kanban-card-meta">
-                              <span className={`badge badge-${app.type === 'internship' ? 'interview' : 'applied'}`} style={{ fontSize: 10 }}>
-                                {app.type}
-                              </span>
-                              {app.priority === 'high' && <Star size={12} className="priority-high" fill="currentColor" />}
+                              <span className={`badge badge-${app.type === 'internship' ? 'interview' : 'applied'}`} style={{ fontSize: 10 }}>{app.type}</span>
+                              {app.priority === 'high' && <Star size={12} className="priority-high" fill="currentColor" aria-label="High priority" />}
                               {app.location && <span style={{ fontSize: 11, color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 3 }}><MapPin size={10} />{app.location}</span>}
                             </div>
-                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 8 }}>
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 8, gap: 8 }}>
                               <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>
                                 <Calendar size={10} style={{ marginRight: 4, verticalAlign: 'middle' }} />
                                 {formatDate(app.application_date)}
                               </span>
-                              {app.url && <a href={app.url} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}><ExternalLink size={12} /></a>}
+                              <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                                {app.url && <a href={app.url} target="_blank" rel="noopener noreferrer" aria-label="Open job posting" onClick={e => e.stopPropagation()}><ExternalLink size={12} /></a>}
+                                <StatusMenu application={app} compact />
+                              </span>
                             </div>
                           </div>
                         )}
                       </Draggable>
                     ))}
                     {provided.placeholder}
-                    {getColumnApps(col.id).length === 0 && (
-                      <div style={{ textAlign: 'center', padding: 20, color: 'var(--text-muted)', fontSize: 13 }}>
-                        Drop here
-                      </div>
+                    {columnApps(col.id).length === 0 && (
+                      <div style={{ textAlign: 'center', padding: 20, color: 'var(--text-muted)', fontSize: 13 }}>Drop here</div>
                     )}
                   </div>
                 )}
@@ -131,8 +105,8 @@ export default function KanbanBoard() {
         </div>
       </DragDropContext>
 
-      {modalOpen && (
-        <ApplicationModal key={editApp?.id ?? 'new'} onClose={() => { setModalOpen(false); setEditApp(null); }} onSave={handleSave} application={editApp} />
+      {adding && (
+        <ApplicationModal onClose={() => setAdding(false)} onSave={(form) => save.mutateAsync({ data: form })} application={null} />
       )}
     </div>
   );

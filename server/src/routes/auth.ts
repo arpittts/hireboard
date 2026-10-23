@@ -1,9 +1,11 @@
 import { Router } from 'express';
+import crypto from 'node:crypto';
 import bcrypt from 'bcryptjs';
 import { z } from 'zod';
-import { pool } from '../db/pool.js';
+import { pool, withTransaction } from '../db/pool.js';
 import { requireAuth, signToken, userIdOf } from '../middleware/auth.js';
 import { AppError, notFound } from '../middleware/errors.js';
+import { seedDemoData } from '../services/demoSeed.js';
 import type { RequestHandler } from 'express';
 
 const AVATAR_COLORS = ['#6C5CE7', '#00B894', '#E17055', '#0984E3', '#E84393', '#00CEC9', '#FDCB6E'];
@@ -25,13 +27,19 @@ const profileSchema = z
   .object({ name: z.string().trim().min(1).max(255).optional(), email: email.optional() })
   .refine((body) => body.name || body.email, { message: 'Nothing to update.' });
 
+const deleteAccountSchema = z.object({ password: z.string().optional() });
+
 interface UserRow {
   id: string;
   name: string;
   email: string;
   avatar_color: string;
   created_at: string;
+  is_demo: boolean;
+  reminders_enabled: boolean;
 }
+
+export const USER_COLUMNS = 'id, name, email, avatar_color, created_at, is_demo, reminders_enabled';
 
 // The shape the client stores (camelCase, never the password hash).
 const toPublicUser = (u: UserRow) => ({
@@ -40,11 +48,14 @@ const toPublicUser = (u: UserRow) => ({
   email: u.email,
   avatarColor: u.avatar_color,
   createdAt: u.created_at,
+  isDemo: u.is_demo,
+  remindersEnabled: u.reminders_enabled,
 });
 
 interface AuthLimiters {
   login: RequestHandler;
   register: RequestHandler;
+  demo: RequestHandler;
 }
 
 export function authRouter(limiters: AuthLimiters) {
@@ -57,7 +68,7 @@ export function authRouter(limiters: AuthLimiters) {
     try {
       const result = await pool.query<UserRow>(
         `INSERT INTO users (name, email, password_hash, avatar_color) VALUES ($1, $2, $3, $4)
-         RETURNING id, name, email, avatar_color, created_at`,
+         RETURNING ${USER_COLUMNS}`,
         [body.name, body.email, passwordHash, avatarColor],
       );
       const user = result.rows[0];
@@ -73,7 +84,7 @@ export function authRouter(limiters: AuthLimiters) {
   router.post('/login', limiters.login, async (req, res) => {
     const body = loginSchema.parse(req.body);
     const result = await pool.query<UserRow & { password_hash: string }>(
-      'SELECT id, name, email, password_hash, avatar_color, created_at FROM users WHERE email = $1',
+      `SELECT ${USER_COLUMNS}, password_hash FROM users WHERE email = $1 AND NOT is_demo`,
       [body.email],
     );
     const user = result.rows[0];
@@ -86,7 +97,7 @@ export function authRouter(limiters: AuthLimiters) {
 
   router.get('/me', requireAuth, async (req, res) => {
     const result = await pool.query<UserRow>(
-      'SELECT id, name, email, avatar_color, created_at FROM users WHERE id = $1',
+      `SELECT ${USER_COLUMNS} FROM users WHERE id = $1`,
       [userIdOf(req)],
     );
     if (!result.rows[0]) throw notFound('User');
@@ -98,7 +109,7 @@ export function authRouter(limiters: AuthLimiters) {
     try {
       const result = await pool.query<UserRow>(
         `UPDATE users SET name = COALESCE($1, name), email = COALESCE($2, email) WHERE id = $3
-         RETURNING id, name, email, avatar_color, created_at`,
+         RETURNING ${USER_COLUMNS}`,
         [body.name ?? null, body.email ?? null, userIdOf(req)],
       );
       if (!result.rows[0]) throw notFound('User');
@@ -107,6 +118,39 @@ export function authRouter(limiters: AuthLimiters) {
       if ((err as { code?: string }).code === '23505') throw new AppError(409, 'CONFLICT', 'Email already in use.');
       throw err;
     }
+  });
+
+  // "Try the demo": a fresh account filled with synthetic applications.
+  // Nobody can log in to it with a password; it is deleted after 24 hours.
+  router.post('/demo', limiters.demo, async (_req, res) => {
+    const unusablePassword = await bcrypt.hash(crypto.randomBytes(32).toString('hex'), 4);
+    const user = await withTransaction(async (client) => {
+      const created = await client.query<UserRow>(
+        `INSERT INTO users (name, email, password_hash, avatar_color, is_demo)
+         VALUES ('Demo User', $1, $2, '#6C5CE7', TRUE) RETURNING ${USER_COLUMNS}`,
+        [`demo-${crypto.randomUUID()}@demo.invalid`, unusablePassword],
+      );
+      await seedDemoData(client, created.rows[0].id);
+      return created.rows[0];
+    });
+    res.status(201).json({ message: 'Demo account ready.', token: signToken(user), user: toPublicUser(user) });
+  });
+
+  // Deletes the user and, through ON DELETE CASCADE, every application and history row.
+  // Real accounts must confirm with their password.
+  router.delete('/account', requireAuth, async (req, res) => {
+    const { password } = deleteAccountSchema.parse(req.body ?? {});
+    const result = await pool.query<{ is_demo: boolean; password_hash: string }>(
+      'SELECT is_demo, password_hash FROM users WHERE id = $1',
+      [userIdOf(req)],
+    );
+    const user = result.rows[0];
+    if (!user) throw notFound('User');
+    if (!user.is_demo && !(password && (await bcrypt.compare(password, user.password_hash)))) {
+      throw new AppError(403, 'WRONG_PASSWORD', 'Enter your current password to delete your account.');
+    }
+    await pool.query('DELETE FROM users WHERE id = $1', [userIdOf(req)]);
+    res.json({ message: 'Your account and all its data were deleted.' });
   });
 
   return router;

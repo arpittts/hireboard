@@ -371,3 +371,30 @@ input::placeholder, textarea::placeholder { color: var(--text-muted); }
 .activity-time { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
 
 select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 36px; }
+
+/* ===== Phase 1 additions ===== */
+.wake-banner {
+  position: fixed; top: 16px; left: 50%; transform: translateX(-50%); z-index: 200;
+  display: flex; align-items: center; gap: 10px; padding: 10px 16px;
+  background: var(--bg-card); border: 1px solid var(--border-hover); border-radius: var(--radius-sm);
+  color: var(--text-primary); font-size: 13px; box-shadow: var(--shadow);
+}
+.demo-banner {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  margin-bottom: 20px; padding: 12px 16px; border-radius: var(--radius-sm);
+  background: var(--blue-bg); border: 1px solid rgba(9, 132, 227, 0.35); font-size: 13px;
+}
+.status-select { width: auto; padding: 6px 32px 6px 10px; font-size: 13px; background-position: right 10px center; }
+.status-select-compact { padding: 2px 22px 2px 8px; font-size: 11px; border-radius: 6px; background-position: right 6px center; }
+.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+.tab {
+  background: none; border: none; border-bottom: 2px solid transparent; color: var(--text-secondary);
+  padding: 10px 14px; font-size: 14px; font-weight: 600; cursor: pointer;
+}
+.tab[aria-selected='true'] { color: var(--text-primary); border-bottom-color: var(--accent); }
+.settings-section { margin-bottom: 20px; }
+.settings-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.switch { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; font-size: 14px; }
+.switch input { width: 18px; height: 18px; accent-color: var(--accent); }
+.link-button { background: none; border: none; color: var(--accent-light); cursor: pointer; font-weight: 600; padding: 0; font-size: inherit; }
+.btn-demo { width: 100%; justify-content: center; margin-top: 12px; }

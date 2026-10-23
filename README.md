@@ -2,7 +2,7 @@
 
 > A premium personal job & internship application tracker with Kanban board, analytics dashboard, and email reminders.
 
-**Live demo:** https://hireboard-mu.vercel.app (the free backend sleeps when idle, so the first request can take up to a minute)
+**Live demo:** https://hireboard-mu.vercel.app. Click **Try the demo** for a ready-made account with sample data, no sign-up. The free backend sleeps when idle, so the first request can take up to a minute.
 
 ![HireBoard](https://img.shields.io/badge/HireBoard-v1.0.0-6C5CE7?style=for-the-badge)
 ![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react)
@@ -18,20 +18,23 @@
 - 📇 **Contact Manager** — store recruiter name, email, phone, LinkedIn per application
 - 📜 **Status History** — every stage change tracked with timestamps & notes
 - 📊 **Dashboard Analytics** — response rate, rejection rate, monthly bar chart, status pie chart, activity feed
-- 📅 **Follow-up Reminders** — set dates and get email reminders automatically (via cron)
+- 📅 **Follow-up Reminders** — opt-in emails on follow-up dates, sent by a daily GitHub Actions job
 - 🔍 **Search & Filter** — filter by status, type, priority; search by company or role
+- ✨ **One-click demo** — a fresh account with 12 synthetic applications, deleted after 24 hours
+- ⌨️ **Keyboard friendly** — every Kanban card has a status menu as well as drag and drop
+- 🔒 **Your data, your call** — export everything as JSON or delete your account in Settings
 
 ## 🛠️ Tech Stack
 
 | Layer | Technology |
 |---|---|
-| Frontend | React 19, Vite, React Router 7, Recharts, @hello-pangea/dnd |
+| Frontend | React 19, Vite, React Router 7, TanStack Query, Recharts, @hello-pangea/dnd |
 | Backend | Node.js 22, Express 5, TypeScript (ES modules), Zod validation |
 | Database | PostgreSQL 17, plain SQL migrations |
 | Auth | JWT (jsonwebtoken) + bcryptjs, rate-limited login |
 | Security | helmet headers, CORS allow-list, one JSON error format |
 | Tests & CI | Vitest + Supertest against a real Postgres; GitHub Actions |
-| Email | Nodemailer + node-cron |
+| Email | Nodemailer, triggered daily by GitHub Actions |
 | Deploy | Vercel (frontend) + Render (backend) + Neon (Postgres) |
 
 ## 🚀 Local Setup
@@ -96,13 +99,14 @@ hireboard/
 │   │   ├── db/migrate.ts        # Migration runner
 │   │   ├── middleware/          # auth, errors, rate limits
 │   │   ├── routes/              # auth, applications, dashboard
-│   │   └── services/            # email reminders
+│   │   └── services/            # demo data, email reminders
 │   └── tests/                   # Vitest + Supertest
 ├── client/                      # React + Vite SPA
 │   └── src/{context,services,components,pages}/
 ├── docker-compose.yml           # Local Postgres
 ├── render.yaml                  # Render deploy
-└── .github/workflows/ci.yml     # Typecheck, tests, lint, build
+├── .github/workflows/ci.yml     # Typecheck, tests, lint, build
+└── .github/workflows/cron.yml   # Daily reminders + demo cleanup
 ```
 
 ## 🔧 Environment Variables
@@ -115,6 +119,7 @@ JWT_EXPIRES_IN=7d
 PORT=5001
 CLIENT_URL=http://localhost:5173
 AUTH_RATE_LIMIT=10          # failed logins/registrations per IP per 15 minutes
+CRON_SECRET=any-long-random-string   # enables /api/internal/* for the daily job
 
 # Optional email reminders
 SMTP_HOST=smtp.gmail.com
@@ -143,9 +148,20 @@ All three pieces run on free plans:
 - **Backend** → [Render](https://render.com) web service from `render.yaml` (New → Blueprint, pick this repo). It builds the TypeScript (`npm ci --include=dev && npm run build`), runs the migrations, then starts the API. Paste the Neon connection string as `DATABASE_URL`; `JWT_SECRET` is generated for you and `CLIENT_URL` is set to the Vercel site. Check it with `GET https://<your-service>.onrender.com/api/health`.
 - **Frontend** → [Vercel](https://vercel.com) with root directory `client`. Set `VITE_API_URL` to `https://<your-service>.onrender.com/api` and redeploy.
 
-Notes:
-- Render's free service sleeps after 15 minutes without traffic, so the first request after a pause takes about a minute.
-- Email reminders run from a daily cron inside the server, so they only fire if the service is awake at 9:00. To use them, add the `SMTP_*` and `EMAIL_FROM` variables in Render's Environment tab.
+### Daily jobs (reminders and demo cleanup)
+
+The free Render server sleeps, so it can't run its own timer. Instead, `.github/workflows/cron.yml` runs every day at 09:00 India time and calls two protected endpoints:
+
+- `POST /api/internal/reminders` emails users who turned reminders on in Settings, for follow-up dates in the last 3 days (at most 5 per user; demo accounts never get email).
+- `POST /api/internal/cleanup` deletes demo accounts older than 24 hours.
+
+Setup:
+1. Render generates `CRON_SECRET` (from `render.yaml`). Copy it from the service's **Environment** tab.
+2. In GitHub → **Settings → Secrets and variables → Actions**, add `CRON_SECRET` (that value) and `API_URL` (`https://<your-service>.onrender.com`).
+3. For email, add `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` and `EMAIL_FROM` in Render (a Gmail app password works).
+4. Run it once by hand: GitHub → **Actions → Daily jobs → Run workflow**.
+
+Note: Render's free service sleeps after 15 minutes without traffic, so the first request after a pause takes about a minute. The app shows a "waking the free server" banner meanwhile.
 
 ## 📄 License
 

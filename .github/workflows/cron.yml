@@ -1,0 +1,34 @@
+name: Daily jobs
+
+# Sends follow-up reminders and deletes expired demo accounts.
+# The free Render server sleeps, so this job wakes it once a day.
+on:
+  schedule:
+    - cron: '30 3 * * *' # 03:30 UTC = 09:00 India time
+  workflow_dispatch: # lets you run it by hand from the Actions tab
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      API_URL: ${{ secrets.API_URL }}
+      CRON_SECRET: ${{ secrets.CRON_SECRET }}
+    steps:
+      - name: Check secrets
+        run: |
+          if [ -z "$API_URL" ] || [ -z "$CRON_SECRET" ]; then
+            echo "Set the API_URL and CRON_SECRET repository secrets first."
+            exit 1
+          fi
+
+      # The first request can take about a minute while the server wakes up.
+      - name: Send reminders
+        run: |
+          curl --fail-with-body --silent --show-error --retry 3 --retry-all-errors --retry-delay 20 --max-time 120 \
+            -X POST -H "X-Cron-Secret: $CRON_SECRET" "$API_URL/api/internal/reminders"
+
+      - name: Delete expired demo accounts
+        run: |
+          curl --fail-with-body --silent --show-error --retry 3 --retry-all-errors --retry-delay 20 --max-time 120 \
+            -X POST -H "X-Cron-Secret: $CRON_SECRET" "$API_URL/api/internal/cleanup"
