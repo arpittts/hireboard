@@ -27,7 +27,7 @@
 | Database | PostgreSQL 17 |
 | Auth | JWT (jsonwebtoken) + bcryptjs |
 | Email | Nodemailer + node-cron |
-| Deploy | Vercel (frontend) + Railway (backend + DB) |
+| Deploy | Vercel (frontend) + Render (backend) + Neon (Postgres) |
 
 ## 🚀 Local Setup
 
@@ -120,8 +120,15 @@ SMTP_PASS=your-app-password
 
 ## 🚢 Deployment
 
-- **Frontend** → [Vercel](https://vercel.com) (set `VITE_API_URL` to your Railway URL)
-- **Backend + DB** → [Railway](https://railway.app) (add `DATABASE_URL` from Railway PostgreSQL)
+All three pieces run on free plans:
+
+- **Database** → [Neon](https://neon.tech) Postgres. Create a project, then paste `server/config/schema.sql` into the Neon SQL Editor and run it.
+- **Backend** → [Render](https://render.com) web service from `render.yaml` (New → Blueprint, pick this repo). Paste the Neon connection string as `DATABASE_URL`; `JWT_SECRET` is generated for you and `CLIENT_URL` is set to the Vercel site. Check it with `GET https://<your-service>.onrender.com/api/health`.
+- **Frontend** → [Vercel](https://vercel.com) with root directory `client`. Set `VITE_API_URL` to `https://<your-service>.onrender.com/api` and redeploy.
+
+Notes:
+- Render's free service sleeps after 15 minutes without traffic, so the first request after a pause takes about a minute.
+- Email reminders run from a daily cron inside the server, so they only fire if the service is awake at 9:00. To use them, add the `SMTP_*` and `EMAIL_FROM` variables in Render's Environment tab.
 
 ## 📄 License
 
