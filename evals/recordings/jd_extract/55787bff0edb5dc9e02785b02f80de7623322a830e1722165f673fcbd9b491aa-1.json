@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"company_name\": \"Marigold Commerce\",\n  \"role\": \"Product Design Intern\",\n  \"location\": \"Delhi\",\n  \"work_mode\": \"hybrid\",\n  \"type\": \"internship\",\n  \"salary\": {\n    \"raw\": \"₹25,000 stipend per month\",\n    \"min\": 25000,\n    \"max\": 25000,\n    \"currency\": \"INR\",\n    \"period\": \"month\"\n  },\n  \"deadline\": \"2026-12-02\",\n  \"url\": null,\n  \"requirements\": [\n    {\n      \"text\": \"Portfolio required\",\n      \"kind\": \"must\",\n      \"skills\": []\n    },\n    {\n      \"text\": \"Familiarity with Figma auto-layout\",\n      \"kind\": \"nice\",\n      \"skills\": [\n        \"Figma\"\n      ]\n    },\n    {\n      \"text\": \"Basic HTML/CSS knowledge\",\n      \"kind\": \"nice\",\n      \"skills\": [\n        \"HTML\",\n        \"CSS\"\n      ]\n    }\n  ],\n  \"confidence\": {\n    \"company_name\": \"high\",\n    \"role\": \"high\",\n    \"location\": \"high\",\n    \"type\": \"high\",\n    \"salary\": \"high\",\n    \"deadline\": \"high\"\n  }\n}",
+  "inputTokens": 747,
+  "outputTokens": 328
+}

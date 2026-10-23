@@ -14,6 +14,14 @@ const envSchema = z.object({
   AUTH_RATE_LIMIT: z.coerce.number().int().positive().default(10),
   // Shared with the GitHub Actions schedule; the /api/internal routes are off without it.
   CRON_SECRET: z.string().min(16).optional(),
+  // AI (Phase 2). Without GEMINI_API_KEY the AI routes answer 503 and the rest of the app works.
+  GEMINI_API_KEY: z.string().optional(),
+  LLM_MODEL: z.string().default('gemini-3.5-flash-lite'),
+  // live: call the model. record: call it and save replies to evals/recordings.
+  // replay: answer only from those recordings (tests, CI, evals); no network.
+  AI_MODE: z.enum(['live', 'record', 'replay']).default('live'),
+  // Model calls allowed per day across all users, kept under the free-tier limit.
+  AI_GLOBAL_DAILY_LIMIT: z.coerce.number().int().positive().default(300),
   SMTP_HOST: z.string().optional(),
   SMTP_PORT: z.coerce.number().int().positive().default(587),
   SMTP_USER: z.string().optional(),

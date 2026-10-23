@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"company_name\": \"Latticeworks GmbH\",\n  \"role\": \"Backend Engineer (Python)\",\n  \"location\": null,\n  \"work_mode\": \"remote\",\n  \"type\": \"job\",\n  \"salary\": {\n    \"raw\": \"€65,000–€80,000 per year\",\n    \"min\": 65000,\n    \"max\": 80000,\n    \"currency\": \"EUR\",\n    \"period\": \"year\"\n  },\n  \"deadline\": null,\n  \"url\": null,\n  \"requirements\": [\n    {\n      \"text\": \"3+ years experience with Django or FastAPI\",\n      \"kind\": \"must\",\n      \"skills\": [\n        \"Django\",\n        \"FastAPI\"\n      ]\n    },\n    {\n      \"text\": \"Write well-tested code\",\n      \"kind\": \"must\",\n      \"skills\": []\n    },\n    {\n      \"text\": \"German language proficiency\",\n      \"kind\": \"nice\",\n      \"skills\": [\n        \"German\"\n      ]\n    }\n  ],\n  \"confidence\": {\n    \"company_name\": \"high\",\n    \"role\": \"high\",\n    \"location\": \"high\",\n    \"type\": \"high\",\n    \"salary\": \"high\",\n    \"deadline\": \"high\"\n  }\n}",
+  "inputTokens": 772,
+  "outputTokens": 328
+}

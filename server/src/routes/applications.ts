@@ -37,6 +37,20 @@ const fields = {
   contact_email: optionalText(255),
   contact_phone: optionalText(50),
   contact_linkedin: optionalText(500),
+  job_description: optionalText(20_000),
+  // What the AI extracted when the application was created from a job description.
+  jd_extraction: z
+    .object({
+      requirements: z
+        .array(z.object({ text: z.string().max(500), kind: z.enum(['must', 'nice']), skills: z.array(z.string().max(80)).max(20) }))
+        .max(20),
+      model: z.string().max(60),
+      promptVersion: z.string().max(40),
+      warnings: z.array(z.string().max(500)).max(20).default([]),
+    })
+    .nullish()
+    .transform((v) => v ?? null),
+  source: z.enum(['manual', 'jd_paste', 'extension', 'copilot']),
 };
 
 const createSchema = z.object({
@@ -44,6 +58,7 @@ const createSchema = z.object({
   type: fields.type.default('job'),
   status: fields.status.default('applied'),
   priority: fields.priority.default('medium'),
+  source: fields.source.default('manual'),
   application_date: z
     .union([fields.application_date, z.literal('')])
     .optional()
@@ -76,6 +91,7 @@ const idParams = z.object({ id: z.uuid('Invalid application id.') });
 const WRITABLE = [
   'company_name', 'role', 'type', 'status', 'application_date', 'deadline', 'url', 'location', 'salary',
   'notes', 'contact_name', 'contact_email', 'contact_phone', 'contact_linkedin', 'follow_up_date', 'priority',
+  'job_description', 'jd_extraction', 'source',
 ] as const;
 
 export const applicationsRouter = Router();

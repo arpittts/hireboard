@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"company_name\": \"Crestline Advisory\",\n  \"role\": \"Business Analyst Intern\",\n  \"location\": \"Mumbai\",\n  \"work_mode\": \"onsite\",\n  \"type\": \"internship\",\n  \"salary\": {\n    \"raw\": \"15,000 INR / month\",\n    \"min\": 15000,\n    \"max\": 15000,\n    \"currency\": \"INR\",\n    \"period\": \"month\"\n  },\n  \"deadline\": \"2026-11-14\",\n  \"url\": null,\n  \"requirements\": [\n    {\n      \"text\": \"Knowledge of Excel including pivot tables and VLOOKUP\",\n      \"kind\": \"must\",\n      \"skills\": [\n        \"Excel\",\n        \"pivot tables\",\n        \"VLOOKUP\"\n      ]\n    },\n    {\n      \"text\": \"Knowledge of PowerPoint\",\n      \"kind\": \"must\",\n      \"skills\": [\n        \"PowerPoint\"\n      ]\n    },\n    {\n      \"text\": \"SQL basics preferred\",\n      \"kind\": \"nice\",\n      \"skills\": [\n        \"SQL\"\n      ]\n    }\n  ],\n  \"confidence\": {\n    \"company_name\": \"high\",\n    \"role\": \"high\",\n    \"location\": \"high\",\n    \"type\": \"high\",\n    \"salary\": \"high\",\n    \"deadline\": \"high\"\n  }\n}",
+  "inputTokens": 761,
+  "outputTokens": 346
+}

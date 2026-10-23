@@ -29,3 +29,10 @@ services:
       # Shared secret for the daily GitHub Actions job (copy it into the repo's Actions secrets).
       - key: CRON_SECRET
         generateValue: true
+      # AI (Gemini free tier). Paste the key in Render's Environment tab.
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: LLM_MODEL
+        value: gemini-3.5-flash-lite
+      - key: AI_GLOBAL_DAILY_LIMIT
+        value: "300"

@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"company_name\": null,\n  \"role\": \"Senior Backend Engineer\",\n  \"location\": \"Gurugram\",\n  \"work_mode\": \"hybrid\",\n  \"type\": \"job\",\n  \"salary\": {\n    \"raw\": \"35-45 LPA + ESOPs\",\n    \"min\": 3500000,\n    \"max\": 4500000,\n    \"currency\": \"INR\",\n    \"period\": \"year\"\n  },\n  \"deadline\": null,\n  \"url\": null,\n  \"requirements\": [\n    {\n      \"text\": \"5+ years building distributed systems\",\n      \"kind\": \"must\",\n      \"skills\": []\n    },\n    {\n      \"text\": \"Go in production, gRPC, PostgreSQL\",\n      \"kind\": \"must\",\n      \"skills\": [\n        \"Go\",\n        \"gRPC\",\n        \"PostgreSQL\"\n      ]\n    },\n    {\n      \"text\": \"Experience with event-driven architecture (Kafka/NATS)\",\n      \"kind\": \"must\",\n      \"skills\": [\n        \"Kafka\",\n        \"NATS\"\n      ]\n    }\n  ],\n  \"confidence\": {\n    \"company_name\": \"high\",\n    \"role\": \"high\",\n    \"location\": \"high\",\n    \"type\": \"high\",\n    \"salary\": \"high\",\n    \"deadline\": \"high\"\n  }\n}",
+  "inputTokens": 758,
+  "outputTokens": 342
+}

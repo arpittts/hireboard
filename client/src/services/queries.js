@@ -118,3 +118,21 @@ export function useUpdateSettings() {
     onError: (err) => toast.error(errorMessage(err, 'Could not save the setting.')),
   });
 }
+
+// --- AI ----------------------------------------------------------------------
+
+export function useAiUsage() {
+  return useQuery({
+    queryKey: ['ai-usage'],
+    queryFn: async () => (await api.get('/ai/usage')).data,
+  });
+}
+
+// Job description text → suggested form fields. Errors are shown in the form.
+export function useExtractJobDescription() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (text) => (await api.post('/ai/jd/extract', { text })).data,
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ['ai-usage'] }),
+  });
+}

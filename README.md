@@ -19,6 +19,7 @@
 - 📜 **Status History** — every stage change tracked with timestamps & notes
 - 📊 **Dashboard Analytics** — response rate, rejection rate, monthly bar chart, status pie chart, activity feed
 - 📅 **Follow-up Reminders** — opt-in emails on follow-up dates, sent by a daily GitHub Actions job
+- 🤖 **Paste a job description** — AI fills company, role, location, pay, deadline and requirements; you check before saving
 - 🔍 **Search & Filter** — filter by status, type, priority; search by company or role
 - ✨ **One-click demo** — a fresh account with 12 synthetic applications, deleted after 24 hours
 - ⌨️ **Keyboard friendly** — every Kanban card has a status menu as well as drag and drop
@@ -34,6 +35,7 @@
 | Auth | JWT (jsonwebtoken) + bcryptjs, rate-limited login |
 | Security | helmet headers, CORS allow-list, one JSON error format |
 | Tests & CI | Vitest + Supertest against a real Postgres; GitHub Actions |
+| AI | Vercel AI SDK + Gemini (free tier), Zod-validated structured output |
 | Email | Nodemailer, triggered daily by GitHub Actions |
 | Deploy | Vercel (frontend) + Render (backend) + Neon (Postgres) |
 
@@ -91,6 +93,8 @@ The tests use the `hireboard_test` database and cover every API route, including
 hireboard/
 ├── server/                      # Express API (TypeScript)
 │   ├── migrations/              # 0001_baseline.sql, ... applied in order
+│   ├── prompts/                 # versioned prompt files
+│   ├── scripts/eval-jd.ts       # JD extraction eval
 │   ├── src/
 │   │   ├── index.ts             # Starts the server
 │   │   ├── app.ts               # Builds the Express app (also used by tests)
@@ -98,11 +102,13 @@ hireboard/
 │   │   ├── db/pool.ts           # Postgres pool + transaction helper
 │   │   ├── db/migrate.ts        # Migration runner
 │   │   ├── middleware/          # auth, errors, rate limits
-│   │   ├── routes/              # auth, applications, dashboard
+│   │   ├── ai/                  # provider, runStructured, JD extraction
+│   │   ├── routes/              # auth, applications, dashboard, ai, settings, internal
 │   │   └── services/            # demo data, email reminders
 │   └── tests/                   # Vitest + Supertest
 ├── client/                      # React + Vite SPA
 │   └── src/{context,services,components,pages}/
+├── evals/                       # datasets, recorded model replies, reports
 ├── docker-compose.yml           # Local Postgres
 ├── render.yaml                  # Render deploy
 ├── .github/workflows/ci.yml     # Typecheck, tests, lint, build
@@ -130,6 +136,37 @@ SMTP_PASS=your-app-password
 
 The server checks these at startup and stops with a clear message if `DATABASE_URL` or `JWT_SECRET` is missing.
 
+## 🤖 AI Layer
+
+Every AI feature goes through one function, `runStructured()` in `server/src/ai/run.ts`. It:
+
+1. **Answers repeated inputs from a cache** (`llm_cache`, keyed by a hash of feature + model + prompt version + input), for free and instantly.
+2. **Enforces daily quotas:** 40 requests per user (15 for demo accounts) and `AI_GLOBAL_DAILY_LIMIT` across everyone. Cached answers don't count, and limits reset at midnight India time.
+3. **Calls the model with a Zod schema.** If the reply doesn't fit, it retries once and tells the model what was wrong.
+4. **Logs every call** to `llm_calls` (tokens, latency, status), which feeds the usage card in Settings.
+
+Prompts are versioned files in `server/prompts/` (for example `jd_extract.v1.md`); the version is saved with every result.
+
+**Job description capture** (`server/src/ai/jdExtract.ts`): the model fills the schema, then code checks what models get wrong:
+- Links not present in the posting are dropped.
+- Impossible or very old deadlines are dropped.
+- Salary ranges with min above max are cleared.
+- A company name the posting never mentions is flagged.
+
+The posting is passed as delimited data, the prompt tells the model to ignore instructions inside it, and extraction calls have no tools.
+
+### Evaluation
+
+`evals/datasets/jd_extraction.json` has 40 synthetic postings with hand-written labels: Indian LPA and monthly stipends, USD/GBP/EUR/CHF/SGD pay, remote, hybrid and on-site jobs, agency postings that hide the employer, and 5 postings with prompt-injection text.
+
+```bash
+cd server
+npm run eval:jd          # replays recorded model replies: offline, free, repeatable
+npm run eval:jd:record   # calls Gemini and saves new recordings (needs GEMINI_API_KEY)
+```
+
+The latest results are in `evals/reports/jd_extract.md`. The target is ≥ 90% field accuracy, with no injected instruction followed.
+
 ## 🧭 API Errors
 
 Every error has the same shape, so the frontend can show it:
@@ -138,7 +175,7 @@ Every error has the same shape, so the frontend can show it:
 { "error": { "code": "VALIDATION", "message": "Some fields are invalid.", "fields": { "role": "Role is required." } } }
 ```
 
-Codes: `VALIDATION` and `BAD_JSON` (400), `UNAUTHORIZED` and `INVALID_CREDENTIALS` (401), `CORS` (403), `NOT_FOUND` (404, also for another user's data), `CONFLICT` (409), `RATE_LIMITED` (429), `INTERNAL` (500).
+Codes: `VALIDATION` and `BAD_JSON` (400), `UNAUTHORIZED` and `INVALID_CREDENTIALS` (401), `CORS` (403), `NOT_FOUND` (404, also for another user's data), `CONFLICT` (409), `RATE_LIMITED` and `AI_QUOTA` (429), `INTERNAL` (500), and for AI calls `AI_ERROR`/`AI_BAD_OUTPUT` (502), `AI_DISABLED`/`AI_BUSY` (503), `AI_TIMEOUT` (504).
 
 ## 🚢 Deployment
 

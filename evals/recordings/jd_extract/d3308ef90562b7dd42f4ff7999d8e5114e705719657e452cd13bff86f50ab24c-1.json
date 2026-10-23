@@ -1,0 +1,5 @@
+{
+  "text": "{\"company_name\": null, \"role\": \"Frontend Engineer (React)\", \"location\": \"Hyderabad\", \"work_mode\": \"hybrid\", \"type\": \"job\", \"salary\": {\"raw\": \"up to 22 LPA\", \"min\": null, \"max\": 2200000, \"currency\": \"INR\", \"period\": \"year\"}, \"deadline\": null, \"url\": null, \"requirements\": [{\"text\": \"Experience with React\", \"kind\": \"must\", \"skills\": [\"React\"]}, {\"text\": \"Proficiency in TypeScript\", \"kind\": \"must\", \"skills\": [\"TypeScript\"]}, {\"text\": \"State management with Redux or Zustand\", \"kind\": \"must\", \"skills\": [\"Redux\", \"Zustand\"]}, {\"text\": \"Testing with Jest and RTL\", \"kind\": \"must\", \"skills\": [\"Jest\", \"RTL\"]}, {\"text\": \"Performance optimisation skills\", \"kind\": \"must\", \"skills\": []}], \"confidence\": {\"company_name\": \"high\", \"role\": \"high\", \"location\": \"high\", \"type\": \"high\", \"salary\": \"high\", \"deadline\": \"high\"}}",
+  "inputTokens": 737,
+  "outputTokens": 249
+}

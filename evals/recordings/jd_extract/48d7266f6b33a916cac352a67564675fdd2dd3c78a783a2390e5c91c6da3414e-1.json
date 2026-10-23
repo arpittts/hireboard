@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"company_name\": \"Quillstack\",\n  \"role\": \"Backend Developer Intern\",\n  \"location\": \"Gurugram\",\n  \"work_mode\": \"onsite\",\n  \"type\": \"internship\",\n  \"salary\": {\n    \"raw\": \"₹30k monthly stipend\",\n    \"min\": 30000,\n    \"max\": 30000,\n    \"currency\": \"INR\",\n    \"period\": \"month\"\n  },\n  \"deadline\": null,\n  \"url\": null,\n  \"requirements\": [\n    {\n      \"text\": \"Comfortable with JavaScript/TypeScript\",\n      \"kind\": \"must\",\n      \"skills\": [\n        \"JavaScript\",\n        \"TypeScript\"\n      ]\n    },\n    {\n      \"text\": \"Understands HTTP, REST and SQL basics\",\n      \"kind\": \"must\",\n      \"skills\": [\n        \"HTTP\",\n        \"REST\",\n        \"SQL\"\n      ]\n    },\n    {\n      \"text\": \"Curious, writes clear PR descriptions\",\n      \"kind\": \"must\",\n      \"skills\": []\n    }\n  ],\n  \"confidence\": {\n    \"company_name\": \"high\",\n    \"role\": \"high\",\n    \"location\": \"high\",\n    \"type\": \"high\",\n    \"salary\": \"high\",\n    \"deadline\": \"high\"\n  }\n}",
+  "inputTokens": 783,
+  "outputTokens": 332
+}
