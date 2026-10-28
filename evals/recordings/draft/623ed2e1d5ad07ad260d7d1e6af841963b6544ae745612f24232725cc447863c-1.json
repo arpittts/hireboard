@@ -1,0 +1,5 @@
+{
+  "text": "Hi hiring team,\n\nThank you so much for taking the time to speak with me today about the AI Engineer Intern role at Northwind Analytics. I really enjoyed our conversation and learning more about the team's work. \n\nOur discussion about building reliable retrieval systems and evaluating LLM outputs resonated with me. During my internship at Brightcart Retail Analytics, I built a retrieval-augmented chatbot using Python, FastAPI, and pgvector, and created an evaluation set of 150 questions to raise answer accuracy from 71% to 86%. I am very excited about the possibility of bringing this experience to Northwind Analytics.\n\nThank you again for your time and consideration. I look forward to hearing from you.\n\nBest regards,\n\nAlex Rao",
+  "inputTokens": 922,
+  "outputTokens": 153
+}

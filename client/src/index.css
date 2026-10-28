@@ -481,3 +481,24 @@ select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmln
 .mini-scores { display: flex; gap: 10px; font-size: 12px; color: var(--text-muted); }
 .mini-scores strong { color: var(--text-primary); }
 .link-card { flex-wrap: wrap; }
+
+/* ===== Phase 4 additions ===== */
+.kind-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+@media (max-width: 720px) { .kind-grid { grid-template-columns: 1fr 1fr; } }
+.kind-card { display: flex; flex-direction: column; gap: 2px; text-align: left; padding: 10px 12px; border-radius: var(--radius-sm); border: 1.5px solid var(--border); background: var(--bg-card); color: var(--text-primary); cursor: pointer; font: inherit; }
+.kind-card span { font-size: 12px; color: var(--text-muted); }
+.kind-card-on { border-color: var(--accent); background: var(--accent-glow); }
+.draft-preview { white-space: pre-wrap; font-size: 14px; line-height: 1.6; padding: 12px; border-radius: var(--radius-sm); background: var(--bg-input); margin-top: 10px; }
+.caret { display: inline-block; width: 7px; height: 15px; margin-left: 2px; vertical-align: text-bottom; background: var(--accent-light); animation: blink 1s infinite; }
+@media (prefers-reduced-motion: reduce) { .caret { animation: none; } }
+.mark-claim { background: var(--red-bg); color: var(--text-primary); border-bottom: 2px solid var(--red); padding: 0 2px; }
+.mark-number { background: var(--orange-bg); color: var(--text-primary); border-bottom: 2px solid var(--orange); padding: 0 2px; }
+.check-summary { display: flex; gap: 8px; align-items: flex-start; font-size: 13px; padding: 10px 12px; border-radius: var(--radius-sm); background: var(--bg-input); }
+.check-ok { background: var(--green-bg); }
+.check-ok svg { color: var(--green); }
+.check-warn { background: var(--orange-bg); }
+.check-warn svg { color: var(--orange); flex-shrink: 0; margin-top: 1px; }
+.claim-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+.claim-text { color: var(--text-primary); }
+.claim-ok { justify-content: flex-start; }
+.claim-ok svg { color: var(--green); flex-shrink: 0; margin-top: 2px; }

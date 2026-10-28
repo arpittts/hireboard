@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"claims\": [\n    {\n      \"text\": \"my background in statistics\",\n      \"supported_by\": [\n        \"b1\"\n      ]\n    },\n    {\n      \"text\": \"my experience analyzing canteen sales using Python and pandas to reduce waste by 15 percent\",\n      \"supported_by\": [\n        \"b6\"\n      ]\n    }\n  ]\n}",
+  "inputTokens": 595,
+  "outputTokens": 93
+}

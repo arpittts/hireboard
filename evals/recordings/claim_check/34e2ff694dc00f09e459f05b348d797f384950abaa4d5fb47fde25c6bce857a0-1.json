@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"claims\": [\n    {\n      \"text\": \"I received the Dean's gold medal for the highest grades in my batch.\",\n      \"supported_by\": []\n    },\n    {\n      \"text\": \"I built 7 marketing websites for small businesses with Next.js and Tailwind CSS; all score 95+ on Lighthouse.\",\n      \"supported_by\": [\n        \"b3\"\n      ]\n    },\n    {\n      \"text\": \"I bring hands-on experience building marketing websites with Next.js that consistently achieve Lighthouse scores of 95 and above\",\n      \"supported_by\": [\n        \"b3\"\n      ]\n    },\n    {\n      \"text\": \"working directly with Figma designs to create reusable React components.\",\n      \"supported_by\": [\n        \"b4\"\n      ]\n    }\n  ]\n}",
+  "inputTokens": 634,
+  "outputTokens": 197
+}

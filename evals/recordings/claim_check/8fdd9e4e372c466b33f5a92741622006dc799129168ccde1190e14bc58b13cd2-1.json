@@ -1,0 +1,5 @@
+{
+  "text": "{\"claims\":[{\"text\":\"I scaled a Postgres cluster to 900 million rows at Flipkart.\",\"supported_by\":[]},{\"text\":\"In addition, I built REST APIs in Java 17 and Spring Boot for merchant settlement reports.\",\"supported_by\":[]},{\"text\":\"During my recent internship at Ledgerly Payments, I built REST APIs in Java 17 and Spring Boot, optimized PostgreSQL queries and Flyway migrations, and reduced the slowest report time from nine seconds to 1.2 seconds using indexes.\",\"supported_by\":[\"b3\",\"b4\"]},{\"text\":\"Additionally, I handled on-call rotation duties for two months and gained hands-on cloud experience by deploying a library management system on AWS EC2.\",\"supported_by\":[\"b6\",\"b7\"]},{\"text\":\"I also developed a URL shortener in Go with Redis caching, which was load-tested to 2,000 requests per second.\",\"supported_by\":[\"b8\"]}]}",
+  "inputTokens": 799,
+  "outputTokens": 200
+}

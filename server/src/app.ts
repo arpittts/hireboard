@@ -9,6 +9,7 @@ import { aiRouter } from './routes/ai.js';
 import { applicationsRouter } from './routes/applications.js';
 import { authRouter } from './routes/auth.js';
 import { dashboardRouter } from './routes/dashboard.js';
+import { applicationDraftsRouter, draftsRouter } from './routes/drafts.js';
 import { internalRouter } from './routes/internal.js';
 import { interviewsRouter, questionsRouter } from './routes/interviews.js';
 import { requirementsRouter } from './routes/requirements.js';
@@ -42,7 +43,9 @@ export function createApp({ authRateLimit = config.AUTH_RATE_LIMIT, demoRateLimi
   app.use('/api/applications', applicationsRouter);
   app.use('/api/applications', requirementsRouter);
   app.use('/api/applications', questionsRouter);
+  app.use('/api/applications', applicationDraftsRouter);
   app.use('/api/interviews', interviewsRouter);
+  app.use('/api/drafts', draftsRouter);
   app.use('/api/resumes', resumesRouter);
   app.use('/api/dashboard', dashboardRouter);
   app.use('/api/internal', internalRouter);

@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"claims\": [\n    {\n      \"text\": \"As a frontend developer with experience building mobile applications\",\n      \"supported_by\": [\n        \"b1\",\n        \"b6\"\n      ]\n    },\n    {\n      \"text\": \"developing a recipe finder app in React Native with offline favourites\",\n      \"supported_by\": [\n        \"b6\"\n      ]\n    },\n    {\n      \"text\": \"published on the Play Store and has reached over 1,000 installs\",\n      \"supported_by\": [\n        \"b6\"\n      ]\n    },\n    {\n      \"text\": \"my core experience is in React, TypeScript, and React Native\",\n      \"supported_by\": [\n        \"b9\"\n      ]\n    },\n    {\n      \"text\": \"transition into native Android development using Kotlin and Jetpack Compose\",\n      \"supported_by\": []\n    }\n  ]\n}",
+  "inputTokens": 624,
+  "outputTokens": 218
+}

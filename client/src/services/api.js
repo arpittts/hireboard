@@ -91,6 +91,45 @@ async function request(method, path, { params, body, responseType } = {}) {
   return { data, status: res.status };
 }
 
+// POST that answers with server-sent events (drafts). onEvent(name, data) is called
+// for each event as it arrives. Errors before the stream starts (a 400 or 404 with
+// a JSON body) are thrown like any other request error.
+export async function streamPost(path, body, onEvent) {
+  const headers = { 'Content-Type': 'application/json' };
+  const token = localStorage.getItem('hireboard_token');
+  if (token) headers.Authorization = `Bearer ${token}`;
+
+  const finish = trackRequest(); // the "waking the server" banner, until the first byte
+  let res;
+  try {
+    res = await fetch(buildUrl(path), { method: 'POST', headers, body: JSON.stringify(body) });
+  } finally {
+    finish();
+  }
+  if (!res.ok) {
+    const isJson = res.headers.get('content-type')?.includes('application/json');
+    throw new ApiError(res.status, isJson ? await res.json() : await res.text());
+  }
+
+  // Events are separated by a blank line: "event: text\ndata: {...}\n\n".
+  const reader = res.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = '';
+  for (;;) {
+    const { value, done } = await reader.read();
+    if (done) break;
+    buffer += decoder.decode(value, { stream: true });
+    let end;
+    while ((end = buffer.indexOf('\n\n')) >= 0) {
+      const block = buffer.slice(0, end);
+      buffer = buffer.slice(end + 2);
+      const event = block.match(/^event: (.*)$/m)?.[1];
+      const data = block.match(/^data: (.*)$/m)?.[1];
+      if (event && data) onEvent(event, JSON.parse(data));
+    }
+  }
+}
+
 const api = {
   get: (path, options) => request('GET', path, options),
   post: (path, body) => request('POST', path, { body }),

@@ -6,14 +6,15 @@ import ConfirmDialog from '../components/ConfirmDialog';
 import InterviewPrep from '../components/InterviewPrep';
 import RequirementsChecklist from '../components/RequirementsChecklist';
 import StatusMenu from '../components/StatusMenu';
+import WritingAssistant from '../components/WritingAssistant';
 import { useApplication, useDeleteApplication, useSaveApplication } from '../services/queries';
 
-// A Drafts tab arrives in Phase 4.
 const TABS = [
   { id: 'overview', label: 'Overview' },
   { id: 'job', label: 'Job description' },
   { id: 'requirements', label: 'Requirements' },
   { id: 'interview', label: 'Interview prep' },
+  { id: 'drafts', label: 'Drafts' },
   { id: 'history', label: 'History' },
 ];
 
@@ -183,6 +184,7 @@ export default function ApplicationDetail() {
         {tab === 'job' && <JobDescription app={app} onEdit={() => setEditing(true)} />}
         {tab === 'requirements' && <RequirementsChecklist application={app} />}
         {tab === 'interview' && <InterviewPrep application={app} />}
+        {tab === 'drafts' && <WritingAssistant application={app} />}
         {tab === 'history' && <History history={app.statusHistory} />}
       </div>
 

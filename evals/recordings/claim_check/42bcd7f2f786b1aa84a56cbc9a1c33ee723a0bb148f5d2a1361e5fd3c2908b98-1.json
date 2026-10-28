@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"claims\": [\n    {\n      \"text\": \"I won the national ACM programming contest twice.\",\n      \"supported_by\": []\n    },\n    {\n      \"text\": \"built REST APIs in Java 17 and Spring Boot for merchant settlement reports\",\n      \"supported_by\": [\n        \"b3\"\n      ]\n    },\n    {\n      \"text\": \"During my internship at Ledgerly Payments, I built REST APIs in Java 17 and Spring Boot, worked with PostgreSQL and Kafka, and participated in the on-call rotation.\",\n      \"supported_by\": [\n        \"b2\",\n        \"b3\",\n        \"b4\",\n        \"b5\",\n        \"b6\"\n      ]\n    }\n  ]\n}",
+  "inputTokens": 686,
+  "outputTokens": 175
+}

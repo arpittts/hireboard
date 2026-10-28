@@ -311,3 +311,44 @@ export function useGetFeedback(id) {
 export function useRubric() {
   return useQuery({ queryKey: ['rubric'], queryFn: async () => (await api.get('/interviews/rubric')).data, staleTime: Infinity });
 }
+
+// --- Drafts (writing assistant) ------------------------------------------------------
+
+export function useDrafts(applicationId) {
+  return useQuery({
+    queryKey: ['drafts', applicationId],
+    queryFn: async () => (await api.get(`/applications/${applicationId}/drafts`)).data,
+  });
+}
+
+export function useSaveDraft(applicationId) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id, content }) => (await api.put(`/drafts/${id}`, { content })).data,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['drafts', applicationId] }),
+    onError: (err) => toast.error(errorMessage(err, 'Could not save the draft.')),
+  });
+}
+
+export function useCheckDraft(applicationId) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (id) => (await api.post(`/drafts/${id}/check`)).data,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['drafts', applicationId] });
+      queryClient.invalidateQueries({ queryKey: ['ai-usage'] });
+    },
+  });
+}
+
+export function useDeleteDraft(applicationId) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (id) => (await api.delete(`/drafts/${id}`)).data,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['drafts', applicationId] });
+      toast.success('Draft deleted');
+    },
+    onError: (err) => toast.error(errorMessage(err)),
+  });
+}

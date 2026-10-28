@@ -1,0 +1,5 @@
+{
+  "text": "{\"claims\":[{\"text\":\"During my internship at Brightcart Retail Analytics, I built a retrieval-augmented chatbot using Python, FastAPI, and pgvector\",\"supported_by\":[\"b3\",\"b4\"]},{\"text\":\"created an evaluation set of 150 questions to raise answer accuracy from 71% to 86%\",\"supported_by\":[\"b5\"]}]}",
+  "inputTokens": 759,
+  "outputTokens": 74
+}
