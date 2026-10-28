@@ -128,6 +128,23 @@ export function useAiUsage() {
   });
 }
 
+// Search by keyword and by meaning across job descriptions and notes. Runs only
+// when asked (Enter), since each new query uses one AI request. Kept under the
+// applications key so edits refresh the results.
+export function useSmartSearch(q) {
+  const queryClient = useQueryClient();
+  return useQuery({
+    queryKey: ['applications', 'search', q],
+    queryFn: async () => {
+      const data = (await api.get('/search', { params: { q } })).data;
+      queryClient.invalidateQueries({ queryKey: ['ai-usage'] });
+      return data;
+    },
+    enabled: Boolean(q),
+    staleTime: 5 * 60_000,
+  });
+}
+
 // Job description text → suggested form fields. Errors are shown in the form.
 export function useExtractJobDescription() {
   const queryClient = useQueryClient();

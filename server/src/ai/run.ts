@@ -63,7 +63,7 @@ interface CallLog {
   error?: string;
 }
 
-async function logCall(log: CallLog): Promise<void> {
+export async function logCall(log: CallLog): Promise<void> {
   await pool.query(
     `INSERT INTO llm_calls (user_id, feature, model, prompt_version, input_tokens, output_tokens, latency_ms, cached, status, error)
      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
@@ -85,7 +85,7 @@ export async function callsToday(userId?: string): Promise<number> {
   return result.rows[0].n;
 }
 
-async function checkQuota(userId: string, feature: string, promptVersion: string): Promise<void> {
+export async function checkQuota(userId: string, feature: string, promptVersion: string): Promise<void> {
   const user = await pool.query<{ ai_daily_limit: number }>('SELECT ai_daily_limit FROM users WHERE id = $1', [userId]);
   const limit = user.rows[0]?.ai_daily_limit ?? 0;
   if ((await callsToday(userId)) >= limit) {
@@ -105,14 +105,15 @@ async function checkQuota(userId: string, feature: string, promptVersion: string
 
 interface Recording {
   text: string;
+  embedding?: number[]; // embedding recordings (embed.ts) have this instead of text
   inputTokens?: number;
   outputTokens?: number;
 }
 
-const recordingPath = (feature: string, key: string, attempt: number) =>
+export const recordingPath = (feature: string, key: string, attempt: number) =>
   path.join(RECORDINGS_DIR, feature, `${key}-${attempt}.json`);
 
-function saveRecording(file: string, recording: Recording): void {
+export function saveRecording(file: string, recording: Recording): void {
   fs.mkdirSync(path.dirname(file), { recursive: true });
   fs.writeFileSync(file, JSON.stringify(recording, null, 2) + '\n');
 }
@@ -220,7 +221,7 @@ export async function runStructured<T>(options: RunOptions<T>): Promise<RunResul
 }
 
 // Logs a failed model call and turns it into a clear AppError (shared by both runners).
-async function modelFailure(
+export async function modelFailure(
   err: unknown,
   ctx: { userId: string | null; feature: string; promptVersion: string; latencyMs: number },
 ): Promise<AppError> {

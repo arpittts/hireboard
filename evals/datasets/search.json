@@ -1,0 +1,189 @@
+{
+  "description": "Search queries over the 40 postings in jd_extraction.json, used as applications. relevant = the postings a person typing this query would want to see. Labels by the builder.",
+  "corpus": "jd_extraction.json",
+  "items": [
+    {
+      "id": "sq01",
+      "query": "Kafka",
+      "relevant": [
+        "jd02",
+        "jd05"
+      ],
+      "style": "exact term"
+    },
+    {
+      "id": "sq02",
+      "query": "chatbot jobs",
+      "relevant": [
+        "jd01",
+        "jd12"
+      ],
+      "style": "paraphrase: RAG / assistant roles never say 'chatbot'"
+    },
+    {
+      "id": "sq03",
+      "query": "large language models",
+      "relevant": [
+        "jd01",
+        "jd12",
+        "jd15"
+      ],
+      "style": "mixed"
+    },
+    {
+      "id": "sq04",
+      "query": "keeping servers running and on-call",
+      "relevant": [
+        "jd18",
+        "jd13",
+        "jd02"
+      ],
+      "style": "paraphrase"
+    },
+    {
+      "id": "sq05",
+      "query": "mobile app development",
+      "relevant": [
+        "jd20",
+        "jd24"
+      ],
+      "style": "paraphrase"
+    },
+    {
+      "id": "sq06",
+      "query": "internship in Bengaluru",
+      "relevant": [
+        "jd01",
+        "jd12",
+        "jd40"
+      ],
+      "style": "mixed"
+    },
+    {
+      "id": "sq07",
+      "query": "Kubernetes",
+      "relevant": [
+        "jd13",
+        "jd18",
+        "jd26",
+        "jd31",
+        "jd40"
+      ],
+      "style": "exact term"
+    },
+    {
+      "id": "sq08",
+      "query": "work with designers on user interfaces",
+      "relevant": [
+        "jd06",
+        "jd17",
+        "jd29"
+      ],
+      "style": "paraphrase"
+    },
+    {
+      "id": "sq09",
+      "query": "data dashboards and reporting",
+      "relevant": [
+        "jd04",
+        "jd37"
+      ],
+      "style": "mixed"
+    },
+    {
+      "id": "sq10",
+      "query": "computer vision research",
+      "relevant": [
+        "jd14"
+      ],
+      "style": "mixed"
+    },
+    {
+      "id": "sq11",
+      "query": "teaching and helping learners",
+      "relevant": [
+        "jd27"
+      ],
+      "style": "paraphrase"
+    },
+    {
+      "id": "sq12",
+      "query": "security monitoring",
+      "relevant": [
+        "jd22"
+      ],
+      "style": "mixed"
+    },
+    {
+      "id": "sq13",
+      "query": "Postgres database administration",
+      "relevant": [
+        "jd36",
+        "jd18"
+      ],
+      "style": "mixed"
+    },
+    {
+      "id": "sq14",
+      "query": "games",
+      "relevant": [
+        "jd03",
+        "jd35"
+      ],
+      "style": "exact term"
+    },
+    {
+      "id": "sq15",
+      "query": "remote freelance work",
+      "relevant": [
+        "jd06",
+        "jd20",
+        "jd35"
+      ],
+      "style": "mixed"
+    },
+    {
+      "id": "sq16",
+      "query": "fintech payments backend",
+      "relevant": [
+        "jd02",
+        "jd28",
+        "jd05"
+      ],
+      "style": "mixed"
+    },
+    {
+      "id": "sq17",
+      "query": "speech recognition for Indian languages",
+      "relevant": [
+        "jd30"
+      ],
+      "style": "paraphrase"
+    },
+    {
+      "id": "sq18",
+      "query": "Spring Boot",
+      "relevant": [
+        "jd02"
+      ],
+      "style": "exact term"
+    },
+    {
+      "id": "sq19",
+      "query": "robots",
+      "relevant": [
+        "jd10",
+        "jd38"
+      ],
+      "style": "exact-ish term"
+    },
+    {
+      "id": "sq20",
+      "query": "writing documentation",
+      "relevant": [
+        "jd23"
+      ],
+      "style": "paraphrase"
+    }
+  ]
+}

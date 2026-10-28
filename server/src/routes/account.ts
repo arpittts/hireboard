@@ -4,6 +4,7 @@ import { pool } from '../db/pool.js';
 import { requireAuth, userIdOf } from '../middleware/auth.js';
 import { AppError, notFound } from '../middleware/errors.js';
 import { emailConfigured } from '../services/reminders.js';
+import { APP_COLUMNS } from './applications.js';
 
 const settingsSchema = z.object({ remindersEnabled: z.boolean() });
 
@@ -44,7 +45,7 @@ accountRouter.get('/export', requireAuth, async (req, res) => {
   const userId = userIdOf(req);
   const [user, applications, history, resumes, checks, banks, interviews] = await Promise.all([
     pool.query('SELECT name, email, created_at, reminders_enabled FROM users WHERE id = $1', [userId]),
-    pool.query('SELECT * FROM applications WHERE user_id = $1 ORDER BY created_at', [userId]),
+    pool.query(`SELECT ${APP_COLUMNS} FROM applications WHERE user_id = $1 ORDER BY created_at`, [userId]),
     pool.query(
       `SELECT sh.* FROM status_history sh JOIN applications a ON a.id = sh.application_id
        WHERE a.user_id = $1 ORDER BY sh.changed_at`,

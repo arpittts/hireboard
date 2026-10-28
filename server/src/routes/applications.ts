@@ -87,6 +87,14 @@ const listQuerySchema = z.object({
 
 const idParams = z.object({ id: z.uuid('Invalid application id.') });
 
+// What the API returns for an application. Never "*": the search columns
+// (a 768-number embedding and the keyword index) stay inside the database.
+export const APP_COLUMNS = [
+  'id', 'user_id', 'company_name', 'role', 'type', 'status', 'application_date', 'deadline', 'url', 'location',
+  'salary', 'notes', 'contact_name', 'contact_email', 'contact_phone', 'contact_linkedin', 'follow_up_date',
+  'reminder_sent', 'priority', 'job_description', 'jd_extraction', 'source', 'created_at', 'updated_at',
+].join(', ');
+
 // Columns a client may write. Anything else in the body is ignored.
 const WRITABLE = [
   'company_name', 'role', 'type', 'status', 'application_date', 'deadline', 'url', 'location', 'salary',
@@ -100,7 +108,7 @@ applicationsRouter.use(requireAuth);
 applicationsRouter.get('/', async (req, res) => {
   const q = listQuerySchema.parse(req.query);
   const values: unknown[] = [userIdOf(req)];
-  let sql = 'SELECT * FROM applications WHERE user_id = $1';
+  let sql = `SELECT ${APP_COLUMNS} FROM applications WHERE user_id = $1`;
   if (q.status) { values.push(q.status); sql += ` AND status = $${values.length}`; }
   if (q.type) { values.push(q.type); sql += ` AND type = $${values.length}`; }
   if (q.priority) { values.push(q.priority); sql += ` AND priority = $${values.length}`; }
@@ -116,7 +124,7 @@ applicationsRouter.get('/', async (req, res) => {
 
 applicationsRouter.get('/:id', async (req, res) => {
   const { id } = idParams.parse(req.params);
-  const result = await pool.query('SELECT * FROM applications WHERE id = $1 AND user_id = $2', [id, userIdOf(req)]);
+  const result = await pool.query(`SELECT ${APP_COLUMNS} FROM applications WHERE id = $1 AND user_id = $2`, [id, userIdOf(req)]);
   if (!result.rows[0]) throw notFound('Application');
   const history = await pool.query(
     'SELECT * FROM status_history WHERE application_id = $1 ORDER BY changed_at DESC',
@@ -132,7 +140,7 @@ applicationsRouter.post('/', async (req, res) => {
     const values = [userIdOf(req), ...WRITABLE.map((col) => body[col] ?? null)];
     const placeholders = columns.map((_, i) => `$${i + 1}`).join(', ');
     const created = await client.query(
-      `INSERT INTO applications (${columns.join(', ')}) VALUES (${placeholders}) RETURNING *`,
+      `INSERT INTO applications (${columns.join(', ')}) VALUES (${placeholders}) RETURNING ${APP_COLUMNS}`,
       values,
     );
     await client.query(
@@ -167,10 +175,10 @@ applicationsRouter.put('/:id', async (req, res) => {
       sent.length > 0
         ? await client.query(
             `UPDATE applications SET ${assignments.join(', ')}
-             WHERE id = $1 RETURNING *`,
+             WHERE id = $1 RETURNING ${APP_COLUMNS}`,
             [id, ...sent.map((col) => body[col])],
           )
-        : await client.query('SELECT * FROM applications WHERE id = $1', [id]);
+        : await client.query(`SELECT ${APP_COLUMNS} FROM applications WHERE id = $1`, [id]);
 
     if (body.status && body.status !== oldStatus) {
       await client.query(
@@ -207,7 +215,7 @@ applicationsRouter.patch('/:id/status', async (req, res) => {
     const oldStatus: string = existing.rows[0].status;
     if (oldStatus === status) return { message: 'Status unchanged.' };
 
-    const updated = await client.query('UPDATE applications SET status = $1 WHERE id = $2 RETURNING *', [status, id]);
+    const updated = await client.query(`UPDATE applications SET status = $1 WHERE id = $2 RETURNING ${APP_COLUMNS}`, [status, id]);
     await client.query(
       'INSERT INTO status_history (application_id, from_status, to_status, note) VALUES ($1, $2, $3, $4)',
       [id, oldStatus, status, note || `Status changed from ${oldStatus} to ${status}`],

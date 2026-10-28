@@ -20,6 +20,8 @@ const envSchema = z.object({
   // live: call the model. record: call it and save replies to evals/recordings.
   // replay: answer only from those recordings (tests, CI, evals); no network.
   AI_MODE: z.enum(['live', 'record', 'replay']).default('live'),
+  // Search by meaning (Phase 5a). The database column holds 768 numbers.
+  EMBEDDING_MODEL: z.string().default('gemini-embedding-2'),
   // Model calls allowed per day across all users, kept under the free-tier limit.
   AI_GLOBAL_DAILY_LIMIT: z.coerce.number().int().positive().default(300),
   // Email. Render's free plan blocks SMTP ports, so production uses Brevo's HTTPS API;
