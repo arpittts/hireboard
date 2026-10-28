@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"claims\": [\n    {\n      \"text\": \"I speak fluent German and worked from our Berlin office.\",\n      \"supported_by\": []\n    },\n    {\n      \"text\": \"I built 7 marketing websites for small businesses with Next.js and Tailwind CSS; all score 95+ on Lighthouse.\",\n      \"supported_by\": [\n        \"b3\"\n      ]\n    },\n    {\n      \"text\": \"developing a recipe finder app in React Native with offline favourites, which is published on the Play Store and has reached over 1,000 installs.\",\n      \"supported_by\": [\n        \"b6\"\n      ]\n    },\n    {\n      \"text\": \"My core experience is in React, TypeScript, and React Native\",\n      \"supported_by\": []\n    }\n  ]\n}",
+  "inputTokens": 665,
+  "outputTokens": 191
+}

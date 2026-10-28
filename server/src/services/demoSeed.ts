@@ -158,6 +158,14 @@ export async function seedDemoData(client: pg.PoolClient, userId: string): Promi
         [appId, JSON.stringify(job.questions), job.model, job.questionsPromptVersion],
       );
     }
+    if (job.draft) {
+      await client.query(
+        `INSERT INTO drafts (application_id, resume_id, kind, tone, length, content, claims, number_flags, checked_at, model, prompt_version, created_at, updated_at)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, now() - interval '1 day', $9, $10, now() - interval '1 day', now() - interval '1 day')`,
+        [appId, resume.rows[0].id, job.draft.kind, job.draft.tone, job.draft.length, job.draft.content,
+         JSON.stringify(job.draft.claims), JSON.stringify(job.draft.numberFlags), job.draft.model, job.draft.promptVersion],
+      );
+    }
     if (job.interview) {
       // A finished mock interview from two days ago, with feedback.
       const session = await client.query<{ id: string }>(

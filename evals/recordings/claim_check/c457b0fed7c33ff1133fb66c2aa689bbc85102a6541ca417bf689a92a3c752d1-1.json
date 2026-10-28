@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"claims\": [\n    {\n      \"text\": \"During my recent internship at Tidepool Logistics, I wrote SQL queries for operations reports and presented findings to a team of ten\",\n      \"supported_by\": [\n        \"b2\",\n        \"b4\",\n        \"b5\"\n      ]\n    }\n  ]\n}",
+  "inputTokens": 572,
+  "outputTokens": 78
+}

@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"claims\": [\n    {\n      \"text\": \"I built 7 marketing websites for small businesses using Next.js and Tailwind CSS\",\n      \"supported_by\": [\n        \"b3\"\n      ]\n    },\n    {\n      \"text\": \"every single one of them scores 95+ on Lighthouse\",\n      \"supported_by\": [\n        \"b3\"\n      ]\n    },\n    {\n      \"text\": \"I also have hands-on experience working with Astro, building a personal portfolio with it\",\n      \"supported_by\": [\n        \"b7\"\n      ]\n    },\n    {\n      \"text\": \"I've even built projects that read data from a Google Sheet\",\n      \"supported_by\": [\n        \"b5\"\n      ]\n    }\n  ]\n}",
+  "inputTokens": 636,
+  "outputTokens": 190
+}

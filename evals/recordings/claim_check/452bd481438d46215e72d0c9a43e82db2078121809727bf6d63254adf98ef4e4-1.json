@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"claims\": [\n    {\n      \"text\": \"During my recent internship at Ledgerly Payments, I built REST APIs in Java 17 and Spring Boot, optimized PostgreSQL queries and Flyway migrations, and reduced the slowest report time from nine seconds to 1.2 seconds using indexes.\",\n      \"supported_by\": [\n        \"b3\",\n        \"b4\"\n      ]\n    },\n    {\n      \"text\": \"Additionally, I handled on-call rotation duties for two months and gained hands-on cloud experience by deploying a library management system on AWS EC2.\",\n      \"supported_by\": [\n        \"b6\",\n        \"b7\"\n      ]\n    },\n    {\n      \"text\": \"I also developed a URL shortener in Go with Redis caching, which was load-tested to 2,000 requests per second.\",\n      \"supported_by\": [\n        \"b8\"\n      ]\n    },\n    {\n      \"text\": \"While my resume highlights a strong foundation in Java, Go, PostgreSQL, MySQL, Redis, Kafka, and Linux\",\n      \"supported_by\": [\n        \"b9\"\n      ]\n    }\n  ]\n}",
+  "inputTokens": 763,
+  "outputTokens": 270
+}

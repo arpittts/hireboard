@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"claims\": [\n    {\n      \"text\": \"I founded a startup that raised 1.5 crore in seed funding.\",\n      \"supported_by\": []\n    },\n    {\n      \"text\": \"I cleaned shipment data in Excel (pivot tables, VLOOKUP) and built weekly dashboards in Power BI for the operations lead.\",\n      \"supported_by\": [\n        \"b3\"\n      ]\n    },\n    {\n      \"text\": \"analyzing canteen sales using Python and pandas to reduce waste by 15 percent\",\n      \"supported_by\": [\n        \"b6\"\n      ]\n    }\n  ]\n}",
+  "inputTokens": 640,
+  "outputTokens": 148
+}

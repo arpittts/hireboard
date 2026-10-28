@@ -1,0 +1,5 @@
+{
+  "text": "Hi hiring team,\n\nI am writing to express my interest in the AI Engineer Intern role at Northwind Analytics. As a Computer Science undergraduate at Pune Institute of Technology with hands-on machine learning experience, I am eager to contribute to your team. \n\nDuring my recent internship at Brightcart Retail Analytics, I built a retrieval-augmented chatbot over 4,000 product manuals using Python, FastAPI, and pgvector. I also created an evaluation set of 150 questions and improved answer accuracy from 71% to 86% through prompt and chunk size tuning. \n\nI would welcome the opportunity to discuss how my background aligns with your needs for this internship. Thank you for your time and consideration.\n\nBest regards,\n\nAlex Rao",
+  "inputTokens": 921,
+  "outputTokens": 155
+}

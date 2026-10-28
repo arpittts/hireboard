@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"claims\": [\n    {\n      \"text\": \"building marketing websites with Next.js that consistently achieve Lighthouse scores of 95 and above\",\n      \"supported_by\": [\n        \"b3\"\n      ]\n    },\n    {\n      \"text\": \"working directly with Figma designs to create reusable React components\",\n      \"supported_by\": [\n        \"b4\"\n      ]\n    }\n  ]\n}",
+  "inputTokens": 588,
+  "outputTokens": 100
+}

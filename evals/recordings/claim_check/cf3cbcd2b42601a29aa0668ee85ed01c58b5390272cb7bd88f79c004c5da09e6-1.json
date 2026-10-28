@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"claims\": [\n    {\n      \"text\": \"I was the tech lead for a team at Microsoft Research.\",\n      \"supported_by\": []\n    },\n    {\n      \"text\": \"I cleaned shipment data in Excel (pivot tables, VLOOKUP) and built weekly dashboards in Power BI for the operations lead.\",\n      \"supported_by\": [\n        \"b3\"\n      ]\n    },\n    {\n      \"text\": \"I wrote SQL queries to track delayed shipments and presented my findings to a team of 10 in PowerPoint.\",\n      \"supported_by\": []\n    },\n    {\n      \"text\": \"I also built a Google Analytics 4 and Looker Studio dashboard for a student club's website\",\n      \"supported_by\": [\n        \"b7\"\n      ]\n    }\n  ]\n}",
+  "inputTokens": 681,
+  "outputTokens": 191
+}

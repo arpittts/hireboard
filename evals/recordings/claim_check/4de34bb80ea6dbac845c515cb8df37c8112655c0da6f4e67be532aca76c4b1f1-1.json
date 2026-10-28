@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"claims\": [\n    {\n      \"text\": \"I have five years of professional experience as a senior engineer.\",\n      \"supported_by\": []\n    },\n    {\n      \"text\": \"In addition, I built REST APIs in Java 17 and Spring Boot for merchant settlement reports.\",\n      \"supported_by\": [\n        \"b3\"\n      ]\n    },\n    {\n      \"text\": \"During my recent internship as a Backend Developer at Ledgerly Payments, I built REST APIs in Java 17 and Spring Boot, optimized PostgreSQL queries to improve report generation speeds, and participated in an on-call rotation.\",\n      \"supported_by\": [\n        \"b2\",\n        \"b3\",\n        \"b4\",\n        \"b6\"\n      ]\n    },\n    {\n      \"text\": \"My background also includes working with Kafka consumers, Redis, and data structures and algorithms through competitive programming and project work.\",\n      \"supported_by\": [\n        \"b5\",\n        \"b7\",\n        \"b8\",\n        \"b9\",\n        \"b10\"\n      ]\n    }\n  ]\n}",
+  "inputTokens": 696,
+  "outputTokens": 261
+}

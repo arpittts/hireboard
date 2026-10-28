@@ -1,3 +1,4 @@
+import { simulateReadableStream } from 'ai';
 import { MockLanguageModelV4 } from 'ai/test';
 import request from 'supertest';
 import { afterAll, beforeAll, beforeEach } from 'vitest';
@@ -47,6 +48,30 @@ export async function createApplication(auth: string, body: Record<string, unkno
 export function fakeModel(...replies: (string | object | Error)[]) {
   let calls = 0;
   const model = new MockLanguageModelV4({
+    // Streaming calls (drafts) take the next reply too, sent a word at a time.
+    doStream: async () => {
+      const reply = replies[Math.min(calls, replies.length - 1)];
+      calls += 1;
+      if (reply instanceof Error) throw reply;
+      const text = typeof reply === 'string' ? reply : JSON.stringify(reply);
+      return {
+        stream: simulateReadableStream({
+          chunks: [
+            { type: 'text-start' as const, id: 't' },
+            ...(text.match(/\S+\s*/g) ?? []).map((delta) => ({ type: 'text-delta' as const, id: 't', delta })),
+            { type: 'text-end' as const, id: 't' },
+            {
+              type: 'finish' as const,
+              finishReason: { unified: 'stop' as const, raw: undefined },
+              usage: {
+                inputTokens: { total: 400, noCache: 400, cacheRead: undefined, cacheWrite: undefined },
+                outputTokens: { total: 200, text: 200, reasoning: undefined },
+              },
+            },
+          ],
+        }),
+      };
+    },
     doGenerate: async () => {
       const reply = replies[Math.min(calls, replies.length - 1)];
       calls += 1;

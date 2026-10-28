@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"claims\": [\n    {\n      \"text\": \"Computer Science undergraduate at Pune Institute of Technology\",\n      \"supported_by\": [\n        \"b1\"\n      ]\n    },\n    {\n      \"text\": \"I hold a master's degree in machine learning from Stanford University.\",\n      \"supported_by\": []\n    },\n    {\n      \"text\": \"built a retrieval-augmented chatbot over 4,000 product manuals using Python, FastAPI and pgvector.\",\n      \"supported_by\": [\n        \"b4\"\n      ]\n    },\n    {\n      \"text\": \"During my recent internship at Brightcart Retail Analytics, I built a retrieval-augmented chatbot over 4,000 product manuals using Python, FastAPI, and pgvector.\",\n      \"supported_by\": [\n        \"b3\",\n        \"b4\"\n      ]\n    },\n    {\n      \"text\": \"I also created an evaluation set of 150 questions and improved answer accuracy from 71% to 86% through prompt and chunk size tuning.\",\n      \"supported_by\": [\n        \"b5\"\n      ]\n    }\n  ]\n}",
+  "inputTokens": 803,
+  "outputTokens": 268
+}

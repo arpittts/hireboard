@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"claims\": [\n    {\n      \"text\": \"I mentored 25 junior developers at Infosys.\",\n      \"supported_by\": []\n    },\n    {\n      \"text\": \"I built 7 marketing websites for small businesses with Next.js and Tailwind CSS; all score 95+ on Lighthouse.\",\n      \"supported_by\": [\n        \"b3\"\n      ]\n    },\n    {\n      \"text\": \"I built seven marketing websites for small businesses using Next.js and Tailwind CSS, and every single one of them scores 95+ on Lighthouse.\",\n      \"supported_by\": [\n        \"b3\"\n      ]\n    },\n    {\n      \"text\": \"building a café menu page that reads items directly from a Google Sheet.\",\n      \"supported_by\": [\n        \"b5\"\n      ]\n    },\n    {\n      \"text\": \"I built my personal portfolio using Astro and deployed it on Netlify\",\n      \"supported_by\": [\n        \"b7\"\n      ]\n    },\n    {\n      \"text\": \"a B.Des in Interaction Design from Lakeside School of Design\",\n      \"supported_by\": [\n        \"b8\"\n      ]\n    }\n  ]\n}",
+  "inputTokens": 769,
+  "outputTokens": 285
+}

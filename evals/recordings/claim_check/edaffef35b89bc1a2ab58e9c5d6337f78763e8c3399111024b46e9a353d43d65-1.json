@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"claims\": [\n    {\n      \"text\": \"During my time as an Operations Analyst Intern at Tidepool Logistics, I wrote SQL queries to track delayed shipments\",\n      \"supported_by\": [\n        \"b2\",\n        \"b4\"\n      ]\n    },\n    {\n      \"text\": \"presented my findings to a team of 10 in PowerPoint\",\n      \"supported_by\": [\n        \"b5\"\n      ]\n    },\n    {\n      \"text\": \"I also built a Google Analytics 4 and Looker Studio dashboard for a student club's website\",\n      \"supported_by\": [\n        \"b7\"\n      ]\n    },\n    {\n      \"text\": \"I am very comfortable using tools like SQL, Google Analytics 4, and Looker Studio\",\n      \"supported_by\": [\n        \"b8\"\n      ]\n    }\n  ]\n}",
+  "inputTokens": 639,
+  "outputTokens": 209
+}

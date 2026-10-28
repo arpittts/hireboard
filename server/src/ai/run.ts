@@ -2,7 +2,7 @@ import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { APICallError, generateText, NoObjectGeneratedError, Output, type LanguageModel } from 'ai';
+import { APICallError, generateText, NoObjectGeneratedError, Output, simulateReadableStream, streamText, type LanguageModel } from 'ai';
 import { MockLanguageModelV4 } from 'ai/test';
 import type { z } from 'zod';
 import { config } from '../config.js';
@@ -213,22 +213,117 @@ export async function runStructured<T>(options: RunOptions<T>): Promise<RunResul
         feedback = `Your previous reply was not valid for the required JSON schema (${String(err.cause ?? err.message).slice(0, 300)}). Reply again with JSON that matches the schema exactly.`;
         continue;
       }
-      if (err instanceof AppError) throw err;
-      if (APICallError.isInstance(err)) {
-        // Keep the provider's own explanation (for example which schema field it rejected).
-        await logCall({ userId, feature, promptVersion, status: 'provider_error', latencyMs, error: `${err.statusCode} ${err.message} ${err.responseBody ?? ''}` });
-        if (err.statusCode === 429) {
-          throw new AppError(503, 'AI_BUSY', 'The AI service is busy right now. Please try again in a minute.');
-        }
-        throw new AppError(502, 'AI_ERROR', 'The AI service failed. Please try again.');
-      }
-      await logCall({ userId, feature, promptVersion, status: 'error', latencyMs, error: (err as Error).message });
-      // AbortSignal.timeout() rejects with a TimeoutError when the model takes too long.
-      if ((err as Error).name === 'TimeoutError') {
-        throw new AppError(504, 'AI_TIMEOUT', 'The AI took too long to answer. Please try again.');
-      }
-      throw new AppError(502, 'AI_ERROR', 'The AI request failed. Please try again.');
+      throw await modelFailure(err, { userId, feature, promptVersion, latencyMs });
     }
   }
   throw new AppError(502, 'AI_BAD_OUTPUT', 'The AI gave an answer in the wrong format twice. Please try again.');
+}
+
+// Logs a failed model call and turns it into a clear AppError (shared by both runners).
+async function modelFailure(
+  err: unknown,
+  ctx: { userId: string | null; feature: string; promptVersion: string; latencyMs: number },
+): Promise<AppError> {
+  if (err instanceof AppError) return err;
+  if (APICallError.isInstance(err)) {
+    // Keep the provider's own explanation (for example which schema field it rejected).
+    await logCall({ ...ctx, status: 'provider_error', error: `${err.statusCode} ${err.message} ${err.responseBody ?? ''}` });
+    if (err.statusCode === 429) return new AppError(503, 'AI_BUSY', 'The AI service is busy right now. Please try again in a minute.');
+    return new AppError(502, 'AI_ERROR', 'The AI service failed. Please try again.');
+  }
+  await logCall({ ...ctx, status: 'error', error: (err as Error).message });
+  // AbortSignal.timeout() rejects with a TimeoutError when the model takes too long.
+  if ((err as Error).name === 'TimeoutError') {
+    return new AppError(504, 'AI_TIMEOUT', 'The AI took too long to answer. Please try again.');
+  }
+  return new AppError(502, 'AI_ERROR', 'The AI request failed. Please try again.');
+}
+
+// --- Streaming text ------------------------------------------------------------------
+// For long free text (drafts): onText receives each piece as the model writes it,
+// so the user sees words appear instead of waiting. Same quota, logging and
+// record/replay as runStructured; no cache, because "write again" should give a
+// new draft.
+
+export interface StreamOptions {
+  feature: string;
+  promptVersion: string;
+  system: string;
+  prompt: string;
+  userId: string | null;
+  recordingInput: unknown; // identifies the request for record/replay
+  temperature?: number;
+  signal?: AbortSignal; // stops the model when the user closes the page
+}
+
+export async function runStream(options: StreamOptions, onText: (text: string) => void) {
+  const { feature, promptVersion, userId } = options;
+  if (!aiConfigured()) throw new AppError(503, 'AI_DISABLED', 'AI features are not set up on this server.');
+  if (userId) await checkQuota(userId, feature, promptVersion);
+
+  const key = crypto
+    .createHash('sha256')
+    .update(JSON.stringify({ feature, model: modelName(), promptVersion, system: options.system, temperature: options.temperature, input: options.recordingInput }))
+    .digest('hex');
+  const file = recordingPath(feature, key, 1);
+  const started = Date.now();
+  let firstTextMs: number | null = null;
+  let text = '';
+  try {
+    const model = config.AI_MODE === 'replay' ? replayStreamModel(file) : getModel();
+    const result = streamText({
+      model,
+      system: options.system,
+      prompt: options.prompt,
+      temperature: options.temperature,
+      maxRetries: 1,
+      abortSignal: options.signal ? AbortSignal.any([options.signal, AbortSignal.timeout(TIMEOUT_MS)]) : AbortSignal.timeout(TIMEOUT_MS),
+    });
+    let usage: { inputTokens?: number; outputTokens?: number } = {};
+    for await (const part of result.fullStream) {
+      if (part.type === 'text-delta') {
+        firstTextMs ??= Date.now() - started;
+        text += part.text;
+        onText(part.text);
+      } else if (part.type === 'error') {
+        throw part.error;
+      } else if (part.type === 'finish') {
+        usage = part.totalUsage;
+      }
+    }
+    if (!text.trim()) throw new AppError(502, 'AI_ERROR', 'The AI returned an empty draft. Please try again.');
+    if (config.AI_MODE === 'record') saveRecording(file, { text, inputTokens: usage.inputTokens, outputTokens: usage.outputTokens });
+    await logCall({ userId, feature, promptVersion, status: 'ok', latencyMs: Date.now() - started, inputTokens: usage.inputTokens, outputTokens: usage.outputTokens });
+    return { text, firstTextMs, model: modelName(), promptVersion };
+  } catch (err) {
+    throw await modelFailure(err, { userId, feature, promptVersion, latencyMs: Date.now() - started });
+  }
+}
+
+// Replays a recorded text a few words at a time, like a real stream.
+function replayStreamModel(file: string): LanguageModel {
+  if (!fs.existsSync(file)) {
+    throw new AppError(500, 'NO_RECORDING', `No recorded reply at ${path.relative(RECORDINGS_DIR, file)}. Run npm run eval:record.`);
+  }
+  const recording: Recording = JSON.parse(fs.readFileSync(file, 'utf8'));
+  const pieces = recording.text.match(/\S+\s*/g) ?? [recording.text];
+  return new MockLanguageModelV4({
+    doStream: async () => ({
+      stream: simulateReadableStream({
+        chunks: [
+          { type: 'text-start' as const, id: 't' },
+          ...pieces.map((delta) => ({ type: 'text-delta' as const, id: 't', delta })),
+          { type: 'text-end' as const, id: 't' },
+          {
+            type: 'finish' as const,
+            finishReason: { unified: 'stop' as const, raw: undefined },
+            usage: {
+              inputTokens: { total: recording.inputTokens, noCache: recording.inputTokens, cacheRead: undefined, cacheWrite: undefined },
+              outputTokens: { total: recording.outputTokens, text: recording.outputTokens, reasoning: undefined },
+            },
+          },
+        ],
+      }),
+    }),
+  });
 }

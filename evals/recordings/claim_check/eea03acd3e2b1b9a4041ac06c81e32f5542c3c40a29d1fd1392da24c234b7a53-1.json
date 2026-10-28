@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"claims\": [\n    {\n      \"text\": \"I trained a 7 billion parameter language model from scratch.\",\n      \"supported_by\": []\n    },\n    {\n      \"text\": \"I cleaned shipment data in Excel (pivot tables, VLOOKUP) and built weekly dashboards in Power BI for the operations lead.\",\n      \"supported_by\": [\n        \"b3\"\n      ]\n    },\n    {\n      \"text\": \"During my recent internship at Tidepool Logistics, I wrote SQL queries for operations reports and presented findings to a team of ten\",\n      \"supported_by\": []\n    }\n  ]\n}",
+  "inputTokens": 614,
+  "outputTokens": 144
+}

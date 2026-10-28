@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"claims\": [\n    {\n      \"text\": \"During my internship at Ledgerly Payments, I built REST APIs in Java 17 and Spring Boot\",\n      \"supported_by\": [\n        \"b2\",\n        \"b3\"\n      ]\n    },\n    {\n      \"text\": \"worked with PostgreSQL and Kafka\",\n      \"supported_by\": [\n        \"b4\",\n        \"b5\",\n        \"b9\"\n      ]\n    },\n    {\n      \"text\": \"participated in the on-call rotation\",\n      \"supported_by\": [\n        \"b6\"\n      ]\n    }\n  ]\n}",
+  "inputTokens": 656,
+  "outputTokens": 153
+}

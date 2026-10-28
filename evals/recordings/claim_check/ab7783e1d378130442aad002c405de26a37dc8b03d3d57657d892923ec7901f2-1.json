@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"claims\": [\n    {\n      \"text\": \"I managed a marketing budget of 2 lakh rupees for a startup.\",\n      \"supported_by\": []\n    },\n    {\n      \"text\": \"I built 7 marketing websites for small businesses with Next.js and Tailwind CSS; all score 95+ on Lighthouse.\",\n      \"supported_by\": [\n        \"b3\"\n      ]\n    },\n    {\n      \"text\": \"In my freelance work, I built 7 marketing websites for small businesses using Next.js and Tailwind CSS, and every single one of them scores 95+ on Lighthouse.\",\n      \"supported_by\": [\n        \"b3\"\n      ]\n    },\n    {\n      \"text\": \"I also have hands-on experience working with Astro, building a personal portfolio with it\",\n      \"supported_by\": [\n        \"b7\"\n      ]\n    },\n    {\n      \"text\": \"I've even built projects that read data from a Google Sheet.\",\n      \"supported_by\": [\n        \"b5\"\n      ]\n    }\n  ]\n}",
+  "inputTokens": 680,
+  "outputTokens": 256
+}
