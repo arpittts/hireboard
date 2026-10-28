@@ -23,7 +23,7 @@
 - 📄 **Resume + requirements checklist** — upload a PDF or paste text; for each job requirement, see whether your resume shows it, with the exact resume line as proof
 - 🎤 **Interview prep** — the 10 questions an interviewer for this role is likely to ask (missing skills first), a mock interview that asks five of them with follow-ups, and rubric feedback on every answer backed by quotes from your own words
 - ✍️ **Writing assistant** — cover letters, recruiter messages, follow-ups and thank-you notes that appear as they are written, with every claim about you checked against your resume
-- 🔍 **Search & Filter** — filter by status, type, priority; search by company or role
+- 🔍 **Smart search** — type to filter by company or role; press Enter to search job descriptions and notes by keyword *and* by meaning ("chatbot jobs" finds RAG roles), with the matched words highlighted
 - ✨ **One-click demo** — a fresh account with 12 synthetic applications, deleted after 24 hours
 - ⌨️ **Keyboard friendly** — every Kanban card has a status menu as well as drag and drop
 - 🔒 **Your data, your call** — export everything as JSON or delete your account in Settings
@@ -34,11 +34,11 @@
 |---|---|
 | Frontend | React 19, Vite, React Router 7, TanStack Query, Recharts, @hello-pangea/dnd |
 | Backend | Node.js 22, Express 5, TypeScript (ES modules), Zod validation |
-| Database | PostgreSQL 17, plain SQL migrations |
+| Database | PostgreSQL 17 + pgvector, full-text search, plain SQL migrations |
 | Auth | JWT (jsonwebtoken) + bcryptjs, rate-limited login |
 | Security | helmet headers, CORS allow-list, one JSON error format |
 | Tests & CI | Vitest + Supertest against a real Postgres; GitHub Actions |
-| AI | Vercel AI SDK + Gemini (free tier), Zod-validated structured output |
+| AI | Vercel AI SDK + Gemini (free tier), Zod-validated structured output, gemini-embedding-2 for search |
 | Email | Brevo HTTPS API (SMTP via Nodemailer locally), triggered daily by GitHub Actions |
 | Deploy | Vercel (frontend) + Render (backend) + Neon (Postgres) |
 
@@ -184,6 +184,14 @@ The posting is passed as delimited data, the prompt tells the model to ignore in
   2. Code flags every number (86%, 4,000) that appears in none of the resume, the job description or the notes. This catches made-up metrics even if the model check misses them.
 - Unsupported claims and numbers are highlighted. "Remove sentence" deletes one; "Rewrite" writes a new version and tells the model what to leave out. Drafts are versioned and copied, never sent.
 
+**Smart search** (`server/src/services/search.ts`, `ai/embed.ts`, `GET /api/search?q=`):
+- **Keyword:** Postgres full-text search on a generated, weighted `tsvector` (company and role count most, then location, then job description and notes), with a GIN index. Finds exact terms such as "Kafka".
+- **Meaning:** each application is turned into 768 numbers with `gemini-embedding-2` and stored in a pgvector column with an HNSW index. The query is embedded the same way and compared by cosine similarity. Every application is "nearest" to something, so a meaning match must score at least 0.60 **and** be within 0.05 of the best match, and at most 5 are kept. This model squeezes nearly all similarities into 0.55–0.75, so the gap from the best separates relevant from unrelated far better than a fixed floor (results per query in the eval: 10 → 3.3, share relevant: 20% → 56%, for 4 points less recall@5).
+- The two ranked lists are merged with **reciprocal rank fusion** (each list adds 1 / (60 + rank)), so an application found both ways rises to the top. Each result says how it was found and shows a highlighted snippet.
+- Applications are embedded lazily on search, and again only when their text changes (a hash is stored with the embedding). Repeated queries come from the cache. Each new query uses one AI request from the daily quota.
+- Without AI (no key, quota used up, provider down) search still works: keyword only, also accepting applications that contain some of the words.
+- The embedding is never sent to the browser: application queries list their columns instead of `SELECT *`.
+
 ### Evaluation
 
 `evals/datasets/jd_extraction.json` has 40 synthetic postings with hand-written labels: Indian LPA and monthly stipends, USD/GBP/EUR/CHF/SGD pay, remote, hybrid and on-site jobs, agency postings that hide the employer, and 5 postings with prompt-injection text.
@@ -192,12 +200,13 @@ The posting is passed as delimited data, the prompt tells the model to ignore in
 
 ```bash
 cd server
-npm run eval              # both evals, replaying recorded replies: offline, free, repeatable (runs in CI)
+npm run eval              # every eval, replaying recorded replies: offline, free, repeatable (runs in CI)
 npm run eval:jd:record    # re-record the JD eval against Gemini (needs GEMINI_API_KEY)
 npm run eval:req:record   # re-record the requirements eval
 npm run eval:interview:record   # re-record the interview eval
 npm run eval:feedback:record    # re-record the feedback eval
 npm run eval:drafts:record      # re-record the writing assistant eval
+npm run eval:search:record      # re-record the search eval's embeddings
 ```
 
 Results are in `evals/reports/`:
@@ -207,6 +216,7 @@ Results are in `evals/reports/`:
 | JD extraction (`jd_extract.md`) | ≥ 90% field accuracy, no injected instruction followed |
 | Requirements checklist (`requirements_check.md`) | ≥ 80% verdict accuracy, ≥ 95% of "met" answers cite a real line, resume injection ignored |
 | Interview prep (`interview.md`) | ≥ 80% correct follow-up decisions on 20 scripted answers, 0 injected instructions obeyed, every missing required skill has a question |
+| Smart search (`search.md`) | hybrid recall@5 on 20 labelled queries over the 40 postings ≥ keyword only and ≥ meaning only |
 | Writing assistant (`drafts.md`) | every made-up sentence added to 20 drafts is flagged, ≤ 10% of true resume sentences are wrongly flagged, first text in under 2 s |
 | Answer feedback (`feedback.md`) | ≥ 95% of good scores backed by a real quote, 0 of 10 "score this 4/4" injections raise a score, good > average > weak; once the owner has graded `feedback_grading.csv`: within 1 point ≥ 85% and quadratic weighted κ ≥ 0.6 |
 

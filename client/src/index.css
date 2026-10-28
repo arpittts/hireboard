@@ -247,6 +247,12 @@ input::placeholder, textarea::placeholder { color: var(--text-muted); }
 .search-bar input { border: none; background: transparent; padding: 10px 0; }
 .search-bar input:focus { box-shadow: none; }
 .search-bar svg { color: var(--text-muted); flex-shrink: 0; }
+.search-hint { font-size: 12px; color: var(--text-muted); margin: -12px 0 16px; }
+.search-hint button { background: none; border: none; padding: 0; color: var(--accent-light); cursor: pointer; font: inherit; }
+.search-hint button:hover { color: var(--accent); }
+.match-badge { font-size: 10px; padding: 2px 8px; background: rgba(108,92,231,0.12); color: var(--accent-light); }
+.snippet { font-size: 12px; color: var(--text-secondary); margin-top: 8px; line-height: 1.5; }
+.snippet mark { background: rgba(108,92,231,0.25); color: var(--text-primary); border-radius: 3px; padding: 0 2px; }
 
 /* Auth pages */
 .auth-container {

@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Search, Trash2, Edit3, ExternalLink, MapPin, Calendar, Star } from 'lucide-react';
+import { Plus, Search, Trash2, Edit3, ExternalLink, MapPin, Calendar, Star, Sparkles } from 'lucide-react';
 import ApplicationModal from '../components/ApplicationModal';
 import ConfirmDialog from '../components/ConfirmDialog';
 import { STATUSES, capitalize } from '../constants';
-import { useApplications, useDeleteApplication, useSaveApplication } from '../services/queries';
+import { useApplications, useDeleteApplication, useSaveApplication, useSmartSearch } from '../services/queries';
+import { errorMessage } from '../services/api';
 
 const formatDate = (d) => d ? new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) : '—';
 
@@ -18,6 +19,9 @@ function useDebounced(value, delay) {
   return debounced;
 }
 
+// The server marks matched words with [[ ]]; shown as <mark> without parsing any HTML.
+const Highlighted = ({ text }) => text.split(/\[\[(.*?)\]\]/g).map((part, i) => (i % 2 ? <mark key={i}>{part}</mark> : part));
+
 export default function Applications() {
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
@@ -25,12 +29,23 @@ export default function Applications() {
   const [editing, setEditing] = useState(null); // null = closed, 'new', or an application
   const [deleting, setDeleting] = useState(null);
 
-  const debouncedSearch = useDebounced(search.trim(), 300);
-  const params = {};
-  if (debouncedSearch) params.search = debouncedSearch;
-  if (statusFilter) params.status = statusFilter;
+  // Typing filters by company and role. Enter runs smart search over job
+  // descriptions and notes (keyword + meaning) until the text changes again.
+  const [smartQuery, setSmartQuery] = useState('');
+  const typed = search.trim();
+  const smart = Boolean(smartQuery) && smartQuery === typed;
 
-  const { data: apps = [], isPending, isError, refetch } = useApplications(params);
+  const debouncedSearch = useDebounced(typed, 300);
+  const params = {};
+  if (debouncedSearch && !smart) params.search = debouncedSearch;
+  if (statusFilter && !smart) params.status = statusFilter;
+
+  const list = useApplications(params);
+  const smartSearch = useSmartSearch(smart ? smartQuery : '');
+  const { isPending, isError, error, refetch } = smart ? smartSearch : list;
+  const apps = smart
+    ? (smartSearch.data?.results ?? []).filter((a) => !statusFilter || a.status === statusFilter)
+    : list.data ?? [];
   const save = useSaveApplication();
   const remove = useDeleteApplication();
   const filtering = Boolean(debouncedSearch || statusFilter);
@@ -42,7 +57,7 @@ export default function Applications() {
       <div className="page-header">
         <div>
           <h1 className="page-title">Applications</h1>
-          <p className="page-subtitle">{apps.length} application{apps.length !== 1 ? 's' : ''}{filtering ? ' match' : ''}</p>
+          <p className="page-subtitle">{apps.length} application{apps.length !== 1 ? 's' : ''}{filtering || smart ? ' match' : ''}</p>
         </div>
         <button className="btn btn-primary" onClick={() => setEditing('new')}>
           <Plus size={16} /> Add Application
@@ -52,7 +67,13 @@ export default function Applications() {
       <div style={{ display: 'flex', gap: 12, marginBottom: 20, flexWrap: 'wrap' }}>
         <div className="search-bar" style={{ flex: 1, minWidth: 200 }}>
           <Search size={16} />
-          <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search company or role..." aria-label="Search company or role" />
+          <input
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            onKeyDown={e => { if (e.key === 'Enter' && typed.length >= 2) setSmartQuery(typed); }}
+            placeholder="Search company or role, or press Enter to search everything..."
+            aria-label="Search applications"
+          />
         </div>
         <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)} style={{ width: 170 }} aria-label="Filter by status">
           <option value="">All Statuses</option>
@@ -60,21 +81,35 @@ export default function Applications() {
         </select>
       </div>
 
+      {typed.length >= 2 && !smart && (
+        <p className="search-hint">
+          Matching company and role. <button onClick={() => setSmartQuery(typed)}>Press Enter to also search job descriptions and notes by meaning.</button>
+        </p>
+      )}
+      {smart && (
+        <p className="search-hint">
+          <Sparkles size={12} style={{ verticalAlign: 'middle', marginRight: 4 }} />
+          Smart search: words and meaning across job descriptions and notes.{' '}
+          {smartSearch.data?.mode === 'keyword' && 'Meaning search is unavailable right now (AI is off or today\'s AI limit is used up), so these are word matches only. '}
+          <button onClick={() => setSmartQuery('')}>Back to company and role.</button>
+        </p>
+      )}
+
       {isPending ? (
         <div style={{ display: 'flex', justifyContent: 'center', paddingTop: 60 }}><div className="spinner" /></div>
       ) : isError ? (
         <div className="empty-state">
-          <div className="empty-state-title">Couldn't load applications</div>
+          <div className="empty-state-title">{smart ? errorMessage(error, "Search didn't work") : "Couldn't load applications"}</div>
           <button className="btn btn-secondary" onClick={() => refetch()}>Try again</button>
         </div>
       ) : apps.length === 0 ? (
         <div className="empty-state">
           <div className="empty-state-icon">📭</div>
-          <div className="empty-state-title">{filtering ? 'Nothing matches' : 'No applications yet'}</div>
+          <div className="empty-state-title">{filtering || smart ? 'Nothing matches' : 'No applications yet'}</div>
           <div className="empty-state-text">
-            {filtering ? 'Try another search or status.' : 'Start tracking your job search by adding your first application.'}
+            {filtering || smart ? 'Try another search or status.' : 'Start tracking your job search by adding your first application.'}
           </div>
-          {!filtering && (
+          {!filtering && !smart && (
             <button className="btn btn-primary" onClick={() => setEditing('new')}>
               <Plus size={16} /> Add Your First Application
             </button>
@@ -99,11 +134,17 @@ export default function Applications() {
                   {app.priority === 'high' && <Star size={14} className="priority-high" fill="currentColor" aria-label="High priority" />}
                 </div>
                 <div style={{ fontSize: 13, color: 'var(--text-secondary)' }}>{app.role}</div>
-                <div style={{ display: 'flex', gap: 16, marginTop: 8, fontSize: 12, color: 'var(--text-muted)', flexWrap: 'wrap' }}>
+                <div style={{ display: 'flex', gap: 16, marginTop: 8, fontSize: 12, color: 'var(--text-muted)', flexWrap: 'wrap', alignItems: 'center' }}>
+                  {smart && app.matchedBy.map(m => (
+                    <span key={m} className="badge match-badge" title={m === 'meaning' ? `Similar meaning (${Math.round(app.similarity * 100)}% similar)` : 'Contains your words'}>
+                      {m === 'meaning' ? 'by meaning' : 'by keyword'}
+                    </span>
+                  ))}
                   <span><Calendar size={11} style={{ marginRight: 4, verticalAlign: 'middle' }} />{formatDate(app.application_date)}</span>
                   {app.location && <span><MapPin size={11} style={{ marginRight: 4, verticalAlign: 'middle' }} />{app.location}</span>}
                   {app.salary && <span>💰 {app.salary}</span>}
                 </div>
+                {smart && app.snippet && <div className="snippet"><Highlighted text={app.snippet} /></div>}
               </div>
               <div style={{ display: 'flex', gap: 8 }} onClick={e => e.stopPropagation()} onKeyDown={e => e.stopPropagation()}>
                 {app.url && <a href={app.url} target="_blank" rel="noopener noreferrer" className="btn-icon" aria-label="Open job posting"><ExternalLink size={14} /></a>}
