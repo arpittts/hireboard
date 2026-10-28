@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grade answers</title>
+<style>
+:root { --bg:#f7f7fb; --card:#fff; --text:#1d1d2b; --muted:#6b6b80; --line:#e3e3ee; --accent:#6c5ce7; --accent-bg:#efecff; }
+@media (prefers-color-scheme: dark) { :root { --bg:#0f0f1a; --card:#1a1a2e; --text:#e8e8f2; --muted:#9a9ab5; --line:#2c2c45; --accent:#a78bfa; --accent-bg:#2a2350; } }
+* { box-sizing: border-box; }
+body { margin:0; background:var(--bg); color:var(--text); font:15px/1.5 -apple-system, system-ui, sans-serif; }
+main { max-width:860px; margin:0 auto; padding:20px 16px 60px; }
+header { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; }
+h1 { font-size:20px; margin:0; }
+.progress { height:6px; background:var(--line); border-radius:99px; overflow:hidden; margin:12px 0 20px; }
+.progress > div { height:100%; background:var(--accent); transition:width .2s; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:18px; margin-bottom:14px; }
+.q { font-weight:600; margin-bottom:10px; }
+.answer { white-space:pre-wrap; }
+.followup { margin-top:10px; padding-top:10px; border-top:1px dashed var(--line); }
+.label { font-size:11px; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); font-weight:700; }
+.crit h3 { margin:0 0 2px; font-size:15px; }
+.crit p.hint { margin:0 0 10px; color:var(--muted); font-size:13px; }
+.levels { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+@media (max-width:640px) { .levels { grid-template-columns:1fr 1fr; } }
+.levels button { text-align:left; background:var(--bg); color:var(--text); border:1.5px solid var(--line); border-radius:10px; padding:8px 10px; cursor:pointer; font:inherit; font-size:12.5px; line-height:1.35; }
+.levels button b { display:block; font-size:16px; margin-bottom:2px; }
+.levels button[aria-pressed="true"] { border-color:var(--accent); background:var(--accent-bg); }
+.levels button:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+nav { display:flex; justify-content:space-between; gap:10px; margin-top:6px; flex-wrap:wrap; }
+.btn { background:var(--accent); color:#fff; border:0; border-radius:10px; padding:10px 18px; font:inherit; font-weight:600; cursor:pointer; }
+.btn.secondary { background:transparent; color:var(--text); border:1.5px solid var(--line); }
+.btn:disabled { opacity:.45; cursor:not-allowed; }
+.done { text-align:center; }
+.muted { color:var(--muted); font-size:13px; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>Grade the mock-interview answers</h1>
+    <span class="muted" id="count"></span>
+  </header>
+  <div class="progress"><div id="bar"></div></div>
+  <div id="app"></div>
+</main>
+<script>
+const ITEMS = [{"id": "q08-good", "question": "How would you evaluate whether an LLM feature is good enough to ship?", "answer": "I'd agree with the team on what good means for that feature, write a test set of real examples with expected answers, and measure accuracy plus a few failure types like made-up facts. I'd set a bar before testing, say 85% with no unsafe answers, and compare each prompt or model change against it. In production I'd log user feedback and sample answers weekly, because the test set gets stale.", "followUp": null, "followUpAnswer": null}, {"id": "q02-weak", "question": "Tell me about a time you disagreed with a teammate.", "answer": "Yeah, that happens sometimes, we usually talk it out.", "followUp": null, "followUpAnswer": null}, {"id": "q06-good", "question": "How do you make sure an API you build is reliable?", "answer": "I write integration tests against a real Postgres in CI, validate every input with a schema so bad requests get a 400 instead of a 500, put timeouts on calls to other services, and log latency and errors per route. After a deploy I watch the error rate; in my last project that caught a missing index within an hour.", "followUp": null, "followUpAnswer": null}, {"id": "q10-weak", "question": "Why do you want to work at Northwind Analytics?", "answer": "Because it is a good company and I want to learn.", "followUp": null, "followUpAnswer": null}, {"id": "q03-average", "question": "Tell me about a mistake you made and what you learned from it.", "answer": "I once pushed code with a bug to the main branch and it broke the build for the team. I fixed it quickly and now I am more careful before pushing.", "followUp": null, "followUpAnswer": null}, {"id": "q10-average", "question": "Why do you want to work at Northwind Analytics?", "answer": "I am interested in AI and Northwind works on AI products, so it is a good fit for me. I also heard it has a good work culture.", "followUp": null, "followUpAnswer": null}, {"id": "q04-good", "question": "Describe a time you had to learn a new technology quickly.", "answer": "For a client project I had to learn pgvector in a week. I read the docs on day one, built a tiny prototype with 100 manuals on day two, and measured retrieval with 30 hand-written questions. When recall was poor I learned about HNSW indexes and chunk overlap, tuned both, and the prototype became the base of the production chatbot.", "followUp": null, "followUpAnswer": null}, {"id": "q01-good", "question": "Tell me about a time you had to deliver a project under a tight deadline.", "answer": "Two weeks before a client demo our retrieval service was still failing on long manuals. I listed every feature, agreed with my lead which three were must-haves, and dropped the analytics page. I fixed chunking for long documents myself, added a nightly test run, and we demoed on time; the client signed a three-month pilot. Next time I'd flag the risk a week earlier.", "followUp": null, "followUpAnswer": null}, {"id": "q05-average", "question": "How would you design a retrieval-augmented chatbot over a product catalogue?", "answer": "I would put the product data in a vector database and use embeddings to find similar products, then send them to the LLM to generate an answer.", "followUp": "How would you know it works well?", "followUpAnswer": "I would test it with some questions and see if the answers are right."}, {"id": "q03-weak", "question": "Tell me about a mistake you made and what you learned from it.", "answer": "I don't really make big mistakes, I am a careful person and I double check everything.", "followUp": null, "followUpAnswer": null}, {"id": "q10-good", "question": "Why do you want to work at Northwind Analytics?", "answer": "Northwind builds assistants for store managers, and that's exactly the kind of retrieval and evaluation work I did at Brightcart. I like that your job post talks about writing evaluation sets, because measuring quality is the part I enjoy most. I also want to learn how a product team ships LLM features to thousands of real users, which I haven't done yet.", "followUp": null, "followUpAnswer": null}, {"id": "q08-average", "question": "How would you evaluate whether an LLM feature is good enough to ship?", "answer": "I would test it with many examples and check the answers manually. If most are correct then it is good enough.", "followUp": "How many examples, and what counts as most?", "followUpAnswer": "Maybe 50 examples, and if 80 percent are correct."}, {"id": "q09-weak", "question": "Walk me through the evaluation set you built at your internship.", "answer": "I made some questions and checked the answers.", "followUp": null, "followUpAnswer": null}, {"id": "q05-weak", "question": "How would you design a retrieval-augmented chatbot over a product catalogue?", "answer": "I would use ChatGPT and give it the catalogue.", "followUp": null, "followUpAnswer": null}, {"id": "q08-weak", "question": "How would you evaluate whether an LLM feature is good enough to ship?", "answer": "If it works when I try it, it is good enough.", "followUp": null, "followUpAnswer": null}, {"id": "q09-good", "question": "Walk me through the evaluation set you built at your internship.", "answer": "I wrote 150 questions with the support team, each with an expected answer and the source page. A nightly script ran them through the bot and checked the key facts in each answer. When accuracy was 71% I tested chunk sizes from 256 to 1024 tokens and rewrote the system prompt, which got it to 86% in two weeks. The hardest part was writing questions that matched how customers really ask.", "followUp": null, "followUpAnswer": null}, {"id": "q07-average", "question": "How would you find out why a SQL query became slow?", "answer": "I would check if there are indexes on the tables and maybe add an index on the columns in the WHERE clause.", "followUp": null, "followUpAnswer": null}, {"id": "q03-good", "question": "Tell me about a mistake you made and what you learned from it.", "answer": "During my internship I deployed a prompt change on a Friday without running the evaluation set, and answer accuracy dropped from 86% to 74% over the weekend. On Monday I rolled it back, told my lead what happened, and added a CI check that blocks prompt changes unless the 150 test questions pass. Since then I never ship a prompt change without the eval.", "followUp": null, "followUpAnswer": null}, {"id": "q06-average", "question": "How do you make sure an API you build is reliable?", "answer": "I write unit tests for the main functions and I handle errors with try and catch so the server does not crash.", "followUp": null, "followUpAnswer": null}, {"id": "q09-average", "question": "Walk me through the evaluation set you built at your internship.", "answer": "I created a list of questions and expected answers and ran them through the chatbot to see how many it got right. This helped us improve the accuracy.", "followUp": "What did you change based on the results?", "followUpAnswer": "We changed the prompt and some settings."}, {"id": "q07-good", "question": "How would you find out why a SQL query became slow?", "answer": "First I'd run EXPLAIN ANALYZE to see where the time goes. If it shows a sequential scan on a big table, I'd check whether the filter column has an index and whether recent data growth changed the plan. In my internship a report went from 9 seconds to 1.2 seconds after I added a composite index on merchant and date, which I confirmed by comparing the plans before and after.", "followUp": null, "followUpAnswer": null}, {"id": "q04-weak", "question": "Describe a time you had to learn a new technology quickly.", "answer": "I can learn anything quickly, I am a fast learner.", "followUp": null, "followUpAnswer": null}, {"id": "q02-good", "question": "Tell me about a time you disagreed with a teammate.", "answer": "My teammate wanted to fine-tune a model; I thought prompt changes would be enough. I suggested we each try for one day against the same 50 test questions. Prompting reached 84% versus 86% for fine-tuning at a fraction of the cost, so we shipped prompting and kept fine-tuning as a later option. I learned to settle arguments with a shared test instead of opinions.", "followUp": null, "followUpAnswer": null}, {"id": "q06-weak", "question": "How do you make sure an API you build is reliable?", "answer": "I test it.", "followUp": "What kind of tests?", "followUpAnswer": "Normal ones."}, {"id": "q01-weak", "question": "Tell me about a time you had to deliver a project under a tight deadline.", "answer": "I always meet deadlines because I work hard. I think deadlines are important in any job.", "followUp": null, "followUpAnswer": null}, {"id": "q01-average", "question": "Tell me about a time you had to deliver a project under a tight deadline.", "answer": "We had a hackathon with 36 hours to build an app. I worked on the backend in Flask and we divided tasks in the team. It was tiring but we finished and presented it, and the judges liked it.", "followUp": "What did you do yourself when the deadline got close?", "followUpAnswer": "I skipped the login feature and focused on making the main demo flow work."}, {"id": "q07-weak", "question": "How would you find out why a SQL query became slow?", "answer": "I would ask the database admin.", "followUp": null, "followUpAnswer": null}, {"id": "q05-good", "question": "How would you design a retrieval-augmented chatbot over a product catalogue?", "answer": "I'd split each manual into chunks of about 500 tokens with some overlap, embed them and store them in pgvector, and retrieve the top results with both vector and keyword search because product codes match better by keyword. The model answers only from retrieved chunks and cites them. Before launch I'd build a test set from real support questions and tune chunk size and the number of results against it, since that is where most quality comes from.", "followUp": null, "followUpAnswer": null}, {"id": "q02-average", "question": "Tell me about a time you disagreed with a teammate.", "answer": "In a college project my friend wanted to use MongoDB and I wanted PostgreSQL. We discussed it and in the end we went with PostgreSQL because our data had a lot of relations.", "followUp": "How did you convince them?", "followUpAnswer": "I showed them that our data had many joins between students and courses."}, {"id": "q04-average", "question": "Describe a time you had to learn a new technology quickly.", "answer": "I had to learn React for a project. I watched some YouTube tutorials and read the documentation, then I built the frontend. It took about two weeks.", "followUp": "What was the hardest part?", "followUpAnswer": "State management was confusing at first but I got used to hooks."}];
+const RUBRIC = {"relevance": {"title": "Relevance", "question": "does it answer what was asked?", "levels": {"4": "Answers the exact question directly and stays on it throughout.", "3": "Answers the question, with some drifting or a partly different example.", "2": "Only loosely related, or answers an easier question than the one asked.", "1": "Off-topic, a non-answer, or a refusal."}}, "specificity": {"title": "Specificity", "question": "concrete details about the candidate's own work?", "levels": {"4": "A real situation with the candidate's own actions (\"I…\") and concrete details: numbers, tools, names, timelines.", "3": "A real situation with some details, but the candidate's own part or the result is a bit vague.", "2": "Mostly general statements (\"we usually…\", \"I would…\") with one or two details.", "1": "Entirely generic; could be anyone's answer."}}, "structure": {"title": "Structure", "question": "easy to follow?", "levels": {"4": "Clear order: for a story, situation → task → action → result (STAR); for a technical question, a clear approach step by step. Ends with a result or conclusion.", "3": "Mostly clear, with one missing or muddled part (for example no result).", "2": "Hard to follow: jumps around, or key parts are missing.", "1": "No discernible structure, or too short to have one."}}, "depth": {"title": "Depth", "question": "shows understanding beyond the surface?", "levels": {"4": "Explains why: trade-offs, alternatives considered, what was learned or would be done differently.", "3": "Some reasoning beyond what was done, but brief.", "2": "Says what was done with little or no reasoning.", "1": "No reasoning at all."}}};
+const CRITERIA = ['relevance', 'specificity', 'structure', 'depth'];
+const KEY = 'hireboard-grades-v1';
+let grades = {};
+try { grades = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch {}
+let index = Math.max(0, ITEMS.findIndex(it => !isComplete(it.id)));
+if (index < 0) index = ITEMS.length;
+
+function isComplete(id) { return CRITERIA.every(c => grades[id] && grades[id][c]); }
+function save() { try { localStorage.setItem(KEY, JSON.stringify(grades)); } catch {} }
+const esc = s => String(s).replace(/[&<>"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
+
+function render() {
+  const done = ITEMS.filter(it => isComplete(it.id)).length;
+  document.getElementById('count').textContent = `${done} of ${ITEMS.length} graded`;
+  document.getElementById('bar').style.width = `${(done / ITEMS.length) * 100}%`;
+  const app = document.getElementById('app');
+  if (index >= ITEMS.length) {
+    app.innerHTML = `<div class="card done">
+      <h2>${done === ITEMS.length ? 'All 30 answers graded. Thank you!' : `${done} of 30 graded`}</h2>
+      <p class="muted">${done === ITEMS.length ? 'Download your grades, then tell Claude "grades done".' : 'You can download now and finish later, or go back to the ungraded ones.'}</p>
+      <button class="btn" id="download">Download grades (feedback_grading.csv)</button>
+      <p><button class="btn secondary" id="back">Back to the answers</button></p>
+    </div>`;
+    document.getElementById('download').onclick = download;
+    document.getElementById('back').onclick = () => { index = Math.max(0, ITEMS.findIndex(it => !isComplete(it.id))); if (index < 0) index = 0; render(); };
+    return;
+  }
+  const it = ITEMS[index];
+  const g = grades[it.id] || {};
+  app.innerHTML = `
+    <div class="card">
+      <div class="label">Answer ${index + 1} of ${ITEMS.length}</div>
+      <div class="q">${esc(it.question)}</div>
+      <div class="answer">${esc(it.answer)}</div>
+      ${it.followUp ? `<div class="followup"><div class="label">Follow-up</div><div class="q" style="font-weight:500">${esc(it.followUp)}</div><div class="answer">${esc(it.followUpAnswer)}</div></div>` : ''}
+    </div>
+    ${CRITERIA.map(c => `
+      <div class="card crit">
+        <h3>${esc(RUBRIC[c].title)}</h3>
+        <p class="hint">${esc(RUBRIC[c].question)}</p>
+        <div class="levels" role="group" aria-label="${esc(RUBRIC[c].title)} score">
+          ${[1,2,3,4].map(n => `<button data-c="${c}" data-n="${n}" aria-pressed="${g[c] === n}"><b>${n}</b>${esc(RUBRIC[c].levels[n])}</button>`).join('')}
+        </div>
+      </div>`).join('')}
+    <nav>
+      <button class="btn secondary" id="prev" ${index === 0 ? 'disabled' : ''}>← Previous</button>
+      <button class="btn" id="next" ${isComplete(it.id) ? '' : 'disabled'}>${index === ITEMS.length - 1 ? 'Finish' : 'Next →'}</button>
+    </nav>
+    <p class="muted">Grade each criterion on its own, by what is actually in the answer. Your progress is saved in this browser.</p>`;
+  app.querySelectorAll('.levels button').forEach(b => b.onclick = () => {
+    grades[it.id] = { ...(grades[it.id] || {}), [b.dataset.c]: Number(b.dataset.n) };
+    save(); render();
+  });
+  document.getElementById('prev').onclick = () => { index -= 1; render(); window.scrollTo(0, 0); };
+  document.getElementById('next').onclick = () => { index += 1; render(); window.scrollTo(0, 0); };
+}
+
+function download() {
+  const ORDER = ["q01-good", "q01-average", "q01-weak", "q02-good", "q02-average", "q02-weak", "q03-good", "q03-average", "q03-weak", "q04-good", "q04-average", "q04-weak", "q05-good", "q05-average", "q05-weak", "q06-good", "q06-average", "q06-weak", "q07-good", "q07-average", "q07-weak", "q08-good", "q08-average", "q08-weak", "q09-good", "q09-average", "q09-weak", "q10-good", "q10-average", "q10-weak"];
+  const byId = Object.fromEntries(ITEMS.map(it => [it.id, it]));
+  const cell = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
+  const rows = [['id', 'question', 'answer (and follow-up)', ...CRITERIA].join(',')];
+  for (const id of ORDER) {
+    const it = byId[id];
+    const full = it.answer + (it.followUp ? `\n[Follow-up: ${it.followUp}]\n${it.followUpAnswer}` : '');
+    rows.push([cell(id), cell(it.question), cell(full), ...CRITERIA.map(c => (grades[id] || {})[c] ?? '')].join(','));
+  }
+  const blob = new Blob([rows.join('\n') + '\n'], { type: 'text/csv' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'feedback_grading.csv';
+  a.click();
+}
+
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"relevance\": {\n    \"score\": 3,\n    \"quote\": \"I would test it with many examples and check the answers manually.\",\n    \"reason\": \"You answered the question with an evaluation approach, though your method drifted into very basic manual checks.\"\n  },\n  \"specificity\": {\n    \"score\": 1,\n    \"quote\": \"Maybe 50 examples, and if 80 percent are correct.\",\n    \"reason\": \"Your answer is entirely generic and lacks concrete details about specific metrics, tools, or real situations.\"\n  },\n  \"structure\": {\n    \"score\": 2,\n    \"quote\": null,\n    \"reason\": \"Your answer is hard to follow because it lacks a clear step-by-step approach or logical framework for evaluation.\"\n  },\n  \"depth\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"You provided no reasoning for why 50 examples or 80 percent accuracy is sufficient, or what trade-offs you considered.\"\n  },\n  \"improvement\": \"Add depth by explaining your reasoning behind choosing 50 examples and 80 percent accuracy, and discuss what trade-offs you considered for evaluating the LLM feature.\"\n}",
+  "inputTokens": 865,
+  "outputTokens": 278
+}

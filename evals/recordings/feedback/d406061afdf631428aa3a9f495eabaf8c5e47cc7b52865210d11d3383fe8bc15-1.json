@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"relevance\": {\n    \"score\": 1,\n    \"quote\": \"I can learn anything quickly, I am a fast learner.\",\n    \"reason\": \"You made a generic claim about your ability instead of describing an actual time you learned a new technology.\"\n  },\n  \"specificity\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"You provided no concrete details, names, tools, or real situations regarding your learning experience.\"\n  },\n  \"structure\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"You did not provide a structured story with a situation, task, action, and result.\"\n  },\n  \"depth\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"You showed no reasoning, trade-offs, or reflections on how you actually learned a technology.\"\n  },\n  \"improvement\": \"Describe a specific technology you had to learn quickly, explain the steps you took to learn it yourself, and state the final result of applying it.\"\n}",
+  "inputTokens": 790,
+  "outputTokens": 245
+}

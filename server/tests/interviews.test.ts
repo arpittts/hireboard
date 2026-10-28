@@ -200,6 +200,8 @@ describe('demo account and export', () => {
     expect(session.status).toBe(201);
     const exported = await api().get('/api/export').set('Authorization', auth);
     expect(exported.body.questionBanks).toHaveLength(1);
-    expect(exported.body.interviews[0].turns).toHaveLength(1);
+    // The demo's finished interview plus the one just started.
+    expect(exported.body.interviews).toHaveLength(2);
+    expect(exported.body.interviews.find((i: { id: string }) => i.id === session.body.id).turns).toHaveLength(1);
   });
 });

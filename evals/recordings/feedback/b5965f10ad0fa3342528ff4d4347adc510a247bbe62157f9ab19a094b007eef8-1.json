@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"relevance\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"You did not provide an example of a time you disagreed with a teammate.\"\n  },\n  \"specificity\": {\n    \"score\": 1,\n    \"quote\": \"Yeah, that happens sometimes, we usually talk it out.\",\n    \"reason\": \"You gave an entirely generic statement with no real situation, actions, or details.\"\n  },\n  \"structure\": {\n    \"score\": 1,\n    \"quote\": \"Yeah, that happens sometimes, we usually talk it out.\",\n    \"reason\": \"Your answer is too short to have a discernible structure like STAR.\"\n  },\n  \"depth\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"You provided no reasoning or explanation since you did not describe an actual event.\"\n  },\n  \"improvement\": \"Share a specific time you disagreed with a teammate, what the disagreement was about, the actions you took to resolve it, and the final result.\"\n}",
+  "inputTokens": 789,
+  "outputTokens": 240
+}

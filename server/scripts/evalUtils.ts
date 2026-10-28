@@ -38,10 +38,11 @@ export async function withRetry<T>(label: string, fn: () => Promise<T>): Promise
   }
 }
 
-// Prints the report; only a live run (record mode) updates the committed copy.
+// Prints the report. A live run (record mode) updates the committed copy; a replay
+// does too with --write-report (for example after the owner adds grades).
 export function publishReport(fileName: string, report: string): void {
   console.log(`\n${report}`);
-  if (config.AI_MODE !== 'record') return;
+  if (config.AI_MODE !== 'record' && !process.argv.includes('--write-report')) return;
   const file = path.join(ROOT, 'evals/reports', fileName);
   fs.mkdirSync(path.dirname(file), { recursive: true });
   fs.writeFileSync(file, report);

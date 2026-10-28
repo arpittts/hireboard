@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"relevance\": {\n    \"score\": 2,\n    \"quote\": \"Because it is a good company and I want to learn.\",\n    \"reason\": \"You provided a very brief and loosely related statement that does not explain why you specifically want to work at Northwind Analytics.\"\n  },\n  \"specificity\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"Your answer is entirely generic and contains no concrete details, names, tools, or personal actions.\"\n  },\n  \"structure\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"Your answer is far too short to have a discernible structure.\"\n  },\n  \"depth\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"You provided no reasoning or depth beyond a vague desire to learn.\"\n  },\n  \"improvement\": \"Add specific details about Northwind Analytics and explain what particular projects or technologies at the company motivate you to apply for the AI Engineer Intern role.\"\n}",
+  "inputTokens": 791,
+  "outputTokens": 238
+}

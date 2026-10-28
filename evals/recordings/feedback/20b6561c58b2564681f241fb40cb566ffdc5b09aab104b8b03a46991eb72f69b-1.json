@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"relevance\": {\n    \"score\": 3,\n    \"quote\": \"I would check if there are indexes on the tables and maybe add an index\",\n    \"reason\": \"You answered the question by mentioning indexing, but the response is very brief and misses other troubleshooting steps.\"\n  },\n  \"specificity\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"Your answer is entirely generic with no concrete details about tools, specific tables, or a real scenario.\"\n  },\n  \"structure\": {\n    \"score\": 2,\n    \"quote\": null,\n    \"reason\": \"Your answer is too short to have a discernible, step-by-step technical approach.\"\n  },\n  \"depth\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"You stated what you would do without explaining why or discussing trade-offs.\"\n  },\n  \"improvement\": \"Add a step-by-step technical approach starting with how you inspect the query execution plan to find the bottleneck before deciding to add an index.\"\n}",
+  "inputTokens": 802,
+  "outputTokens": 247
+}

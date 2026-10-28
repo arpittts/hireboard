@@ -292,3 +292,22 @@ export function useEndInterview(id) {
     onError: (err) => toast.error(errorMessage(err)),
   });
 }
+
+// --- Interview feedback ------------------------------------------------------------
+
+export function useGetFeedback(id) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async () => (await api.post(`/interviews/${id}/feedback`)).data,
+    onSuccess: (session) => {
+      queryClient.setQueryData(['interview', id], session);
+      queryClient.invalidateQueries({ queryKey: ['interviews', session.application_id] });
+      queryClient.invalidateQueries({ queryKey: ['ai-usage'] });
+      if (session.feedbackFailed > 0) toast.error(`${session.feedbackFailed} answer(s) could not be graded. Try again for those.`);
+    },
+  });
+}
+
+export function useRubric() {
+  return useQuery({ queryKey: ['rubric'], queryFn: async () => (await api.get('/interviews/rubric')).data, staleTime: Infinity });
+}
