@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"relevance\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"You offered a general opinion about deadlines instead of telling a story about a specific project you delivered under pressure.\"\n  },\n  \"specificity\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"You provided no real situation, actions, tools, or metrics regarding your own work.\"\n  },\n  \"structure\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"You did not use any structure to tell a story or answer the question.\"\n  },\n  \"depth\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"You gave no reasoning, trade-offs, or analysis beyond stating that you work hard.\"\n  },\n  \"improvement\": \"Share a specific project with a tight deadline, describe the situation, explain the exact actions you took to prioritize your tasks, and state the final result.\"\n}",
+  "inputTokens": 803,
+  "outputTokens": 231
+}

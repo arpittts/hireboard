@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"relevance\": {\n    \"score\": 4,\n    \"quote\": \"I once pushed code with a bug to the main branch\",\n    \"reason\": \"You directly answered the question by sharing a specific mistake you made and what you learned.\"\n  },\n  \"specificity\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"You provided an entirely generic answer without naming any tools, projects, timelines, or specific technical details.\"\n  },\n  \"structure\": {\n    \"score\": 2,\n    \"quote\": \"I once pushed code with a bug\",\n    \"reason\": \"You touched on the situation, action, and result in one sentence, but it is far too brief and lacks a clear narrative flow.\"\n  },\n  \"depth\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"You stated what happened without explaining any reasoning, trade-offs, or deeper insights gained from the failure.\"\n  },\n  \"improvement\": \"Add specific details about the project, the exact bug you introduced, and what steps you implemented to prevent it from happening again.\"\n}",
+  "inputTokens": 811,
+  "outputTokens": 258
+}

@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"relevance\": {\n    \"score\": 4,\n    \"quote\": \"I created a list of questions and expected answers\",\n    \"reason\": \"You directly addressed the question about building the evaluation set throughout your answer.\"\n  },\n  \"specificity\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"You provided an entirely generic answer without any concrete details, numbers, specific tools, or timelines.\"\n  },\n  \"structure\": {\n    \"score\": 2,\n    \"quote\": null,\n    \"reason\": \"Your answer is hard to follow because it lacks key parts of a structured story like context and specific actions.\"\n  },\n  \"depth\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"You stated what was done with no reasoning, trade-offs, or explanation of why decisions were made.\"\n  },\n  \"improvement\": \"Add specific details about the questions you created, the exact size of your evaluation set, the specific parameters you changed in the prompt, and how those changes impacted the chatbot's accuracy.\"\n}",
+  "inputTokens": 883,
+  "outputTokens": 252
+}

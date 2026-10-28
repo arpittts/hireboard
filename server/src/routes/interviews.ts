@@ -4,13 +4,16 @@ import { pool, withTransaction } from '../db/pool.js';
 import { requireAuth, userIdOf } from '../middleware/auth.js';
 import { AppError, notFound } from '../middleware/errors.js';
 import { generateQuestionBank, missingMustRequirements, type Question } from '../ai/questionBank.js';
-import { chooseQuestions, CLOSING, decideNext, MAX_ANSWER_LENGTH, OPENING } from '../ai/interviewer.js';
+import { chooseQuestions, CLOSING, decideNext, isSkip, MAX_ANSWER_LENGTH, OPENING } from '../ai/interviewer.js';
+import { gradeAnswer, summarize, type GradedAnswer } from '../ai/feedback.js';
+import { loadPrompt } from '../ai/run.js';
 import type { CheckedRequirement } from '../ai/requirementsCheck.js';
 
 // Question bank (per application) and mock interviews.
 //   /api/applications/:id/questions    GET latest bank, POST generate, PUT save edits
 //   /api/applications/:id/interviews   GET past sessions, POST start a session
-//   /api/interviews/:id                GET transcript; POST /answer; POST /end
+//   /api/interviews/:id                GET transcript; POST /answer; POST /end; POST /feedback
+//   /api/interviews/rubric             GET the rubric used for feedback
 
 const appParams = z.object({ id: z.uuid('Invalid application id.') });
 const sessionParams = z.object({ id: z.uuid('Invalid interview id.') });
@@ -61,7 +64,11 @@ async function loadSession(id: string, userId: string) {
     'SELECT question_index, speaker, kind, content, created_at FROM interview_turns WHERE session_id = $1 ORDER BY id',
     [id],
   );
-  return { ...session.rows[0], opening: OPENING, turns: turns.rows };
+  const feedback = await pool.query(
+    'SELECT question_index, scores, improvement, removed_instructions, model, prompt_version FROM answer_feedback WHERE session_id = $1 ORDER BY question_index',
+    [id],
+  );
+  return { ...session.rows[0], opening: OPENING, turns: turns.rows, feedback: feedback.rows };
 }
 
 // --- Question bank ---------------------------------------------------------------
@@ -130,7 +137,8 @@ questionsRouter.get('/:id/interviews', async (req, res) => {
   await ownedApplication(id, userIdOf(req));
   const sessions = await pool.query(
     `SELECT s.id, s.status, s.created_at, s.completed_at, jsonb_array_length(s.questions) AS question_count,
-            (SELECT COUNT(*)::int FROM interview_turns t WHERE t.session_id = s.id AND t.speaker = 'candidate') AS answers
+            s.summary -> 'averages' AS averages,
+            (SELECT COUNT(DISTINCT t.question_index)::int FROM interview_turns t WHERE t.session_id = s.id AND t.speaker = 'candidate') AS answers
      FROM interview_sessions s WHERE s.application_id = $1 ORDER BY s.created_at DESC`,
     [id],
   );
@@ -171,6 +179,11 @@ questionsRouter.post('/:id/interviews', async (req, res) => {
 
 export const interviewsRouter = Router();
 interviewsRouter.use(requireAuth);
+
+// Declared before /:id so "rubric" isn't read as an interview id.
+interviewsRouter.get('/rubric', (_req, res) => {
+  res.json({ version: 'rubric.v1', markdown: loadPrompt('rubric.v1') });
+});
 
 interviewsRouter.get('/:id', async (req, res) => {
   const { id } = sessionParams.parse(req.params);
@@ -246,4 +259,63 @@ interviewsRouter.post('/:id/end', async (req, res) => {
     [id],
   );
   res.json(await loadSession(id, userId));
+});
+
+// Feedback on every answered question of a finished interview. Questions that
+// already have feedback are skipped, so a failed run can simply be retried.
+interviewsRouter.post('/:id/feedback', async (req, res) => {
+  const { id } = sessionParams.parse(req.params);
+  const userId = userIdOf(req);
+  const session = await loadSession(id, userId);
+  if (session.status === 'active') throw new AppError(409, 'INTERVIEW_ACTIVE', 'Finish or end the interview first.');
+
+  const questions: Question[] = session.questions;
+  type Turn = { question_index: number; speaker: string; kind: string; content: string };
+  const turnsFor = (i: number) => (session.turns as Turn[]).filter((t) => t.question_index === i);
+  const done = new Set((session.feedback as { question_index: number }[]).map((f) => f.question_index));
+
+  const toGrade: { index: number; answer: string; followUp: string | null; followUpAnswer: string | null }[] = [];
+  const skipped: Question[] = [];
+  const skippedIndexes: number[] = [];
+  questions.forEach((question, index) => {
+    const turns = turnsFor(index);
+    const answers = turns.filter((t) => t.speaker === 'candidate').map((t) => t.content);
+    if (answers.length === 0) return; // never reached
+    if (isSkip(answers[0])) {
+      skipped.push(question);
+      skippedIndexes.push(index);
+      return;
+    }
+    if (done.has(index)) return;
+    const followUp = turns.find((t) => t.kind === 'follow_up')?.content ?? null;
+    toGrade.push({ index, answer: answers[0], followUp, followUpAnswer: followUp ? answers[1] ?? null : null });
+  });
+
+  // Up to five answers, graded at the same time.
+  const results = await Promise.allSettled(
+    toGrade.map((item) =>
+      gradeAnswer(
+        { company: session.company_name, role: session.role, question: questions[item.index], answer: item.answer, followUp: item.followUp, followUpAnswer: item.followUpAnswer },
+        { userId },
+      ).then((graded) => ({ item, graded })),
+    ),
+  );
+  for (const result of results) {
+    if (result.status !== 'fulfilled') continue;
+    const { item, graded } = result.value;
+    await pool.query(
+      `INSERT INTO answer_feedback (session_id, question_index, scores, improvement, removed_instructions, model, prompt_version)
+       VALUES ($1, $2, $3, $4, $5, $6, $7) ON CONFLICT (session_id, question_index) DO NOTHING`,
+      [id, item.index, JSON.stringify(graded.scores), graded.improvement, JSON.stringify(graded.removedInstructions), graded.model, graded.promptVersion],
+    );
+  }
+
+  const rows = await pool.query('SELECT question_index, scores, improvement FROM answer_feedback WHERE session_id = $1', [id]);
+  const graded: GradedAnswer[] = rows.rows.map((r) => ({ questionIndex: r.question_index, question: questions[r.question_index], scores: r.scores, improvement: r.improvement }));
+  const summary = { ...summarize(graded, skipped), skippedIndexes };
+  await pool.query('UPDATE interview_sessions SET summary = $2 WHERE id = $1', [id, JSON.stringify(summary)]);
+
+  const failed = results.filter((r) => r.status === 'rejected');
+  if (failed.length > 0 && graded.length === 0) throw (failed[0] as PromiseRejectedResult).reason;
+  res.json({ ...(await loadSession(id, userId)), feedbackFailed: failed.length });
 });

@@ -2,6 +2,7 @@ import { useEffect, useId, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ArrowLeft, Send, SkipForward, Square } from 'lucide-react';
 import ConfirmDialog from '../components/ConfirmDialog';
+import InterviewFeedback from '../components/InterviewFeedback';
 import { errorMessage } from '../services/api';
 import { useAnswer, useEndInterview, useInterview } from '../services/queries';
 
@@ -120,15 +121,7 @@ export default function Interview() {
           </p>
         </form>
       ) : (
-        <div className="practice-card" style={{ marginTop: 20 }}>
-          <div>
-            <strong>{session.status === 'completed' ? 'Interview complete.' : 'Interview ended.'}</strong>
-            <div style={{ fontSize: 13, color: 'var(--text-secondary)', marginTop: 4 }}>
-              Read your answers back above: would they convince you? Practise again any time from the application's Interview prep tab.
-            </div>
-          </div>
-          <Link to={`/applications/${session.application_id}`} className="btn btn-secondary">Back to {session.company_name}</Link>
-        </div>
+        <InterviewFeedback session={session} />
       )}
 
       {confirmEnd && (

@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"relevance\": {\n    \"score\": 1,\n    \"quote\": \"I don't really make big mistakes\",\n    \"reason\": \"You refused to answer the question by claiming you do not make mistakes.\"\n  },\n  \"specificity\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"You provided no real situation, actions, tools, or concrete details.\"\n  },\n  \"structure\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"You gave a single defensive sentence rather than structuring a story or explanation.\"\n  },\n  \"depth\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"You showed no reasoning, trade-offs, or lessons learned since you denied making any mistakes.\"\n  },\n  \"improvement\": \"Share a real situation where something went wrong, explain what you did to fix it, and state what you learned from the experience.\"\n}",
+  "inputTokens": 798,
+  "outputTokens": 225
+}

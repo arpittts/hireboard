@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"relevance\": {\n    \"score\": 3,\n    \"quote\": \"I created a list of questions and expected answers and ran them through the chatbot\",\n    \"reason\": \"You answered the question about building an evaluation set, but the response was brief and lacked detail.\"\n  },\n  \"specificity\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"Your answer is entirely generic with no numbers, tools, names, or timelines.\"\n  },\n  \"structure\": {\n    \"score\": 2,\n    \"quote\": null,\n    \"reason\": \"Your answer is too short and lacks a clear progression through the situation, task, action, and result.\"\n  },\n  \"depth\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"You provided no reasoning, trade-offs, or explanation of why you made specific choices.\"\n  },\n  \"improvement\": \"Add specific details about how you built the list of questions, what exact prompt and settings you changed, and the metrics you used to measure the accuracy.\"\n}",
+  "inputTokens": 861,
+  "outputTokens": 249
+}

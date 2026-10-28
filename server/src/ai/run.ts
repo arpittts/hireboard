@@ -40,6 +40,8 @@ export interface RunOptions<T> {
   userId: string | null; // null for evals
   cacheInput: unknown; // everything that changes the answer
   useCache?: boolean;
+  // Lower means more repeatable answers (used for grading). Default: the model's own.
+  temperature?: number;
 }
 
 export interface RunResult<T> {
@@ -147,6 +149,7 @@ async function callModel<T>(options: RunOptions<T>, key: string, attempt: number
       output: Output.object({ schema: options.schema }),
       maxRetries: 1,
       abortSignal: AbortSignal.timeout(TIMEOUT_MS),
+      temperature: options.temperature,
     });
     if (config.AI_MODE === 'record') {
       saveRecording(file, { text: result.text, inputTokens: result.usage.inputTokens, outputTokens: result.usage.outputTokens });
@@ -169,7 +172,7 @@ export async function runStructured<T>(options: RunOptions<T>): Promise<RunResul
   // serves answers (or recordings) made with the old text.
   const key = crypto
     .createHash('sha256')
-    .update(JSON.stringify({ feature, model: modelName(), promptVersion, system: options.system, input: options.cacheInput }))
+    .update(JSON.stringify({ feature, model: modelName(), promptVersion, system: options.system, temperature: options.temperature, input: options.cacheInput }))
     .digest('hex');
   const useCache = options.useCache ?? true;
 

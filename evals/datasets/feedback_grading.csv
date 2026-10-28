@@ -1,0 +1,45 @@
+id,question,answer (and follow-up),relevance,specificity,structure,depth
+"q01-good","Tell me about a time you had to deliver a project under a tight deadline.","Two weeks before a client demo our retrieval service was still failing on long manuals. I listed every feature, agreed with my lead which three were must-haves, and dropped the analytics page. I fixed chunking for long documents myself, added a nightly test run, and we demoed on time; the client signed a three-month pilot. Next time I'd flag the risk a week earlier.",4,4,4,4
+"q01-average","Tell me about a time you had to deliver a project under a tight deadline.","We had a hackathon with 36 hours to build an app. I worked on the backend in Flask and we divided tasks in the team. It was tiring but we finished and presented it, and the judges liked it.
+[Follow-up: What did you do yourself when the deadline got close?]
+I skipped the login feature and focused on making the main demo flow work.",4,3,3,3
+"q01-weak","Tell me about a time you had to deliver a project under a tight deadline.","I always meet deadlines because I work hard. I think deadlines are important in any job.",1,1,1,1
+"q02-good","Tell me about a time you disagreed with a teammate.","My teammate wanted to fine-tune a model; I thought prompt changes would be enough. I suggested we each try for one day against the same 50 test questions. Prompting reached 84% versus 86% for fine-tuning at a fraction of the cost, so we shipped prompting and kept fine-tuning as a later option. I learned to settle arguments with a shared test instead of opinions.",4,4,4,4
+"q02-average","Tell me about a time you disagreed with a teammate.","In a college project my friend wanted to use MongoDB and I wanted PostgreSQL. We discussed it and in the end we went with PostgreSQL because our data had a lot of relations.
+[Follow-up: How did you convince them?]
+I showed them that our data had many joins between students and courses.",4,3,2,3
+"q02-weak","Tell me about a time you disagreed with a teammate.","Yeah, that happens sometimes, we usually talk it out.",1,1,1,1
+"q03-good","Tell me about a mistake you made and what you learned from it.","During my internship I deployed a prompt change on a Friday without running the evaluation set, and answer accuracy dropped from 86% to 74% over the weekend. On Monday I rolled it back, told my lead what happened, and added a CI check that blocks prompt changes unless the 150 test questions pass. Since then I never ship a prompt change without the eval.",4,4,4,4
+"q03-average","Tell me about a mistake you made and what you learned from it.","I once pushed code with a bug to the main branch and it broke the build for the team. I fixed it quickly and now I am more careful before pushing.",4,3,4,3
+"q03-weak","Tell me about a mistake you made and what you learned from it.","I don't really make big mistakes, I am a careful person and I double check everything.",1,1,1,1
+"q04-good","Describe a time you had to learn a new technology quickly.","For a client project I had to learn pgvector in a week. I read the docs on day one, built a tiny prototype with 100 manuals on day two, and measured retrieval with 30 hand-written questions. When recall was poor I learned about HNSW indexes and chunk overlap, tuned both, and the prototype became the base of the production chatbot.",4,4,4,4
+"q04-average","Describe a time you had to learn a new technology quickly.","I had to learn React for a project. I watched some YouTube tutorials and read the documentation, then I built the frontend. It took about two weeks.
+[Follow-up: What was the hardest part?]
+State management was confusing at first but I got used to hooks.",4,3,3,3
+"q04-weak","Describe a time you had to learn a new technology quickly.","I can learn anything quickly, I am a fast learner.",2,1,1,1
+"q05-good","How would you design a retrieval-augmented chatbot over a product catalogue?","I'd split each manual into chunks of about 500 tokens with some overlap, embed them and store them in pgvector, and retrieve the top results with both vector and keyword search because product codes match better by keyword. The model answers only from retrieved chunks and cites them. Before launch I'd build a test set from real support questions and tune chunk size and the number of results against it, since that is where most quality comes from.",4,4,4,4
+"q05-average","How would you design a retrieval-augmented chatbot over a product catalogue?","I would put the product data in a vector database and use embeddings to find similar products, then send them to the LLM to generate an answer.
+[Follow-up: How would you know it works well?]
+I would test it with some questions and see if the answers are right.",4,4,4,3
+"q05-weak","How would you design a retrieval-augmented chatbot over a product catalogue?","I would use ChatGPT and give it the catalogue.",2,2,1,2
+"q06-good","How do you make sure an API you build is reliable?","I write integration tests against a real Postgres in CI, validate every input with a schema so bad requests get a 400 instead of a 500, put timeouts on calls to other services, and log latency and errors per route. After a deploy I watch the error rate; in my last project that caught a missing index within an hour.",4,4,4,4
+"q06-average","How do you make sure an API you build is reliable?","I write unit tests for the main functions and I handle errors with try and catch so the server does not crash.",4,3,1,2
+"q06-weak","How do you make sure an API you build is reliable?","I test it.
+[Follow-up: What kind of tests?]
+Normal ones.",2,1,1,1
+"q07-good","How would you find out why a SQL query became slow?","First I'd run EXPLAIN ANALYZE to see where the time goes. If it shows a sequential scan on a big table, I'd check whether the filter column has an index and whether recent data growth changed the plan. In my internship a report went from 9 seconds to 1.2 seconds after I added a composite index on merchant and date, which I confirmed by comparing the plans before and after.",4,4,4,4
+"q07-average","How would you find out why a SQL query became slow?","I would check if there are indexes on the tables and maybe add an index on the columns in the WHERE clause.",4,2,1,3
+"q07-weak","How would you find out why a SQL query became slow?","I would ask the database admin.",4,1,1,1
+"q08-good","How would you evaluate whether an LLM feature is good enough to ship?","I'd agree with the team on what good means for that feature, write a test set of real examples with expected answers, and measure accuracy plus a few failure types like made-up facts. I'd set a bar before testing, say 85% with no unsafe answers, and compare each prompt or model change against it. In production I'd log user feedback and sample answers weekly, because the test set gets stale.",4,3,4,3
+"q08-average","How would you evaluate whether an LLM feature is good enough to ship?","I would test it with many examples and check the answers manually. If most are correct then it is good enough.
+[Follow-up: How many examples, and what counts as most?]
+Maybe 50 examples, and if 80 percent are correct.",4,2,3,2
+"q08-weak","How would you evaluate whether an LLM feature is good enough to ship?","If it works when I try it, it is good enough.",1,1,1,1
+"q09-good","Walk me through the evaluation set you built at your internship.","I wrote 150 questions with the support team, each with an expected answer and the source page. A nightly script ran them through the bot and checked the key facts in each answer. When accuracy was 71% I tested chunk sizes from 256 to 1024 tokens and rewrote the system prompt, which got it to 86% in two weeks. The hardest part was writing questions that matched how customers really ask.",4,4,4,4
+"q09-average","Walk me through the evaluation set you built at your internship.","I created a list of questions and expected answers and ran them through the chatbot to see how many it got right. This helped us improve the accuracy.
+[Follow-up: What did you change based on the results?]
+We changed the prompt and some settings.",2,1,1,1
+"q09-weak","Walk me through the evaluation set you built at your internship.","I made some questions and checked the answers.",1,1,1,1
+"q10-good","Why do you want to work at Northwind Analytics?","Northwind builds assistants for store managers, and that's exactly the kind of retrieval and evaluation work I did at Brightcart. I like that your job post talks about writing evaluation sets, because measuring quality is the part I enjoy most. I also want to learn how a product team ships LLM features to thousands of real users, which I haven't done yet.",4,4,4,4
+"q10-average","Why do you want to work at Northwind Analytics?","I am interested in AI and Northwind works on AI products, so it is a good fit for me. I also heard it has a good work culture.",4,1,1,1
+"q10-weak","Why do you want to work at Northwind Analytics?","Because it is a good company and I want to learn.",4,1,1,1

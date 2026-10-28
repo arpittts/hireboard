@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"relevance\": {\n    \"score\": 3,\n    \"quote\": \"I made some questions and checked the answers.\",\n    \"reason\": \"You answered the question broadly, but with virtually no detail or context.\"\n  },\n  \"specificity\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"Your answer is entirely generic with no concrete details about tools, numbers, or specific actions.\"\n  },\n  \"structure\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"Your answer is far too short to have any discernible structure.\"\n  },\n  \"depth\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"You provided no reasoning or explanation beyond the basic action.\"\n  },\n  \"improvement\": \"Add specific details about the evaluation set by stating how many questions you made, what tools or criteria you used to check the answers, and why you designed it that way.\"\n}",
+  "inputTokens": 793,
+  "outputTokens": 227
+}

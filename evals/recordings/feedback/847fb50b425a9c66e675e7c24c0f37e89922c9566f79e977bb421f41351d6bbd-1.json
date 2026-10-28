@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"relevance\": {\n    \"score\": 2,\n    \"quote\": \"I test it.\",\n    \"reason\": \"You addressed reliability loosely, but your answers are extremely brief and miss testing tools, monitoring, and frameworks like FastAPI or Flask.\"\n  },\n  \"specificity\": {\n    \"score\": 1,\n    \"quote\": \"Normal ones.\",\n    \"reason\": \"You provided entirely generic statements without mentioning any tools, timelines, numbers, or specific actions.\"\n  },\n  \"structure\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"You gave a non-answer that is far too short to have a discernible structure.\"\n  },\n  \"depth\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"You showed no reasoning, trade-offs, or understanding beyond the surface level.\"\n  },\n  \"improvement\": \"Say what you did yourself by mentioning a specific tool like FastAPI or pytest, describe the types of tests you wrote, and explain how you handled errors or monitored the API.\"\n}",
+  "inputTokens": 852,
+  "outputTokens": 245
+}

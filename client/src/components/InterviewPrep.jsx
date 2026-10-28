@@ -17,7 +17,7 @@ function PastInterviews({ applicationId }) {
   if (sessions.length === 0) return null;
   return (
     <div className="detail-section">
-      <div className="detail-section-title">Mock interviews</div>
+      <div className="detail-section-title">Mock interviews{sessions.some(s => s.averages) ? ' · average scores out of 4, newest first' : ''}</div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
         {sessions.map(s => (
           <button key={s.id} className="card link-card" onClick={() => navigate(`/interviews/${s.id}`)}>
@@ -25,6 +25,13 @@ function PastInterviews({ applicationId }) {
             <span style={{ color: 'var(--text-muted)', fontSize: 13 }}>
               {s.status === 'active' ? 'In progress' : s.status === 'completed' ? 'Completed' : 'Ended early'} · {s.answers} answer{s.answers === 1 ? '' : 's'}
             </span>
+            {s.averages && (
+              <span className="mini-scores" aria-label="Average scores">
+                {[['relevance', 'Rel'], ['specificity', 'Spec'], ['structure', 'Struct'], ['depth', 'Depth']].map(([k, l]) => (
+                  <span key={k} title={k}>{l} <strong>{s.averages[k]?.toFixed(1) ?? '–'}</strong></span>
+                ))}
+              </span>
+            )}
           </button>
         ))}
       </div>

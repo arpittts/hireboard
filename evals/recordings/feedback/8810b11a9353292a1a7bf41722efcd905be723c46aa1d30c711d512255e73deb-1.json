@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"relevance\": {\n    \"score\": 2,\n    \"quote\": \"I would ask the database admin.\",\n    \"reason\": \"You provided a very brief response that relies on someone else rather than explaining how you would investigate the slow query.\"\n  },\n  \"specificity\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"You gave an entirely generic answer without naming any tools, metrics, or your own specific actions.\"\n  },\n  \"structure\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"Your answer is too short to have a discernible structure or step-by-step approach.\"\n  },\n  \"depth\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"You offered no reasoning or technical understanding of why a query might be slow or how to debug it.\"\n  },\n  \"improvement\": \"Say what technical steps you would take yourself, such as using EXPLAIN to analyze the query plan or checking indexes, instead of just saying you would ask someone else.\"\n}",
+  "inputTokens": 786,
+  "outputTokens": 248
+}

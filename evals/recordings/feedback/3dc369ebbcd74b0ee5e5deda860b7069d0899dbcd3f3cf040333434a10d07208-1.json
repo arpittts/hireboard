@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"relevance\": {\n    \"score\": 3,\n    \"quote\": \"I write unit tests for the main functions and I handle errors\",\n    \"reason\": \"You answered the question about API reliability, but you did not mention building APIs with FastAPI or Flask.\"\n  },\n  \"specificity\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"You provided an entirely generic statement with no concrete details about tools, frameworks, or a real project.\"\n  },\n  \"structure\": {\n    \"score\": 2,\n    \"quote\": \"I write unit tests for the main functions and I handle errors\",\n    \"reason\": \"Your answer is too short and lacks a clear structure or a complete narrative arc.\"\n  },\n  \"depth\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"You stated what was done without any reasoning, trade-offs, or explanation beyond the surface.\"\n  },\n  \"improvement\": \"Add specific details about how you built an API using FastAPI or Flask, and explain your reasoning for how you handled errors and set up testing.\"\n}",
+  "inputTokens": 811,
+  "outputTokens": 257
+}

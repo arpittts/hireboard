@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"relevance\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"You did not describe a time you learned a new technology quickly and instead made a broad claim.\"\n  },\n  \"specificity\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"You provided no concrete details, projects, timelines, or specific technologies.\"\n  },\n  \"structure\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"You have no structured story following the STAR method.\"\n  },\n  \"depth\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"You showed no understanding or reasoning about how you learn or trade-offs involved.\"\n  },\n  \"improvement\": \"Say what technology you learned, how long it took, what steps you took to learn it, and what you built with it.\"\n}",
+  "inputTokens": 812,
+  "outputTokens": 215
+}

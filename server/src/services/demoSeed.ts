@@ -158,6 +158,26 @@ export async function seedDemoData(client: pg.PoolClient, userId: string): Promi
         [appId, JSON.stringify(job.questions), job.model, job.questionsPromptVersion],
       );
     }
+    if (job.interview) {
+      // A finished mock interview from two days ago, with feedback.
+      const session = await client.query<{ id: string }>(
+        `INSERT INTO interview_sessions (user_id, application_id, questions, current_index, status, summary, created_at, completed_at)
+         VALUES ($1, $2, $3, $4, 'completed', $5, now() - interval '2 days', now() - interval '2 days' + interval '20 minutes') RETURNING id`,
+        [userId, appId, JSON.stringify(job.interview.questions), job.interview.questions.length, JSON.stringify(job.interview.summary)],
+      );
+      for (const turn of job.interview.turns) {
+        await client.query(
+          'INSERT INTO interview_turns (session_id, question_index, speaker, kind, content) VALUES ($1, $2, $3, $4, $5)',
+          [session.rows[0].id, turn.question_index, turn.speaker, turn.kind, turn.content],
+        );
+      }
+      for (const f of job.interview.feedback) {
+        await client.query(
+          'INSERT INTO answer_feedback (session_id, question_index, scores, improvement, model, prompt_version) VALUES ($1, $2, $3, $4, $5, $6)',
+          [session.rows[0].id, f.question_index, JSON.stringify(f.scores), f.improvement, f.model, f.prompt_version],
+        );
+      }
+    }
   }
 }
 

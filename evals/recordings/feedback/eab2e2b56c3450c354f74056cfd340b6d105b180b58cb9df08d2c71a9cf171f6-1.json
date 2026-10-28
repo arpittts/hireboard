@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"relevance\": {\n    \"score\": 2,\n    \"quote\": \"If it works when I try it\",\n    \"reason\": \"You gave a loosely related answer that mentions testing manually rather than explaining a systematic approach to evaluating an LLM feature.\"\n  },\n  \"specificity\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"Your answer is entirely generic and lacks any concrete details, metrics, tools, or examples.\"\n  },\n  \"structure\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"Your answer is far too short to have a discernible structure.\"\n  },\n  \"depth\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"You showed no reasoning, trade-offs, or understanding beyond a single surface-level statement.\"\n  },\n  \"improvement\": \"Describe a specific framework or metrics you would use to evaluate an LLM feature, such as accuracy benchmarks, human evaluation, or latency checks.\"\n}",
+  "inputTokens": 800,
+  "outputTokens": 238
+}

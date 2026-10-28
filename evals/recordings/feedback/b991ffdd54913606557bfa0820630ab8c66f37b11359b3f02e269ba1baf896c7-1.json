@@ -1,0 +1,5 @@
+{
+  "text": "{\n  \"relevance\": {\n    \"score\": 2,\n    \"quote\": \"I test it.\",\n    \"reason\": \"You provided an extremely brief answer that only loosely touches on testing without addressing reliability, monitoring, error handling, or the required tech stack.\"\n  },\n  \"specificity\": {\n    \"score\": 1,\n    \"quote\": \"Normal ones.\",\n    \"reason\": \"Your answer is entirely generic and lacks any concrete details about tools, frameworks, or specific actions.\"\n  },\n  \"structure\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"Your answer is too short to have any discernible structure.\"\n  },\n  \"depth\": {\n    \"score\": 1,\n    \"quote\": null,\n    \"reason\": \"You showed no reasoning or understanding beyond a surface-level mention of testing.\"\n  },\n  \"improvement\": \"Add specific details about how you test APIs using frameworks like FastAPI or Flask, and explain your error handling and monitoring strategies.\"\n}",
+  "inputTokens": 830,
+  "outputTokens": 231
+}
