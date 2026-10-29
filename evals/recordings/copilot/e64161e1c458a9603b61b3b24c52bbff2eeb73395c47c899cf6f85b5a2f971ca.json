@@ -1,0 +1,94 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "Yes,"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " Northwind Analytics (AI Engineer Intern) is currently at the interview stage, so no changes have"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " been made."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0Tf9Yy1Dkr1MmxtmW/PLtFJZiKXL6SH9rb8UZLVcYL7ObF8Wnfh1X48pbC2ElUxpgQ1nlH1Rh9YuXAaMHJDPBKSL0bl/y/orvRWmJsnkG9ruWv0vtR664nMlg="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1558,
+          "noCache": 1558,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 24,
+          "text": 24,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1558,
+          "candidatesTokenCount": 24,
+          "totalTokenCount": 1582,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1558
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1558,
+            "candidatesTokenCount": 24,
+            "totalTokenCount": 1582,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1558
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

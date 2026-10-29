@@ -1,0 +1,89 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "You currently"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " have 1 offer."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0TaSYEay9H7/0KfKCGy0gmat/RCR24ykM/paelCrJZx4Ezu4qxiraqTihwETi9lw0h/kZCPpHKWrezxFqVh3UOCJykYudYYXw6ZdlvSWBWxERJL4K/0ng9WPo="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 929,
+          "noCache": 929,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 7,
+          "text": 7,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 929,
+          "candidatesTokenCount": 7,
+          "totalTokenCount": 936,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 929
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 929,
+            "candidatesTokenCount": 7,
+            "totalTokenCount": 936,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 929
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { pool, withTransaction } from '../db/pool.js';
 import { requireAuth, userIdOf } from '../middleware/auth.js';
 import { notFound } from '../middleware/errors.js';
+import { changeStatus, insertApplication } from '../services/applicationWrites.js';
 
 export const STATUSES = ['wishlist', 'applied', 'interview', 'offer', 'rejected', 'accepted', 'withdrawn'] as const;
 const TYPES = ['job', 'internship', 'freelance', 'contract'] as const;
@@ -135,20 +136,9 @@ applicationsRouter.get('/:id', async (req, res) => {
 
 applicationsRouter.post('/', async (req, res) => {
   const body = createSchema.parse(req.body);
-  const app = await withTransaction(async (client) => {
-    const columns = ['user_id', ...WRITABLE];
-    const values = [userIdOf(req), ...WRITABLE.map((col) => body[col] ?? null)];
-    const placeholders = columns.map((_, i) => `$${i + 1}`).join(', ');
-    const created = await client.query(
-      `INSERT INTO applications (${columns.join(', ')}) VALUES (${placeholders}) RETURNING ${APP_COLUMNS}`,
-      values,
-    );
-    await client.query(
-      'INSERT INTO status_history (application_id, from_status, to_status, note) VALUES ($1, NULL, $2, $3)',
-      [created.rows[0].id, created.rows[0].status, 'Application created'],
-    );
-    return created.rows[0];
-  });
+  const app = await withTransaction((client) =>
+    insertApplication(client, userIdOf(req), Object.fromEntries(WRITABLE.map((col) => [col, body[col] ?? null]))),
+  );
   res.status(201).json(app);
 });
 
@@ -206,22 +196,9 @@ applicationsRouter.patch('/:id/status', async (req, res) => {
   const { id } = idParams.parse(req.params);
   const { status, note } = statusSchema.parse(req.body);
   const userId = userIdOf(req);
-  const result = await withTransaction(async (client) => {
-    const existing = await client.query(
-      'SELECT status FROM applications WHERE id = $1 AND user_id = $2 FOR UPDATE',
-      [id, userId],
-    );
-    if (!existing.rows[0]) throw notFound('Application');
-    const oldStatus: string = existing.rows[0].status;
-    if (oldStatus === status) return { message: 'Status unchanged.' };
-
-    const updated = await client.query(`UPDATE applications SET status = $1 WHERE id = $2 RETURNING ${APP_COLUMNS}`, [status, id]);
-    await client.query(
-      'INSERT INTO status_history (application_id, from_status, to_status, note) VALUES ($1, $2, $3, $4)',
-      [id, oldStatus, status, note || `Status changed from ${oldStatus} to ${status}`],
-    );
-    return updated.rows[0];
-  });
+  const result = await withTransaction(async (client) =>
+    (await changeStatus(client, userId, id, status, note)) ?? { message: 'Status unchanged.' },
+  );
   res.json(result);
 });
 

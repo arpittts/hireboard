@@ -1,0 +1,94 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "I have"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " prepared a follow-up reminder for Fernway Labs (Generative AI Intern)"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " on Wed 4 Nov 2026. This will be set once you confirm the card."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0TsFVwMuknVbVqjbm+F0kx0Z3ngrwCg/ElHZ9PHMCNEwi8WPkx4075pzz5In3+fOipRBb5d4oL2/qOskIshBw5y6ZZGgrEBxb5rt2/2jvEzHWA7BDIsWkeaPQ="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1530,
+          "noCache": 1530,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 39,
+          "text": 39,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1530,
+          "candidatesTokenCount": 39,
+          "totalTokenCount": 1569,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1530
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1530,
+            "candidatesTokenCount": 39,
+            "totalTokenCount": 1569,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1530
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

@@ -15,6 +15,7 @@ import { interviewsRouter, questionsRouter } from './routes/interviews.js';
 import { requirementsRouter } from './routes/requirements.js';
 import { resumesRouter } from './routes/resumes.js';
 import { searchRouter } from './routes/search.js';
+import { actionsRouter, copilotRouter } from './routes/copilot.js';
 
 const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174', config.CLIENT_URL].filter(Boolean);
 
@@ -48,6 +49,8 @@ export function createApp({ authRateLimit = config.AUTH_RATE_LIMIT, demoRateLimi
   app.use('/api/interviews', interviewsRouter);
   app.use('/api/drafts', draftsRouter);
   app.use('/api/search', searchRouter);
+  app.use('/api/copilot', copilotRouter);
+  app.use('/api/actions', actionsRouter);
   app.use('/api/resumes', resumesRouter);
   app.use('/api/dashboard', dashboardRouter);
   app.use('/api/internal', internalRouter);

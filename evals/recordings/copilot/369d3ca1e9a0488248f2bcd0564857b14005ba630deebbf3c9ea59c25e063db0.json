@@ -1,0 +1,94 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "For the"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " Backend Engineering Intern role at Mosaic Health, the requirements are Go or Java, SQL, and"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " REST APIs, with healthcare data standards being a plus."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0TkyWDSgh2ED+Q6fKE49HQjqlPqUmSx40sRsGKsm1d8rnRDu2ycBek/BdSX+LjgdNoZnifSCre+7L8lkO5SXqfYlbVLhTR5b17qQCXbY+KoMqWL0Am4c9ZrFM="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1703,
+          "noCache": 1703,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 31,
+          "text": 31,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1703,
+          "candidatesTokenCount": 31,
+          "totalTokenCount": 1734,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1703
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1703,
+            "candidatesTokenCount": 31,
+            "totalTokenCount": 1734,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1703
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

@@ -38,7 +38,8 @@ export async function embedTexts(
     });
   }
 
-  if (cacheQueries) {
+  // Record mode skips the cache so every vector the eval uses gets a recording.
+  if (cacheQueries && config.AI_MODE !== 'record') {
     const hits = await pool.query<{ key: string; response: number[] }>('SELECT key, response FROM llm_cache WHERE key = ANY($1)', [keys]);
     const byKey = new Map(hits.rows.map((r) => [r.key.trim(), r.response]));
     keys.forEach((k, i) => { result[i] = byKey.get(k) ?? null; });

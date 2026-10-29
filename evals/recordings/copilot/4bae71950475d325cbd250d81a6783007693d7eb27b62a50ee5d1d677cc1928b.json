@@ -1,0 +1,94 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "I have"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " prepared a status change for Vantage Robotics (Robotics Software Intern) from applied to interview. The change"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " will take effect once you confirm the card."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0Toe5k22Iijd7PJanso3wziNWEIZuydO9ojwJ1uyQUD8pbUXfQx4PgVQzTAirMa/IAdEV9AL+vFDy0RDLivZvUz1GAycjPCJBhGwA32DhhA3/JouayXstRuI8="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1507,
+          "noCache": 1507,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 31,
+          "text": 31,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1507,
+          "candidatesTokenCount": 31,
+          "totalTokenCount": 1538,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1507
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1507,
+            "candidatesTokenCount": 31,
+            "totalTokenCount": 1538,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1507
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

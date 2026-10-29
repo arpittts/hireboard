@@ -92,19 +92,30 @@ const DEMO_APPLICATIONS: DemoApplication[] = [
 // Paperkite is only on the wishlist; it hasn't been applied to yet.
 const WISHLIST = new Set(['Paperkite']);
 
-const dayOffset = (days: number) => new Date(Date.now() + days * 86_400_000).toISOString().slice(0, 10);
+// Evals seed the same data with a fixed "today" and fixed ids, so recorded model
+// replies (which see dates and ids) replay exactly.
+export interface SeedOptions {
+  today?: string; // YYYY-MM-DD
+  fixedIds?: boolean; // application n gets 00000000-0000-4000-8000-00000000000n
+}
 
-export async function seedDemoData(client: pg.PoolClient, userId: string): Promise<void> {
+export const fixedAppId = (n: number) => `00000000-0000-4000-8000-${String(n).padStart(12, '0')}`;
+
+export async function seedDemoData(client: pg.PoolClient, userId: string, options: SeedOptions = {}): Promise<void> {
+  const base = options.today ? Date.parse(`${options.today}T12:00:00Z`) : Date.now();
+  const dayOffset = (days: number) => new Date(base + days * 86_400_000).toISOString().slice(0, 10);
+  // Timestamps for the demo's AI results, relative to the same "today".
+  const at = (daysAgo: number) => new Date(base - daysAgo * 86_400_000).toISOString();
   const appIds = new Map<string, string>();
-  for (const demo of DEMO_APPLICATIONS) {
+  for (const [index, demo] of DEMO_APPLICATIONS.entries()) {
     const firstStatus: Status = WISHLIST.has(demo.company) ? 'wishlist' : 'applied';
     const finalStatus = demo.path.length ? demo.path[demo.path.length - 1][0] : firstStatus;
     const appliedOn = dayOffset(-demo.appliedDaysAgo);
 
     const inserted = await client.query<{ id: string }>(
-      `INSERT INTO applications (user_id, company_name, role, type, status, priority, location, salary,
+      `INSERT INTO applications (id, user_id, company_name, role, type, status, priority, location, salary,
          application_date, deadline, follow_up_date, url, contact_name, contact_email, notes, created_at)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $9::date + time '10:00')
+       VALUES (coalesce($16::uuid, gen_random_uuid()), $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $9::date + time '10:00')
        RETURNING id`,
       [
         userId, demo.company, demo.role, demo.type, finalStatus, demo.priority, demo.location, demo.salary ?? null,
@@ -113,6 +124,7 @@ export async function seedDemoData(client: pg.PoolClient, userId: string): Promi
         demo.followUpInDays === undefined ? null : dayOffset(demo.followUpInDays),
         'https://example.com/careers',
         demo.contact?.name ?? null, demo.contact?.email ?? null, demo.notes ?? null,
+        options.fixedIds ? fixedAppId(index + 1) : null,
       ],
     );
     const appId = inserted.rows[0].id;
@@ -149,8 +161,8 @@ export async function seedDemoData(client: pg.PoolClient, userId: string): Promi
       [job.jobDescription, JSON.stringify({ requirements: job.requirements, model: job.model, promptVersion: 'jd_extract.v1', warnings: [] }), appId],
     );
     await client.query(
-      `INSERT INTO requirement_checks (application_id, resume_id, verdicts, model, prompt_version) VALUES ($1, $2, $3, $4, $5)`,
-      [appId, resume.rows[0].id, JSON.stringify(job.verdicts), job.model, job.promptVersion],
+      `INSERT INTO requirement_checks (application_id, resume_id, verdicts, model, prompt_version, created_at) VALUES ($1, $2, $3, $4, $5, $6)`,
+      [appId, resume.rows[0].id, JSON.stringify(job.verdicts), job.model, job.promptVersion, at(1)],
     );
     if (job.questions) {
       await client.query(
@@ -161,17 +173,17 @@ export async function seedDemoData(client: pg.PoolClient, userId: string): Promi
     if (job.draft) {
       await client.query(
         `INSERT INTO drafts (application_id, resume_id, kind, tone, length, content, claims, number_flags, checked_at, model, prompt_version, created_at, updated_at)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, now() - interval '1 day', $9, $10, now() - interval '1 day', now() - interval '1 day')`,
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $11, $9, $10, $11, $11)`,
         [appId, resume.rows[0].id, job.draft.kind, job.draft.tone, job.draft.length, job.draft.content,
-         JSON.stringify(job.draft.claims), JSON.stringify(job.draft.numberFlags), job.draft.model, job.draft.promptVersion],
+         JSON.stringify(job.draft.claims), JSON.stringify(job.draft.numberFlags), job.draft.model, job.draft.promptVersion, at(1)],
       );
     }
     if (job.interview) {
       // A finished mock interview from two days ago, with feedback.
       const session = await client.query<{ id: string }>(
         `INSERT INTO interview_sessions (user_id, application_id, questions, current_index, status, summary, created_at, completed_at)
-         VALUES ($1, $2, $3, $4, 'completed', $5, now() - interval '2 days', now() - interval '2 days' + interval '20 minutes') RETURNING id`,
-        [userId, appId, JSON.stringify(job.interview.questions), job.interview.questions.length, JSON.stringify(job.interview.summary)],
+         VALUES ($1, $2, $3, $4, 'completed', $5, $6, $6::timestamptz + interval '20 minutes') RETURNING id`,
+        [userId, appId, JSON.stringify(job.interview.questions), job.interview.questions.length, JSON.stringify(job.interview.summary), at(2)],
       );
       for (const turn of job.interview.turns) {
         await client.query(

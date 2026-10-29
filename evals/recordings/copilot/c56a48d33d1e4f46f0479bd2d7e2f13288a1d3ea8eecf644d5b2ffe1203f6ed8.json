@@ -1,0 +1,94 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "I have"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " prepared a follow-up reminder for Arcadia Games (Game Developer Intern) on Mon 2 Nov 2"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "026. It will be set once you confirm the card."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0TR8lawiNlrYdwAo0YtnwCk9HB3mJkrkU18Dq6F0jUtA2lnwRGc4viCVdF5pvH+TobdSiesqaW64+krfLhCHA8/msyc+WVBwj8eM2fcm77iq8u2IN4pgjuiQU="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1518,
+          "noCache": 1518,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 37,
+          "text": 37,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1518,
+          "candidatesTokenCount": 37,
+          "totalTokenCount": 1555,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1518
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1518,
+            "candidatesTokenCount": 37,
+            "totalTokenCount": 1555,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1518
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

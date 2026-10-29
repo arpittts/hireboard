@@ -1,0 +1,101 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "tool-input-start",
+      "id": "call_387038",
+      "toolName": "get_application",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0T4t71UuWfTYJNDNxfcgyua+xWF7PkXlLHGzFs/x2ZnNpPi0FSb3iqL1RG//AxXAVmzfaPdikHzDzlt0xmZ2UiemU19GYWPZZiMmhx8KmYhPxoxwMguGiXoUk="
+        }
+      }
+    },
+    {
+      "type": "tool-input-delta",
+      "id": "call_387038",
+      "delta": "{\"id\":\"00000000-0000-4000-8000-000000000015\"}",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0T4t71UuWfTYJNDNxfcgyua+xWF7PkXlLHGzFs/x2ZnNpPi0FSb3iqL1RG//AxXAVmzfaPdikHzDzlt0xmZ2UiemU19GYWPZZiMmhx8KmYhPxoxwMguGiXoUk="
+        }
+      }
+    },
+    {
+      "type": "tool-input-end",
+      "id": "call_387038",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0T4t71UuWfTYJNDNxfcgyua+xWF7PkXlLHGzFs/x2ZnNpPi0FSb3iqL1RG//AxXAVmzfaPdikHzDzlt0xmZ2UiemU19GYWPZZiMmhx8KmYhPxoxwMguGiXoUk="
+        }
+      }
+    },
+    {
+      "type": "tool-call",
+      "toolCallId": "call_387038",
+      "toolName": "get_application",
+      "input": "{\"id\":\"00000000-0000-4000-8000-000000000015\"}",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0T4t71UuWfTYJNDNxfcgyua+xWF7PkXlLHGzFs/x2ZnNpPi0FSb3iqL1RG//AxXAVmzfaPdikHzDzlt0xmZ2UiemU19GYWPZZiMmhx8KmYhPxoxwMguGiXoUk="
+        }
+      }
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "tool-calls",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1105,
+          "noCache": 1105,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 51,
+          "text": 51,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1105,
+          "candidatesTokenCount": 51,
+          "totalTokenCount": 1156,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1105
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1105,
+            "candidatesTokenCount": 51,
+            "totalTokenCount": 1156,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1105
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}
