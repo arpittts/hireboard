@@ -1,3 +1,13 @@
+
+
+https://github.com/user-attachments/assets/05401832-60dd-4d5b-a5d3-b783e70e6bac
+
+
+
+https://github.com/user-attachments/assets/7a296516-f480-4d59-a722-70d31e310d13
+
+
+
 # 📋 HireBoard
 
 > An AI job-search copilot: track applications, check your resume against each job, practise interviews with grounded feedback, write cover letters that only claim what your resume shows, and ask a copilot that can change things only after you confirm.
