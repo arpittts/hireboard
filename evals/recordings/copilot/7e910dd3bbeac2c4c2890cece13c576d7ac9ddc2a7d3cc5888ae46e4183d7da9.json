@@ -1,0 +1,101 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "tool-input-start",
+      "id": "call_654244",
+      "toolName": "propose_application",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0TOifSg2ydvjoFufF9CegizOCHeiupD+4AVV0kZpRjySKliKt/Nj+jqRi4g1Iop6Odhm/aCL4yEnZF8x0wi+cVJXt+2kyXDw9ZMJTFVO+ffAoNL1srRgaGJ2M="
+        }
+      }
+    },
+    {
+      "type": "tool-input-delta",
+      "id": "call_654244",
+      "delta": "{\"company_name\":\"Stripe\",\"location\":\"remote\",\"role\":\"Backend Engineering Intern\",\"status\":\"wishlist\"}",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0TOifSg2ydvjoFufF9CegizOCHeiupD+4AVV0kZpRjySKliKt/Nj+jqRi4g1Iop6Odhm/aCL4yEnZF8x0wi+cVJXt+2kyXDw9ZMJTFVO+ffAoNL1srRgaGJ2M="
+        }
+      }
+    },
+    {
+      "type": "tool-input-end",
+      "id": "call_654244",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0TOifSg2ydvjoFufF9CegizOCHeiupD+4AVV0kZpRjySKliKt/Nj+jqRi4g1Iop6Odhm/aCL4yEnZF8x0wi+cVJXt+2kyXDw9ZMJTFVO+ffAoNL1srRgaGJ2M="
+        }
+      }
+    },
+    {
+      "type": "tool-call",
+      "toolCallId": "call_654244",
+      "toolName": "propose_application",
+      "input": "{\"company_name\":\"Stripe\",\"location\":\"remote\",\"role\":\"Backend Engineering Intern\",\"status\":\"wishlist\"}",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0TOifSg2ydvjoFufF9CegizOCHeiupD+4AVV0kZpRjySKliKt/Nj+jqRi4g1Iop6Odhm/aCL4yEnZF8x0wi+cVJXt+2kyXDw9ZMJTFVO+ffAoNL1srRgaGJ2M="
+        }
+      }
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "tool-calls",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1226,
+          "noCache": 1226,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 41,
+          "text": 41,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1226,
+          "candidatesTokenCount": 41,
+          "totalTokenCount": 1267,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1226
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1226,
+            "candidatesTokenCount": 41,
+            "totalTokenCount": 1267,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1226
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

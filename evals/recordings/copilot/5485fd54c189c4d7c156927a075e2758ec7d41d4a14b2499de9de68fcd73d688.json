@@ -1,0 +1,94 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "I have"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " prepared a change to move your Quillstack (Backend Developer Intern) application to interview. It"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " will be updated once you confirm the card."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0T1SbylcRv5H0BVdx3mG1Bnt4YJXIrBe0/tWOnj/NLevounZD4LMr36hCRMfyF/bh/snIfCaz6ZT9rDxBLnZOV3F2XgRU+2SA5yeMbaUsnOOAVOWNKYPtECVw="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1537,
+          "noCache": 1537,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 29,
+          "text": 29,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1537,
+          "candidatesTokenCount": 29,
+          "totalTokenCount": 1566,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1537
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1537,
+            "candidatesTokenCount": 29,
+            "totalTokenCount": 1566,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1537
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

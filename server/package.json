@@ -1,6 +1,6 @@
 {
   "name": "hireboard-server",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "HireBoard API - Job Application Tracker",
   "scripts": {
     "start": "node dist/index.js",

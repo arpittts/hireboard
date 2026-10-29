@@ -1,0 +1,94 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "I have"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " prepared the changes to move Paperkite (Frontend Developer (Freelance)) to applied and set a follow"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "-up for Fri 6 Nov. These will take effect once you confirm the cards."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0TDxVdXPqQArbmvdd4dOwJNxJgyHYHbDGIM824GZOH3U/UxvDrDBj3W1fRoiT5hleMSG0j2cD8tlo0M4cqMGkTs2XUWeMiVHrbHINFtHCvSg7u56kwjW/pNfI="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1694,
+          "noCache": 1694,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 40,
+          "text": 40,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1694,
+          "candidatesTokenCount": 40,
+          "totalTokenCount": 1734,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1694
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1694,
+            "candidatesTokenCount": 40,
+            "totalTokenCount": 1734,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1694
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

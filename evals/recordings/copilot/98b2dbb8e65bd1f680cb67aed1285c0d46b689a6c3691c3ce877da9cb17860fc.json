@@ -1,0 +1,94 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "I have"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " prepared a follow-up reminder for Orbitline (Full Stack Developer) on Fri"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " 30 Oct. This will be updated once you confirm the card."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0T6eiQDU4+hnLIPRjnKztorhWJxl+ibtVxHHPnsbg1R9beaX4zVqKT56KByqy1WF8WfKpk6mmO47GH/ZB0oCh2xsFDYhQ/AWYvauWiod2P+yVbCKjihNOzFVE="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1562,
+          "noCache": 1562,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 33,
+          "text": 33,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1562,
+          "candidatesTokenCount": 33,
+          "totalTokenCount": 1595,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1562
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1562,
+            "candidatesTokenCount": 33,
+            "totalTokenCount": 1595,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1562
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

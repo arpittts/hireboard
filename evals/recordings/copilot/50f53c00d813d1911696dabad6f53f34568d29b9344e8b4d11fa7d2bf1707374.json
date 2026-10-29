@@ -1,0 +1,94 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "I have"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " prepared a card to add the Backend Engineering Intern role at Stripe to your wishlist. Once you confirm"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " the card, it will be added to your board."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0Til338IVhbNIxeOSjqk22svHxASRTBNm8RjNKUpHjuzRL5l89NS9VghKmekFKRdhkwxUlzNlpUCj6JlXtN7j2VmC+OoG4tYEnZpd2svRem5ddn6+V0gPoFPA="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1324,
+          "noCache": 1324,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 32,
+          "text": 32,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1324,
+          "candidatesTokenCount": 32,
+          "totalTokenCount": 1356,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1324
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1324,
+            "candidatesTokenCount": 32,
+            "totalTokenCount": 1356,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1324
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

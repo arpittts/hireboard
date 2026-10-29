@@ -1,0 +1,94 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "Your response"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " rate is 29.4%, with a rejection rate of 11.8"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "% across 17 total applications."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0TGrZKNpEehrZr75SvDWNp1wkfBRkULtcVenX9WOvPZr2ulQzcNeIzrM8g2JGoyO/vXIEgOrNa1Zr5Q2W7Um56T7HnG/1QEnkEbRHmb/BVUUsOCFPEL+NmcZs="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 960,
+          "noCache": 960,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 28,
+          "text": 28,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 960,
+          "candidatesTokenCount": 28,
+          "totalTokenCount": 988,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 960
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 960,
+            "candidatesTokenCount": 28,
+            "totalTokenCount": 988,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 960
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

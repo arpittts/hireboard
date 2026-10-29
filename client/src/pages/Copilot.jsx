@@ -92,6 +92,7 @@ export default function Copilot() {
       await streamPost('/copilot/messages', { content }, (event, data) => {
         if (event === 'tool') setLive(l => ({ ...l, tool: data.name }));
         if (event === 'text') setLive(l => ({ ...l, tool: null, text: l.text + data.text }));
+        if (event === 'retry') setLive(l => ({ ...l, text: '' }));
         if (event === 'action') setLive(l => ({ ...l, actions: [...l.actions, data] }));
         if (event === 'error') { setError(data.error.message); setInput(content); }
         if (event === 'done') queryClient.setQueryData(['copilot'], (list = []) => [...list, data.user, data.assistant]);

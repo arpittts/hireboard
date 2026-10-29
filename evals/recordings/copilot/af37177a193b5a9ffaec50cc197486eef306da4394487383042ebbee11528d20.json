@@ -1,0 +1,94 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "The"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " DevOps Intern role at Zenith Cloud involves helping run Terraform, GitHub Actions, and Kubernetes for 40"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " microservices, as well as automating deployments and improving Grafana dashboards."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0Ts1f2HnVTIjN6Ofa+0T2OLdqX8EcSck4W644r7Wa9Zitrsnjqvm02tl06xD3K8TIoDTdo6Z2nmBOMqLxWFSdwObEvPFJ12aULyIUzBUNePL7e9R6jovbHH10="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1665,
+          "noCache": 1665,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 35,
+          "text": 35,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1665,
+          "candidatesTokenCount": 35,
+          "totalTokenCount": 1700,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1665
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1665,
+            "candidatesTokenCount": 35,
+            "totalTokenCount": 1700,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1665
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

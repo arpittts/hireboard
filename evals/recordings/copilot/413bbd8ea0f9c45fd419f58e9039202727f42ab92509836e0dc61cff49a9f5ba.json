@@ -1,0 +1,94 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "I'"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "ve prepared a follow-up reminder for Pinecrest Labs (Data Analyst Intern) on Thu"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " 5 Nov. Once you confirm the card, it will be added."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0Thv4DRtLhjp6xC7qdVIFgnfLPN6LOAenTDN3I0ae41QSPPNBo+lWM+3ObFG9RD5gzIJWOpuzPO+VZnoviAlahyQPDME49fI8vO3fNYq1Gdlw2nGBtIRLXPQE="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1555,
+          "noCache": 1555,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 35,
+          "text": 35,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1555,
+          "candidatesTokenCount": 35,
+          "totalTokenCount": 1590,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1555
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1555,
+            "candidatesTokenCount": 35,
+            "totalTokenCount": 1590,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1555
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

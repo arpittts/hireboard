@@ -1,0 +1,94 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "I'"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "ve prepared a follow-up reminder for the Generative AI Intern role at Fern"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "way Labs on Wed 4 Nov. Once you confirm the card, the reminder will be set."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0Tg1611ZrjQJXceXG58UjlNiGUvOr++HIY0EHLvkgCE14rrZFFMTwYlfiexunpJV58ll0aER08y9urBZfvqc+K51uLW9led/FKXJtoMXNpzqXpSzKt3JeTsjY="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1570,
+          "noCache": 1570,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 38,
+          "text": 38,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1570,
+          "candidatesTokenCount": 38,
+          "totalTokenCount": 1608,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1570
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1570,
+            "candidatesTokenCount": 38,
+            "totalTokenCount": 1608,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1570
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

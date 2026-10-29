@@ -1,0 +1,94 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "You have"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " three applications at the interview stage: Northwind Analytics for AI Engineer Intern, Brightloom for"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " Applied AI Intern, and Mosaic Health for Backend Engineering Intern."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0TxVoKUtS7nUOEyJkr6BdN5hFWX2xkYrnPBBdPCAYXSuJh6EaoPL7SdMjN8u/i7ufEgSGUfNmbWxhOAx1wvIM3yc5bVllyseexfgVBnHjGT/URWokbYUVIP7U="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1271,
+          "noCache": 1271,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 32,
+          "text": 32,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1271,
+          "candidatesTokenCount": 32,
+          "totalTokenCount": 1303,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1271
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1271,
+            "candidatesTokenCount": 32,
+            "totalTokenCount": 1303,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1271
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

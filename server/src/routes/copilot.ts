@@ -47,7 +47,8 @@ const sendEvent = (res: Response, event: string, data: unknown) => {
 };
 
 // POST /api/copilot/messages answers as server-sent events:
-//   tool (a lookup started) · text (a piece of the reply) · action (a card to confirm) · done · error
+//   tool (a lookup started) · text (a piece of the reply) · action (a card to confirm)
+//   retry (clear the text shown so far) · done · error
 copilotRouter.post('/messages', async (req, res) => {
   const userId = userIdOf(req);
   const { content } = messageSchema.parse(req.body);
@@ -72,6 +73,7 @@ copilotRouter.post('/messages', async (req, res) => {
       onEvent: (e) => {
         if (e.type === 'text') sendEvent(res, 'text', { text: e.text });
         else if (e.type === 'tool') sendEvent(res, 'tool', { name: e.name });
+        else if (e.type === 'retry') sendEvent(res, 'retry', {});
         else sendEvent(res, 'action', e.action);
       },
     });

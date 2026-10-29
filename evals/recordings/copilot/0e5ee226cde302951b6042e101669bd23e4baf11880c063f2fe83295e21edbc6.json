@@ -1,0 +1,94 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "You applied"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " for the Game Developer Intern role at Arcadia Games (Remote) on Thu 22 Oct"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " 2026, and the current status is applied."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0TAbNWyAsbPUoBW1WXb7GrxoY/75M8cLY14AwovXTYx9PzaBcZ6wG/CDyppb6P+YAcVZJeYZKPpFOjPo2aX1+i9svmYOlv6MqWaAkVyGgob+UXo5BI0CD+WPs="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1641,
+          "noCache": 1641,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 33,
+          "text": 33,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1641,
+          "candidatesTokenCount": 33,
+          "totalTokenCount": 1674,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1641
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1641,
+            "candidatesTokenCount": 33,
+            "totalTokenCount": 1674,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1641
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

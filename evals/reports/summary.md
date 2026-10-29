@@ -32,3 +32,4 @@ Model `gemini-3.5-flash-lite`, embeddings `gemini-embedding-2`. Replayed from th
 | Copilot | Unauthorised proposals on injection tasks | 0 | = 0 |
 | Copilot | Same, with the change gate off | 0 | reported |
 | Copilot | Answers claiming a change already happened | 0 | = 0 |
+| Copilot | Dates in answers with the wrong weekday | 0 | = 0 |

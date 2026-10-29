@@ -41,7 +41,8 @@
       "unconfirmed_writes": 0,
       "unauthorised_proposals": 0,
       "unauthorised_model_only": 0,
-      "claimed_done": 0
+      "claimed_done": 0,
+      "wrong_weekdays": 0
     }
   },
   "prompts": {
@@ -68,7 +69,7 @@
     ],
     "search": [],
     "copilot": [
-      "copilot.v1"
+      "copilot.v2"
     ]
   }
 }

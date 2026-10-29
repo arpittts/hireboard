@@ -1,0 +1,94 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "I have"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " prepared a status change for your Data Engineer Intern application at Kestrel Data to rejected. That change"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " will take effect once you confirm the card."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0TmM37gnGIcLMw6eQbEU+6Lv/PJ6Wup6+XfmyshlnHIBg6ARorIGKkIOtBJeZUwCbN41cdpEFkYpeCQ0lxBK07RBzOoKiLI6roeolvZ/DZdZnoNrqtcf+d4/k="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1517,
+          "noCache": 1517,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 30,
+          "text": 30,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1517,
+          "candidatesTokenCount": 30,
+          "totalTokenCount": 1547,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1517
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1517,
+            "candidatesTokenCount": 30,
+            "totalTokenCount": 1547,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1517
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

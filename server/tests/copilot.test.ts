@@ -207,6 +207,16 @@ describe('copilot chat', () => {
     expect((await api().post(`/api/actions/${second.id}/cancel`).set('Authorization', other.auth)).status).toBe(404);
   });
 
+  it('tries again once when the reply has no words, and saves the real answer', async () => {
+    const { auth } = await createUser();
+    const model = scriptedModel({ text: '_' }, { text: 'You have no applications yet.' });
+    const events = await send(auth, 'What does my week look like?');
+    expect(events.map((e) => e.event)).toContain('retry');
+    expect(events.at(-1)!.data.assistant.content).toBe('You have no applications yet.');
+    // The second try tells the model what went wrong, so it is a different request.
+    expect(JSON.stringify(model.doStreamCalls[1].prompt)).toContain('had no words');
+  });
+
   it('sends model failures as an error event and saves nothing', async () => {
     const { auth } = await createUser(); // no fake model: AI is not configured
     const events = await send(auth, 'Hello');

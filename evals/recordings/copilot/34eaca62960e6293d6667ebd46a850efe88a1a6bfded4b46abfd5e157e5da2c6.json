@@ -1,0 +1,104 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "For your"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " AI Engineer Intern interview at Northwind Analytics on Mon 26 Oct, your average scores were 3"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": ".6 for relevance, 3.0 for specificity, 2.8 for structure, and 2.2 for depth."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " \n\nTo improve, you should explain implementation details by hand (such as data structures for multi-step flows), use"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " concrete store-manager queries rather than generic manuals, and mention trade-offs considered when choosing a database."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0T8bFhBedPZPTOvuSfKnkjUErxbU4zNsYSIwFuLBBMq5E08UuLuFQAsfqkztH+EQBSEjaycZG9swRmkBGgdIXBEVWAjSu6OYQqLxR5gWGoQNeYCSZ/xoe7i34="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1082,
+          "noCache": 1082,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 95,
+          "text": 95,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1082,
+          "candidatesTokenCount": 95,
+          "totalTokenCount": 1177,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1082
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1082,
+            "candidatesTokenCount": 95,
+            "totalTokenCount": 1177,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1082
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}
