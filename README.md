@@ -1,9 +1,3 @@
-
-
-https://github.com/user-attachments/assets/7a296516-f480-4d59-a722-70d31e310d13
-
-
-
 # 📋 HireBoard
 
 > An AI job-search copilot: track applications, check your resume against each job, practise interviews with grounded feedback, write cover letters that only claim what your resume shows, and ask a copilot that can change things only after you confirm.
@@ -16,6 +10,10 @@ https://github.com/user-attachments/assets/7a296516-f480-4d59-a722-70d31e310d13
 ![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17_+_pgvector-336791?style=flat-square&logo=postgresql)
 ![Vercel AI SDK](https://img.shields.io/badge/Vercel_AI_SDK-Gemini-000000?style=flat-square)
+
+### 🎬 60-second demo
+
+https://github.com/user-attachments/assets/7a296516-f480-4d59-a722-70d31e310d13
 
 ## 🎯 Why
 
