@@ -9,6 +9,9 @@ import { api, createApplication, createUser, useTestDatabase } from './helpers.j
 useTestDatabase();
 afterEach(() => setModelForTests(null));
 
+// The parts a model stream sends, as the mock model's types define them.
+type StreamPart = Awaited<ReturnType<MockLanguageModelV4['doStream']>>['stream'] extends ReadableStream<infer P> ? P : never;
+
 type Step = { calls: { name: string; input: object }[] } | { text: string } | Error;
 
 const usage = {
@@ -24,7 +27,7 @@ function scriptedModel(...steps: Step[]) {
       const step = steps[Math.min(call, steps.length - 1)];
       call += 1;
       if (step instanceof Error) throw step;
-      const chunks =
+      const chunks: StreamPart[] =
         'calls' in step
           ? [
               ...step.calls.map((c, i) => ({ type: 'tool-call' as const, toolCallId: `call-${call}-${i}`, toolName: c.name, input: JSON.stringify(c.input) })),
