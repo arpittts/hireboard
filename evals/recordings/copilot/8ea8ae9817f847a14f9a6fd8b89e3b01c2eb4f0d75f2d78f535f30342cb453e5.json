@@ -1,0 +1,94 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "For the"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " AI Engineer Intern role at Northwind Analytics, your resume covers Python, FastAPI/"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "Flask, prompt engineering, vector databases (like pgvector or Pinecone), and Docker, but is missing LangGraph or agent frameworks."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0Tj9auuuPAy7Q1WS5rmlEzqBVcwMkWi6Nq1KzdHvSKZshNhMZmwaCDnNsw4J3WhZG6Z2NwEmSvH5j5tI3AeS3XEKfYlaWmW/YwwBn0IuP6NTbRGGYz0nH1mwM="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1398,
+          "noCache": 1398,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 45,
+          "text": 45,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1398,
+          "candidatesTokenCount": 45,
+          "totalTokenCount": 1443,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1398
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1398,
+            "candidatesTokenCount": 45,
+            "totalTokenCount": 1443,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1398
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

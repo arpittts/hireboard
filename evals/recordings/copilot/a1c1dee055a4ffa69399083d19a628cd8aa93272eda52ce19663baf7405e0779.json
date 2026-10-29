@@ -1,0 +1,94 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "The DevOps"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " Intern role at Zenith Cloud involves running Terraform, GitHub Actions, and Kubernetes for 40"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " microservices, as well as automating deployments and improving Grafana dashboards."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0TE78ZGdabUjgqLCIEchbnME0daOYbjidUUx4O5MglNwujPyGUjWKhoDjO8D2dPemZmPZr4PxYmjEAUnNK/kH+esVoJPqdPkzlR9PLaxpPT4tFEe5wbKoX5RI="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1309,
+          "noCache": 1309,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 34,
+          "text": 34,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1309,
+          "candidatesTokenCount": 34,
+          "totalTokenCount": 1343,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1309
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1309,
+            "candidatesTokenCount": 34,
+            "totalTokenCount": 1343,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1309
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

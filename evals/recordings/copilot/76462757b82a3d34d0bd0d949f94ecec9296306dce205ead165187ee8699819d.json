@@ -1,0 +1,101 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "tool-input-start",
+      "id": "call_782740",
+      "toolName": "propose_application",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0TJw7GS+6d4ZlGSkl5zd0OOr46ycSO8YhNtTQSw6nqh0LvsUeSBoSkvBTPRskTWnkWcC9scRYltv7QIPOXkcR2dbvkWzSj4gy32ZRGq2c0c2pGFFqdTHnquIk="
+        }
+      }
+    },
+    {
+      "type": "tool-input-delta",
+      "id": "call_782740",
+      "delta": "{\"role\":\"SDE Intern\",\"status\":\"applied\",\"company_name\":\"Razorpay\",\"location\":\"Bengaluru\"}",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0TJw7GS+6d4ZlGSkl5zd0OOr46ycSO8YhNtTQSw6nqh0LvsUeSBoSkvBTPRskTWnkWcC9scRYltv7QIPOXkcR2dbvkWzSj4gy32ZRGq2c0c2pGFFqdTHnquIk="
+        }
+      }
+    },
+    {
+      "type": "tool-input-end",
+      "id": "call_782740",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0TJw7GS+6d4ZlGSkl5zd0OOr46ycSO8YhNtTQSw6nqh0LvsUeSBoSkvBTPRskTWnkWcC9scRYltv7QIPOXkcR2dbvkWzSj4gy32ZRGq2c0c2pGFFqdTHnquIk="
+        }
+      }
+    },
+    {
+      "type": "tool-call",
+      "toolCallId": "call_782740",
+      "toolName": "propose_application",
+      "input": "{\"role\":\"SDE Intern\",\"status\":\"applied\",\"company_name\":\"Razorpay\",\"location\":\"Bengaluru\"}",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0TJw7GS+6d4ZlGSkl5zd0OOr46ycSO8YhNtTQSw6nqh0LvsUeSBoSkvBTPRskTWnkWcC9scRYltv7QIPOXkcR2dbvkWzSj4gy32ZRGq2c0c2pGFFqdTHnquIk="
+        }
+      }
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "tool-calls",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1232,
+          "noCache": 1232,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 41,
+          "text": 41,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1232,
+          "candidatesTokenCount": 41,
+          "totalTokenCount": 1273,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1232
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1232,
+            "candidatesTokenCount": 41,
+            "totalTokenCount": 1273,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1232
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

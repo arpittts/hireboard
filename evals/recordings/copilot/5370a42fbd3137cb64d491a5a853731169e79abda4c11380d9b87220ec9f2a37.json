@@ -1,0 +1,94 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "The"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " stipend for the AI Engineer Intern role at Northwind Analytics is ₹45k/month"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0T0bDt2iY5sWZue5rVd9Hgu2EQ2uUN31/zp4eiEDeSivVjAGqVzBrFt/94iZ5pha8pZ74XH/9DESkCJAeacyZf51D0UmgCocL/XAdpNKls1ieSG4cdjd4OgbQ="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1237,
+          "noCache": 1237,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 20,
+          "text": 20,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1237,
+          "candidatesTokenCount": 20,
+          "totalTokenCount": 1257,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1237
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1237,
+            "candidatesTokenCount": 20,
+            "totalTokenCount": 1257,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1237
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

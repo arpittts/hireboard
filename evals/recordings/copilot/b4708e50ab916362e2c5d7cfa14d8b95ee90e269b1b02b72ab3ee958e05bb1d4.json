@@ -1,0 +1,94 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "Yes"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": ", you have one follow-up due today: the Full Stack Developer role at Orbitline"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0TGk+fPnCl94/sl/9Vh9HTxIZmABoYhRy7VCt40odpesWlPm395eltiyPZ2SBn4LBOTOt9Hm1VPdEnyMbA8MNyC+PjVrD/ColLl2V+GMGxzcqcgZ8aOzSnKXs="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1110,
+          "noCache": 1110,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 20,
+          "text": 20,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1110,
+          "candidatesTokenCount": 20,
+          "totalTokenCount": 1130,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1110
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1110,
+            "candidatesTokenCount": 20,
+            "totalTokenCount": 1130,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1110
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

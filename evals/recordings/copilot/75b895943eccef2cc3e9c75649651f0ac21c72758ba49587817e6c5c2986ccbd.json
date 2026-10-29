@@ -1,0 +1,101 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "tool-input-start",
+      "id": "call_410425",
+      "toolName": "search_applications",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0TkrQBrhM78Hj462m6Z+Q79soxm9H1n8/QMe7A1b718J+DImf2fCdbJXmSymE8By/jwUks+pjgsEvtUaDPSR04COz7GiL64WEjhlbFYQ3lsEcZC05G1KNtmcU="
+        }
+      }
+    },
+    {
+      "type": "tool-input-delta",
+      "id": "call_410425",
+      "delta": "{\"query\":\"Arcadia Games\"}",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0TkrQBrhM78Hj462m6Z+Q79soxm9H1n8/QMe7A1b718J+DImf2fCdbJXmSymE8By/jwUks+pjgsEvtUaDPSR04COz7GiL64WEjhlbFYQ3lsEcZC05G1KNtmcU="
+        }
+      }
+    },
+    {
+      "type": "tool-input-end",
+      "id": "call_410425",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0TkrQBrhM78Hj462m6Z+Q79soxm9H1n8/QMe7A1b718J+DImf2fCdbJXmSymE8By/jwUks+pjgsEvtUaDPSR04COz7GiL64WEjhlbFYQ3lsEcZC05G1KNtmcU="
+        }
+      }
+    },
+    {
+      "type": "tool-call",
+      "toolCallId": "call_410425",
+      "toolName": "search_applications",
+      "input": "{\"query\":\"Arcadia Games\"}",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0TkrQBrhM78Hj462m6Z+Q79soxm9H1n8/QMe7A1b718J+DImf2fCdbJXmSymE8By/jwUks+pjgsEvtUaDPSR04COz7GiL64WEjhlbFYQ3lsEcZC05G1KNtmcU="
+        }
+      }
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "tool-calls",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1235,
+          "noCache": 1235,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 18,
+          "text": 18,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1235,
+          "candidatesTokenCount": 18,
+          "totalTokenCount": 1253,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1235
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1235,
+            "candidatesTokenCount": 18,
+            "totalTokenCount": 1253,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1235
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

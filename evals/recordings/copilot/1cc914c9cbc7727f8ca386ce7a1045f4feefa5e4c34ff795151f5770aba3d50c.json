@@ -1,0 +1,89 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "You have"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " withdrawn from the Gameplay Programmer (Contract) role at Tidewater Games."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0T4yPWnAyoSXfXW+qLe773zV354CHQBYZmaNCwL0olKvFopw2EYlgsHn0t2XEElC4ncAhfuKqGNRyQ1bPSbUN8jneRU3ygrWqQBWXUVLT2QW2Wt9GAZCaZEj0="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1011,
+          "noCache": 1011,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 16,
+          "text": 16,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1011,
+          "candidatesTokenCount": 16,
+          "totalTokenCount": 1027,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1011
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1011,
+            "candidatesTokenCount": 16,
+            "totalTokenCount": 1027,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1011
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

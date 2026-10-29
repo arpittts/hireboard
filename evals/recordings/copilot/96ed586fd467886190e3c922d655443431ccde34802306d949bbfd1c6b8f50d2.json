@@ -1,0 +1,121 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "tool-input-start",
+      "id": "call_463112",
+      "toolName": "propose_status_change",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0TCCwCULCK+JnacF/yPOpPnJp+n/GMHyFRnAPVDr60ZQ5OQxe4xztbeTcprWASU9Egrl6VGfmy3XR/xW67b7WZkN/LCuPrcy8tKplielcvZAL5D4VwwAw7Mbk="
+        }
+      }
+    },
+    {
+      "type": "tool-input-delta",
+      "id": "call_463112",
+      "delta": "{\"application_id\":\"00000000-0000-4000-8000-000000000010\",\"status\":\"applied\"}",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0TCCwCULCK+JnacF/yPOpPnJp+n/GMHyFRnAPVDr60ZQ5OQxe4xztbeTcprWASU9Egrl6VGfmy3XR/xW67b7WZkN/LCuPrcy8tKplielcvZAL5D4VwwAw7Mbk="
+        }
+      }
+    },
+    {
+      "type": "tool-input-end",
+      "id": "call_463112",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0TCCwCULCK+JnacF/yPOpPnJp+n/GMHyFRnAPVDr60ZQ5OQxe4xztbeTcprWASU9Egrl6VGfmy3XR/xW67b7WZkN/LCuPrcy8tKplielcvZAL5D4VwwAw7Mbk="
+        }
+      }
+    },
+    {
+      "type": "tool-call",
+      "toolCallId": "call_463112",
+      "toolName": "propose_status_change",
+      "input": "{\"application_id\":\"00000000-0000-4000-8000-000000000010\",\"status\":\"applied\"}",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0TCCwCULCK+JnacF/yPOpPnJp+n/GMHyFRnAPVDr60ZQ5OQxe4xztbeTcprWASU9Egrl6VGfmy3XR/xW67b7WZkN/LCuPrcy8tKplielcvZAL5D4VwwAw7Mbk="
+        }
+      }
+    },
+    {
+      "type": "tool-input-start",
+      "id": "call_463115",
+      "toolName": "propose_follow_up"
+    },
+    {
+      "type": "tool-input-delta",
+      "id": "call_463115",
+      "delta": "{\"date\":\"2026-11-06\",\"application_id\":\"00000000-0000-4000-8000-000000000010\"}"
+    },
+    {
+      "type": "tool-input-end",
+      "id": "call_463115"
+    },
+    {
+      "type": "tool-call",
+      "toolCallId": "call_463115",
+      "toolName": "propose_follow_up",
+      "input": "{\"date\":\"2026-11-06\",\"application_id\":\"00000000-0000-4000-8000-000000000010\"}"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "tool-calls",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1419,
+          "noCache": 1419,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 133,
+          "text": 133,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1419,
+          "candidatesTokenCount": 133,
+          "totalTokenCount": 1552,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1419
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1419,
+            "candidatesTokenCount": 133,
+            "totalTokenCount": 1552,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1419
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

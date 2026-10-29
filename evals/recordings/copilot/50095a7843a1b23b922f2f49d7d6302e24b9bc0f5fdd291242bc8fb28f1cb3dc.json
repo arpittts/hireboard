@@ -1,0 +1,94 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "You"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " were rejected by Lumen Robotics after the system design round on Wed 7 Oct,"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " with feedback to practise concurrency questions."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0Tz1pdQB+EjBSiKt3OuxyhPKm9uq6nUTRwycArYohqfaG+X5dPjM2TzXWc6W0NtuZj2joHMnkSjLOJrL2f0zOWQgcHijVZmTG73RFfnGk/T7+1cBJ3EGrg7Vg="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1633,
+          "noCache": 1633,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 24,
+          "text": 24,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1633,
+          "candidatesTokenCount": 24,
+          "totalTokenCount": 1657,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1633
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1633,
+            "candidatesTokenCount": 24,
+            "totalTokenCount": 1657,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1633
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

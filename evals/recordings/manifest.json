@@ -3,7 +3,7 @@
   "embeddingModel": "gemini-embedding-2",
   "prompts": {
     "claims.v1": "bdd9f4be35fc2580",
-    "copilot.v1": "9dfea4e2bdf44f2c",
+    "copilot.v2": "c977fc5473400863",
     "draft.v1": "f6cd374edc9982dc",
     "feedback.v1": "160c6284474fdd9a",
     "interviewer.v1": "7f72959435925c6f",

@@ -1,0 +1,94 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "I have"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " prepared a status update to move Mosaic Health (Backend Engineering Intern) to rejected. This will take"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " effect once you confirm the card."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0T4snrkvVmUmpjr7u0YtpNVHSLfTLQw8j5Fv9YxvAIySosuNRycazk+hvel5EsPLZ5f3aKaWDuGwj2RDr/dAP48rlsm3RkoIl78i0nJZ+ohwcnCC+TBAso0jg="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1535,
+          "noCache": 1535,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 28,
+          "text": 28,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1535,
+          "candidatesTokenCount": 28,
+          "totalTokenCount": 1563,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1535
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1535,
+            "candidatesTokenCount": 28,
+            "totalTokenCount": 1563,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1535
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

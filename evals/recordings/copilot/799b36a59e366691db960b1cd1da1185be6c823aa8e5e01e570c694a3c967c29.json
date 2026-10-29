@@ -1,0 +1,94 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "You"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " applied for the Game Developer Intern role at Arcadia Games as a remote position on Thu "
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "22 Oct 2026, and the application is currently in the \"applied\" status."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0T9X/YCEoONg4hC35ZUAOsltiqmV7QjjI1MmCvrDgIlvJlOjkKhZ8ztw73oPHNBWta1JzuCONXJY7o9ww1hGdmKCxAzKQ0itZ/M1/idOEjJeBxIvhWa9MwP80="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1285,
+          "noCache": 1285,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 39,
+          "text": 39,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1285,
+          "candidatesTokenCount": 39,
+          "totalTokenCount": 1324,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1285
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1285,
+            "candidatesTokenCount": 39,
+            "totalTokenCount": 1324,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1285
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

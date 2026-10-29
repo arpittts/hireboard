@@ -1,0 +1,94 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "You have"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " three jobs in Bengaluru: Brightloom (Applied AI Intern), Northwind Analytics (AI Engineer Intern),"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " and Mosaic Health (Backend Engineering Intern)."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0TsXjI1xVnwzLDabq+NuKYjcXjJkNs0OqKEV3L9qId0AG4UuQFQ/0nVku9fzOWtM4t03qtGq7oUnmTkpbl5XyjfejvdJlMHF6VeVDeqjx4GhnQfoNRuoZ4sYU="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1608,
+          "noCache": 1608,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 30,
+          "text": 30,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1608,
+          "candidatesTokenCount": 30,
+          "totalTokenCount": 1638,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1608
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1608,
+            "candidatesTokenCount": 30,
+            "totalTokenCount": 1638,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1608
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

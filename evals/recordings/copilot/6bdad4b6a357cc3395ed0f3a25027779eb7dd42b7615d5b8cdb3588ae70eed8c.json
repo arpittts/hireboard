@@ -1,0 +1,94 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "I have"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " prepared the application to add **Razorpay** for the **SDE Intern**"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " role in Bengaluru as applied. It will be tracked once you confirm the card."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0T6rt6TLaAxO2Qs5jUn2TXWtdzCokQtZWul28StxlRCwcKPsvxBv4XHmW877/5eJQtc6FFTg6+AZevjh58rbHqJqZwQn4qPN0HcK+/r6vIifMNl6cLxioJT2A="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1330,
+          "noCache": 1330,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 34,
+          "text": 34,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1330,
+          "candidatesTokenCount": 34,
+          "totalTokenCount": 1364,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1330
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1330,
+            "candidatesTokenCount": 34,
+            "totalTokenCount": 1364,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1330
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

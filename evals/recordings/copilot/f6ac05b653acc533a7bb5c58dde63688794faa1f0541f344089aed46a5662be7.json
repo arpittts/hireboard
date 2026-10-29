@@ -1,0 +1,104 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "You have"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " follow-ups and deadlines for:\n- Orbitline (Full Stack Developer): Wed "
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "28 Oct\n- Northwind Analytics (AI Engineer Intern): Fri 30 Oct\n- Brightloom (Applied AI Intern):"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " Sun 1 Nov\n- Quillstack (Backend Developer Intern): Mon 2 Nov\n- Bluepeak AI (Machine"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " Learning Intern - deadline): Tue 3 Nov"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0TVaX3q7WIq+ocMo45q2RWk7eBerAV7j/En8QBaGSqJYN8xlBlD9uxHEU2FsRk/IG6zTBWJqHJaW+ST1Zr8EHMbM5qs55CijkzJGMkybwpbEkoxI6/ysXGQEo="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1646,
+          "noCache": 1646,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 80,
+          "text": 80,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1646,
+          "candidatesTokenCount": 80,
+          "totalTokenCount": 1726,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1646
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1646,
+            "candidatesTokenCount": 80,
+            "totalTokenCount": 1726,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1646
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

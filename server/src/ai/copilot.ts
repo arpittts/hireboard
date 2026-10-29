@@ -19,7 +19,7 @@ import { checkQuota, loadPrompt, logCall, modelFailure } from './run.js';
 //   - write tools are offered only when the user's own message asks for a change,
 //     so instructions hidden in a job description can't trigger one on a question.
 
-export const COPILOT_PROMPT_VERSION = 'copilot.v1';
+export const COPILOT_PROMPT_VERSION = 'copilot.v2';
 export const MAX_STEPS = 6;
 const HISTORY_MESSAGES = 12; // earlier messages sent with each turn
 
@@ -51,16 +51,24 @@ export interface ProposedAction {
 export type CopilotEvent =
   | { type: 'text'; text: string }
   | { type: 'tool'; name: ToolName }
-  | { type: 'action'; action: ProposedAction };
+  | { type: 'action'; action: ProposedAction }
+  | { type: 'retry' }; // discard the text shown so far: the answer is being written again
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 const addDays = (date: string, days: number) => new Date(Date.parse(`${date}T00:00:00Z`) + days * 86_400_000).toISOString().slice(0, 10);
 
+// Models get weekdays wrong when they work them out ("Wed 29 Oct" for a Thursday),
+// so every date a tool returns carries its weekday, computed here.
+const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+export const withWeekday = (date: unknown) =>
+  typeof date === 'string' && ISO_DATE.test(date) ? `${date} (${WEEKDAYS[new Date(`${date}T00:00:00Z`).getUTCDay()]})` : date;
+
 // What tools return for an application: no internal fields, no timestamps.
 const brief = (a: Record<string, unknown>) => ({
   id: a.id, company: a.company_name, role: a.role, status: a.status, type: a.type, priority: a.priority,
-  location: a.location, salary: a.salary, applied_on: a.application_date, deadline: a.deadline, follow_up_date: a.follow_up_date,
+  location: a.location, salary: a.salary,
+  applied_on: withWeekday(a.application_date), deadline: withWeekday(a.deadline), follow_up_date: withWeekday(a.follow_up_date),
 });
 
 interface Context {
@@ -137,7 +145,7 @@ function buildTools(ctx: Context) {
           notes: app.notes,
           job_description: app.job_description ? String(app.job_description).slice(0, 2500) : null,
           requirements: app.jd_extraction?.requirements?.map((r: { text: string; kind: string }) => `${r.text} (${r.kind === 'must' ? 'required' : 'nice to have'})`) ?? [],
-          recent_status_changes: history.rows,
+          recent_status_changes: history.rows.map((h) => ({ ...h, date: withWeekday(h.date) })),
         };
       },
     }),
@@ -182,7 +190,7 @@ function buildTools(ctx: Context) {
              AND status IN ('wishlist', 'applied', 'interview', 'offer') ORDER BY follow_up_date, company_name`,
           [userId, ctx.today],
         );
-        return { from: start, to: end, upcoming: rows.rows.map(brief), overdue_follow_ups: overdue.rows.map(brief) };
+        return { from: withWeekday(start), to: withWeekday(end), upcoming: rows.rows.map(brief), overdue_follow_ups: overdue.rows.map(brief) };
       },
     }),
 
@@ -197,7 +205,7 @@ function buildTools(ctx: Context) {
         );
         if (!check.rows[0]) return { note: 'No requirements check yet. The user can run one on the application page.' };
         const of = (verdict: string) => check.rows[0].verdicts.filter((v) => v.verdict === verdict).map((v) => `${v.requirement}${v.kind === 'must' ? ' (required)' : ''}`);
-        return { checked_on: check.rows[0].date, on_resume: of('met'), missing: of('missing'), unclear: of('unverified') };
+        return { checked_on: withWeekday(check.rows[0].date), on_resume: of('met'), missing: of('missing'), unclear: of('unverified') };
       },
     }),
 
@@ -218,6 +226,7 @@ function buildTools(ctx: Context) {
         return {
           interviews: rows.rows.map((r) => ({
             ...r,
+            date: withWeekday(r.date),
             improvements: (r.improvements ?? []).slice(0, 3).map((i: { text: string }) => i.text),
             scale: 'scores are 1 to 4',
           })),
@@ -251,7 +260,7 @@ function buildTools(ctx: Context) {
         if (!ISO_DATE.test(date) || Number.isNaN(Date.parse(date))) return { error: 'The date must be YYYY-MM-DD.' };
         if (date < ctx.today) return { error: `${date} is in the past (today is ${ctx.today}).` };
         if (date > addDays(ctx.today, 366)) return { error: 'Follow-ups can be at most a year ahead.' };
-        return propose('follow_up', application_id, { date }, `Set a follow-up for ${app.company_name} – ${app.role} on ${date}`);
+        return propose('follow_up', application_id, { date }, `Set a follow-up for ${app.company_name} – ${app.role} on ${withWeekday(date)}`);
       },
     }),
 
@@ -310,14 +319,19 @@ export async function runCopilot(turn: CopilotTurn) {
   const writesOffered = turn.changeGate === false || asksForChange(turn.message);
   const weekday = new Date(`${today}T00:00:00Z`).toLocaleDateString('en-GB', { weekday: 'long', timeZone: 'UTC' });
 
+  const system = loadPrompt(COPILOT_PROMPT_VERSION).replace('{{TODAY}}', `${weekday} ${today}`);
+  const messages: { role: 'user' | 'assistant'; content: string }[] = [...turn.history.slice(-HISTORY_MESSAGES), { role: 'user', content: turn.message }];
   let text = '';
-  let stepStarted = Date.now();
   const started = Date.now();
-  try {
+
+  // One pass of the agent loop. Returns the text it wrote.
+  async function attempt() {
+    let written = '';
+    let stepStarted = Date.now();
     const result = streamText({
       model: steppedModel('copilot'),
-      system: loadPrompt(COPILOT_PROMPT_VERSION).replace('{{TODAY}}', `${weekday} ${today}`),
-      messages: [...turn.history.slice(-HISTORY_MESSAGES), { role: 'user', content: turn.message }],
+      system,
+      messages,
       tools,
       activeTools: writesOffered ? [...READ_TOOLS, ...WRITE_TOOLS] : [...READ_TOOLS],
       stopWhen: isStepCount(MAX_STEPS),
@@ -327,7 +341,7 @@ export async function runCopilot(turn: CopilotTurn) {
     });
     for await (const part of result.fullStream) {
       if (part.type === 'text-delta') {
-        text += part.text;
+        written += part.text;
         onEvent({ type: 'text', text: part.text });
       } else if (part.type === 'tool-call') {
         toolsUsed.push({ name: part.toolName as ToolName, input: part.input });
@@ -342,12 +356,25 @@ export async function runCopilot(turn: CopilotTurn) {
         throw part.error;
       }
     }
+    return written;
+  }
+
+  try {
+    text = await attempt();
+    // Now and then the model ends a turn with no words at all (a lone "_"). Try once more,
+    // telling it so; the browser clears what it showed. Not after a proposal, which
+    // must not be made twice.
+    if (!/\p{L}/u.test(text) && actions.length === 0) {
+      onEvent({ type: 'retry' });
+      messages.push({ role: 'user', content: 'Your last reply had no words. Please answer my question above in words, using the tools.' });
+      text = await attempt();
+    }
   } catch (err) {
     throw await modelFailure(err, { userId: quotaUserId, feature: 'copilot', promptVersion: COPILOT_PROMPT_VERSION, latencyMs: Date.now() - started });
   }
 
-  if (!text.trim()) {
-    // The step limit ran out while the model was still calling tools.
+  if (!/\p{L}/u.test(text)) {
+    // The step limit ran out while the model was still calling tools, or it wrote nothing twice.
     text = actions.length
       ? 'I prepared the change below. It will happen once you confirm it.'
       : "I couldn't finish that within a few lookups. Try asking about one application at a time.";

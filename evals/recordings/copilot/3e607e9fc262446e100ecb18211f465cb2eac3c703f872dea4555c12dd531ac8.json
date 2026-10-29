@@ -1,0 +1,94 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "The"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " job description for the Robotics Software Intern role at Vantage Robotics lists C++17, Python, and"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " linear algebra as requirements, with ROS experience as a plus."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0TD7gOb2g+w/+pF7ApKOq4q3kh/H8mnl7PVFEpm8pNPV9GBOQ0IXi/q+febA4yQWUF2w5jg6xOUXaCXIwsIDzptEUzq0hXPOpkRYT4ZbOxwbNpKS/pjfdDlt4="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1409,
+          "noCache": 1409,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 33,
+          "text": 33,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1409,
+          "candidatesTokenCount": 33,
+          "totalTokenCount": 1442,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1409
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1409,
+            "candidatesTokenCount": 33,
+            "totalTokenCount": 1442,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1409
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}
