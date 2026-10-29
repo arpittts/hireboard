@@ -11,7 +11,7 @@ import { config } from '../src/config.js';
 import { pool } from '../src/db/pool.js';
 import { runMigrations } from '../src/db/migrate.js';
 import { fuse, keywordSearch, MAX_GAP_FROM_BEST, MAX_MEANING, MIN_SIMILARITY, vectorSearch } from '../src/services/search.js';
-import { pct, publishReport, readDataset } from './evalUtils.js';
+import { pct, publishReport, readDataset, writeResults } from './evalUtils.js';
 
 const K = 5;
 const SHOWN = 10; // the app shows up to 10 results
@@ -99,6 +99,14 @@ async function main() {
       '- Keyword search requires every word of the query, so multi-word phrasings ("writing documentation") often match nothing; hybrid relies on meaning search for those.',
       '',
     ].join('\n');
+    writeResults('search', 'Smart search', [], [
+      { id: 'hybrid_recall', label: 'Hybrid recall@5', value: avg.hybrid, format: 'pct', better: 'higher' },
+      { id: 'hybrid_margin', label: 'Hybrid recall minus the better single method', value: avg.hybrid - Math.max(avg.keyword, avg.meaning), format: 'pct', better: 'higher', target: { op: '>=', value: 0 } },
+      { id: 'keyword_recall', label: 'Keyword-only recall@5', value: avg.keyword, format: 'pct', better: 'none' },
+      { id: 'meaning_recall', label: 'Meaning-only recall@5', value: avg.meaning, format: 'pct', better: 'none' },
+      { id: 'fallback_recall', label: 'Recall@5 without AI (keyword, some words)', value: avg.broad, format: 'pct', better: 'higher' },
+      { id: 'shown_relevant', label: 'Share of shown results that are relevant', value: shownRelevant / Math.max(1, shownTotal), format: 'pct', better: 'higher' },
+    ]);
     publishReport('search.md', report);
     process.exitCode = passed ? 0 : 1;
   } finally {

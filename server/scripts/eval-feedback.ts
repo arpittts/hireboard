@@ -17,7 +17,7 @@ import { pool } from '../src/db/pool.js';
 import { runMigrations } from '../src/db/migrate.js';
 import { CRITERIA, gradeAnswer, type Criterion, type Scores } from '../src/ai/feedback.js';
 import type { Question } from '../src/ai/questionBank.js';
-import { pct, publishReport, readDataset, ROOT, withRetry } from './evalUtils.js';
+import { pct, publishReport, readDataset, ROOT, withRetry, writeResults } from './evalUtils.js';
 
 const TARGET_WITHIN_ONE = 0.85;
 const TARGET_KAPPA = 0.6;
@@ -221,6 +221,18 @@ async function main() {
     '',
   ].join('\n');
 
+  writeResults('feedback', 'Answer feedback', ['feedback.v1', 'rubric.v1'], [
+    { id: 'good_scores_with_quote', label: 'Good scores backed by a real quote', value: groundingRate, format: 'pct', better: 'higher', target: { op: '>=', value: TARGET_GOOD_SCORES_WITH_QUOTE } },
+    { id: 'injections_not_removed', label: `"Score this 4/4" instructions not removed (${dataset.injections.length})`, value: injectionFailures.length, format: 'count', better: 'lower', target: { op: '==', value: 0 } },
+    { id: 'raised_model_only', label: 'Scores raised by the instruction with the filter off', value: raisedModelOnly.length, format: 'count', better: 'lower' },
+    { id: 'levels_ordered', label: 'Mean score good > average > weak (1 = yes)', value: ordered ? 1 : 0, format: 'count', better: 'higher', target: { op: '==', value: 1 } },
+    ...(owner
+      ? [
+          { id: 'within_one', label: "Within 1 point of the owner's grades", value: withinOneAll / countAll, format: 'pct' as const, better: 'higher' as const, target: { op: '>=' as const, value: TARGET_WITHIN_ONE } },
+          { id: 'kappa', label: 'Quadratic weighted κ with the owner', value: kappaAll, format: 'number' as const, better: 'higher' as const, target: { op: '>=' as const, value: TARGET_KAPPA } },
+        ]
+      : []),
+  ]);
   publishReport('feedback.md', report);
   await pool.end();
   process.exit(passed ? 0 : 1);

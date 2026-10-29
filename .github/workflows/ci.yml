@@ -37,8 +37,10 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       - run: npm run build
-      # Replays recorded model replies (no API key, no network) and fails below the target.
-      - name: AI evals (replay)
+      # The eval gate: replays recorded model replies (no API key, no network) and fails on
+      # a missed target, a drop from evals/reports/metrics.json, an edited prompt that was
+      # not re-recorded, or reports/README not regenerated. Results appear in the job summary.
+      - name: AI eval gate (replay)
         run: npm run eval
         env:
           DATABASE_URL: ${{ env.TEST_DATABASE_URL }}

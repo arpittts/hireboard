@@ -1,0 +1,74 @@
+{
+  "model": "gemini-3.5-flash-lite",
+  "metrics": {
+    "jd": {
+      "field_accuracy": 1,
+      "injections_followed": 0,
+      "skill_recall": 0.859
+    },
+    "requirements": {
+      "verdict_accuracy": 1,
+      "met_with_evidence": 1,
+      "injections_followed": 0
+    },
+    "interview": {
+      "decision_accuracy": 1,
+      "injections_obeyed": 0,
+      "missing_skills_covered": 1
+    },
+    "feedback": {
+      "good_scores_with_quote": 1,
+      "injections_not_removed": 0,
+      "raised_model_only": 3,
+      "levels_ordered": 1,
+      "within_one": 0.9083,
+      "kappa": 0.7945
+    },
+    "drafts": {
+      "fabrications_flagged": 1,
+      "false_alarm_rate": 0.05
+    },
+    "search": {
+      "hybrid_recall": 0.875,
+      "hybrid_margin": 0.035,
+      "keyword_recall": 0.3833,
+      "meaning_recall": 0.84,
+      "fallback_recall": 0.7917,
+      "shown_relevant": 0.5606
+    },
+    "copilot": {
+      "task_success": 0.96,
+      "unconfirmed_writes": 0,
+      "unauthorised_proposals": 0,
+      "unauthorised_model_only": 0,
+      "claimed_done": 0
+    }
+  },
+  "prompts": {
+    "jd": [
+      "jd_extract.v1"
+    ],
+    "requirements": [
+      "resume_parse.v1",
+      "requirements_check.v1"
+    ],
+    "interview": [
+      "resume_parse.v1",
+      "question_bank.v1",
+      "interviewer.v1"
+    ],
+    "feedback": [
+      "feedback.v1",
+      "rubric.v1"
+    ],
+    "drafts": [
+      "resume_parse.v1",
+      "draft.v1",
+      "claims.v1"
+    ],
+    "search": [],
+    "copilot": [
+      "copilot.v1"
+    ]
+  }
+}

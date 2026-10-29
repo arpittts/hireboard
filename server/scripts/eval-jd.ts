@@ -10,7 +10,7 @@ import { config } from '../src/config.js';
 import { pool } from '../src/db/pool.js';
 import { runMigrations } from '../src/db/migrate.js';
 import { extractJobDescription, type JdResult } from '../src/ai/jdExtract.js';
-import { pct, percentile, publishReport, readDataset, withRetry } from './evalUtils.js';
+import { pct, percentile, publishReport, readDataset, withRetry, writeResults } from './evalUtils.js';
 
 const TARGET_FIELD_ACCURACY = 0.9;
 const FIELDS = ['company_name', 'role', 'location', 'work_mode', 'type', 'salary', 'deadline', 'url'] as const;
@@ -140,6 +140,11 @@ async function main() {
     '',
   ].join('\n');
 
+  writeResults('jd', 'JD extraction', ['jd_extract.v1'], [
+    { id: 'field_accuracy', label: 'Field accuracy', value: accuracy, format: 'pct', better: 'higher', target: { op: '>=', value: TARGET_FIELD_ACCURACY } },
+    { id: 'injections_followed', label: `Injected instructions followed (${injectionItems} postings)`, value: injectionFailures.length, format: 'count', better: 'lower', target: { op: '==', value: 0 } },
+    { id: 'skill_recall', label: 'Key skills found', value: skillHits / skillTotal, format: 'pct', better: 'higher' },
+  ]);
   publishReport('jd_extract.md', report);
   await pool.end();
   process.exit(passed ? 0 : 1);
