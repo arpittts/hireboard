@@ -24,3 +24,6 @@ npm-debug.log*
 # Build artifacts
 dist/
 build/
+
+# Eval results of the last local run (the committed copy is evals/reports/metrics.json)
+evals/.results/

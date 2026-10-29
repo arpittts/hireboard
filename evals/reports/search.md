@@ -1,4 +1,4 @@
-# Search eval (2026-10-28)
+# Search eval (2026-10-29)
 
 Embedding model `gemini-embedding-2` (768 dimensions), mode `replay`. 20 labelled queries over the 40 synthetic postings of `jd_extraction.json` (`evals/datasets/search.json`). As in the app, at most 5 meaning matches are kept, each with a cosine similarity of at least 0.6 and within 0.05 of the best match (similarities from this model are compressed into roughly 0.55–0.75, so the gap separates relevant from unrelated far better than an absolute floor).
 
@@ -12,7 +12,7 @@ Target: hybrid ≥ both → met.
 
 Noise: hybrid search showed 3.3 results per query on average (up to 10), 56.1% of them relevant. With only an absolute floor of 0.55 (the first version) it showed 10.0 per query, 20.0% relevant, for 91.7% hybrid recall; the gap rule alone, 4.2 per query, 45.8% relevant. The cut-offs give up a few points of recall for far less noise.
 
-When meaning search is unavailable (AI off, quota used up, provider down) the app falls back to keyword search that also accepts applications with only some of the words: 77.5% recall@5. Hybrid search keeps the every-word form, because adding partial matches to the fused ranking lowered hybrid recall (85.0% in a trial run).
+When meaning search is unavailable (AI off, quota used up, provider down) the app falls back to keyword search that also accepts applications with only some of the words: 79.2% recall@5. Hybrid search keeps the every-word form, because adding partial matches to the fused ranking lowered hybrid recall (85.0% in a trial run).
 
 ## Per query
 
@@ -32,7 +32,7 @@ When meaning search is unavailable (AI off, quota used up, provider down) the ap
 | security monitoring | mixed | 100.0% | 100.0% | 100.0% | 100.0% |
 | Postgres database administration | mixed | 0.0% | 100.0% | 50.0% | 50.0% |
 | games | exact term | 100.0% | 100.0% | 100.0% | 100.0% |
-| remote freelance work | mixed | 66.7% | 66.7% | 100.0% | 100.0% |
+| remote freelance work | mixed | 66.7% | 100.0% | 100.0% | 100.0% |
 | fintech payments backend | mixed | 0.0% | 100.0% | 66.7% | 66.7% |
 | speech recognition for Indian languages | paraphrase | 0.0% | 100.0% | 100.0% | 100.0% |
 | Spring Boot | exact term | 100.0% | 100.0% | 100.0% | 100.0% |

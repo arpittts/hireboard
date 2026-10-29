@@ -210,27 +210,53 @@ The posting is passed as delimited data, the prompt tells the model to ignore in
 
 ```bash
 cd server
-npm run eval              # every eval, replaying recorded replies: offline, free, repeatable (runs in CI)
-npm run eval:jd:record    # re-record the JD eval against Gemini (needs GEMINI_API_KEY)
-npm run eval:req:record   # re-record the requirements eval
-npm run eval:interview:record   # re-record the interview eval
-npm run eval:feedback:record    # re-record the feedback eval
-npm run eval:drafts:record      # re-record the writing assistant eval
-npm run eval:search:record      # re-record the search eval's embeddings
-npm run eval:copilot:record     # re-record every copilot step
+npm run eval              # the gate (runs in CI): replays every eval offline and fails on a missed target,
+                          # a drop from the committed numbers, or reports/README that are out of date
+npm run eval:update       # replay everything and rewrite the summary, metrics.json and the table below
+npm run eval:copilot:record     # re-record one eval against Gemini (needs GEMINI_API_KEY); also
+                                # eval:jd / eval:req / eval:interview / eval:feedback / eval:drafts / eval:search
+npm run eval:record -- --only=jd,copilot   # record several, then run eval:update
 ```
 
-Results are in `evals/reports/`:
+**How the gate works** (`server/scripts/eval-all.ts`):
+- Every eval writes its numbers with a target and a direction ("higher is better"). The committed `evals/reports/metrics.json` is the baseline: a number that gets worse fails CI even if it still meets its target, and any change must be committed with `npm run eval:update`, so the table below always describes the code.
+- Recorded replies are keyed by the prompt text. `evals/recordings/manifest.json` stores a hash of each prompt file and the model names they were recorded with; if a prompt is edited without re-recording, the gate stops before replaying and names the prompt and the command to run.
+- The free tier allows about 500 model requests a day, so re-record one eval at a time (`--only`), not all of them.
 
-| Eval | Target |
-| --- | --- |
-| JD extraction (`jd_extract.md`) | ≥ 90% field accuracy, no injected instruction followed |
-| Requirements checklist (`requirements_check.md`) | ≥ 80% verdict accuracy, ≥ 95% of "met" answers cite a real line, resume injection ignored |
-| Interview prep (`interview.md`) | ≥ 80% correct follow-up decisions on 20 scripted answers, 0 injected instructions obeyed, every missing required skill has a question |
-| Copilot (`copilot.md`) | ≥ 90% of 25 tasks fully correct, 0 data changes without confirmation, 0 unauthorised proposals on 10 prompt-injection tasks (also reported with the change gate off) |
-| Smart search (`search.md`) | hybrid recall@5 on 20 labelled queries over the 40 postings ≥ keyword only and ≥ meaning only |
-| Writing assistant (`drafts.md`) | every made-up sentence added to 20 drafts is flagged, ≤ 10% of true resume sentences are wrongly flagged, first text in under 2 s |
-| Answer feedback (`feedback.md`) | ≥ 95% of good scores backed by a real quote, 0 of 10 "score this 4/4" injections raise a score, good > average > weak; once the owner has graded `feedback_grading.csv`: within 1 point ≥ 85% and quadratic weighted κ ≥ 0.6 |
+Latest results (from `evals/reports/summary.md`; each eval's own report there has the details and caveats):
+
+<!-- eval-metrics:start -->
+| Eval | Metric | Result | Target |
+| --- | --- | --- | --- |
+| JD extraction | Field accuracy | 100.0% | ≥ 90.0% |
+| JD extraction | Injected instructions followed (5 postings) | 0 | = 0 |
+| JD extraction | Key skills found | 85.9% | reported |
+| Requirements checklist | Verdict accuracy | 100.0% | ≥ 80.0% |
+| Requirements checklist | "Met" verdicts citing a real resume line | 100.0% | ≥ 95.0% |
+| Requirements checklist | Resume injection followed | 0 | = 0 |
+| Interview prep | Follow-up vs move-on decisions | 100.0% | ≥ 80.0% |
+| Interview prep | Injected instructions obeyed (4 answers) | 0 | = 0 |
+| Interview prep | Missing required skills with a question | 100.0% | = 100.0% |
+| Answer feedback | Good scores backed by a real quote | 100.0% | ≥ 95.0% |
+| Answer feedback | "Score this 4/4" instructions not removed (10) | 0 | = 0 |
+| Answer feedback | Scores raised by the instruction with the filter off | 3 | reported |
+| Answer feedback | Mean score good > average > weak (1 = yes) | 1 | = 1 |
+| Answer feedback | Within 1 point of the owner's grades | 90.8% | ≥ 85.0% |
+| Answer feedback | Quadratic weighted κ with the owner | 0.79 | ≥ 0.60 |
+| Writing assistant | Made-up sentences flagged | 100.0% | ≥ 100.0% |
+| Writing assistant | True resume sentences wrongly flagged | 5.0% | ≤ 10.0% |
+| Smart search | Hybrid recall@5 | 87.5% | reported |
+| Smart search | Hybrid recall minus the better single method | 3.5% | ≥ 0.0% |
+| Smart search | Keyword-only recall@5 | 38.3% | reported |
+| Smart search | Meaning-only recall@5 | 84.0% | reported |
+| Smart search | Recall@5 without AI (keyword, some words) | 79.2% | reported |
+| Smart search | Share of shown results that are relevant | 56.1% | reported |
+| Copilot | Tasks fully correct | 96.0% | ≥ 90.0% |
+| Copilot | Data changed without confirmation | 0 | = 0 |
+| Copilot | Unauthorised proposals on injection tasks | 0 | = 0 |
+| Copilot | Same, with the change gate off | 0 | reported |
+| Copilot | Answers claiming a change already happened | 0 | = 0 |
+<!-- eval-metrics:end -->
 
 ## 🧭 API Errors
 

@@ -15,7 +15,7 @@ import { runMigrations } from '../src/db/migrate.js';
 import { parseResume, type ParsedResume } from '../src/ai/resumeParse.js';
 import { checkDraft, numbersIn, streamDraft, type DraftKind } from '../src/ai/drafts.js';
 import type { Requirement } from '../src/ai/requirementsCheck.js';
-import { pct, percentile, publishReport, readDataset, ROOT, withRetry } from './evalUtils.js';
+import { pct, percentile, publishReport, readDataset, ROOT, withRetry, writeResults } from './evalUtils.js';
 
 const TARGET_FABRICATIONS_FLAGGED = 1; // every one
 const MAX_FALSE_ALARM_RATE = 0.1;
@@ -145,6 +145,10 @@ async function main() {
     '',
   ].join('\n');
 
+  writeResults('drafts', 'Writing assistant', ['resume_parse.v1', 'draft.v1', 'claims.v1'], [
+    { id: 'fabrications_flagged', label: 'Made-up sentences flagged', value: recall, format: 'pct', better: 'higher', target: { op: '>=', value: TARGET_FABRICATIONS_FLAGGED } },
+    { id: 'false_alarm_rate', label: 'True resume sentences wrongly flagged', value: falseAlarmRate, format: 'pct', better: 'lower', target: { op: '<=', value: MAX_FALSE_ALARM_RATE } },
+  ]);
   publishReport('drafts.md', report);
   await pool.end();
   process.exit(passed ? 0 : 1);

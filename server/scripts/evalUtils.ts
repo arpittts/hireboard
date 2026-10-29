@@ -1,4 +1,5 @@
 // Shared helpers for the eval scripts.
+import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -47,4 +48,50 @@ export function publishReport(fileName: string, report: string): void {
   fs.mkdirSync(path.dirname(file), { recursive: true });
   fs.writeFileSync(file, report);
   console.log(`Report written to ${path.relative(ROOT, file)}`);
+}
+
+// --- Machine-readable results (read by scripts/eval-all.ts) ----------------------
+
+export interface Metric {
+  id: string; // stable, e.g. 'field_accuracy'
+  label: string;
+  value: number;
+  format: 'pct' | 'count' | 'number';
+  // Which way is a regression? 'none' for numbers that are only reported.
+  better: 'higher' | 'lower' | 'none';
+  target?: { op: '>=' | '<=' | '=='; value: number };
+}
+
+export const RESULTS_DIR = path.join(ROOT, 'evals/.results');
+export const PROMPTS_DIR = path.join(ROOT, 'server/prompts');
+// Which prompt text and models the committed recordings were made with.
+export const MANIFEST_FILE = path.join(ROOT, 'evals/recordings/manifest.json');
+
+export interface Manifest { model: string; embeddingModel: string; prompts: Record<string, string> }
+
+export const promptHash = (name: string) =>
+  crypto.createHash('sha256').update(fs.readFileSync(path.join(PROMPTS_DIR, `${name}.md`), 'utf8')).digest('hex').slice(0, 16);
+
+export const meetsTarget = (m: Metric) =>
+  !m.target ||
+  (m.target.op === '>=' ? m.value >= m.target.value : m.target.op === '<=' ? m.value <= m.target.value : m.value === m.target.value);
+
+// Writes this eval's numbers for the combined report. A record run also notes the
+// prompt text it recorded with, so a later prompt edit is caught before replay.
+export function writeResults(evalId: string, title: string, prompts: string[], metrics: Metric[]): void {
+  const rounded = metrics.map((m) => ({ ...m, value: Math.round(m.value * 10_000) / 10_000 }));
+  fs.mkdirSync(RESULTS_DIR, { recursive: true });
+  fs.writeFileSync(
+    path.join(RESULTS_DIR, `${evalId}.json`),
+    JSON.stringify({ eval: evalId, title, prompts, metrics: rounded, passed: rounded.every(meetsTarget) }, null, 2) + '\n',
+  );
+  if (config.AI_MODE === 'record') {
+    const manifest: Manifest = fs.existsSync(MANIFEST_FILE)
+      ? JSON.parse(fs.readFileSync(MANIFEST_FILE, 'utf8'))
+      : { model: config.LLM_MODEL, embeddingModel: config.EMBEDDING_MODEL, prompts: {} };
+    for (const p of prompts) manifest.prompts[p] = promptHash(p);
+    manifest.model = config.LLM_MODEL;
+    manifest.embeddingModel = config.EMBEDDING_MODEL;
+    fs.writeFileSync(MANIFEST_FILE, JSON.stringify(manifest, null, 2) + '\n');
+  }
 }
