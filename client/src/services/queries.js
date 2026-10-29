@@ -370,6 +370,18 @@ export function useDeleteDraft(applicationId) {
   });
 }
 
+// --- Jobs saved with the Chrome extension -------------------------------------
+
+export function useImportedJob(id) {
+  return useQuery({
+    queryKey: ['import', id],
+    queryFn: async () => (await api.get(`/imports/${id}`)).data,
+    enabled: Boolean(id),
+    retry: false,
+    staleTime: Infinity,
+  });
+}
+
 // --- Copilot -----------------------------------------------------------------
 
 export function useCopilotMessages() {

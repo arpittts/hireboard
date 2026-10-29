@@ -1,0 +1,39 @@
+{
+  "manifest_version": 3,
+  "name": "Save to HireBoard",
+  "version": "1.0.0",
+  "description": "Save the job posting you're looking at to HireBoard. Reads the page only when you click Save.",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvVQGC5XY+ToBoy608lydi/k5OBps3HMaQEImOVC9vSc6/i7i8nvZ/iASsbDI+PQYED6l0DaC/hh8HS2Yv9Cy169T/rwMMFeMpdAZpn5c0YnF99pai62iY96qYeChQV22LVtMqDT0kD9dYVX2/CWktzZ0y8x5Tlik42u47C4FIsBQ2GoWHMhXGkEau8k13CBmY+E33/Y2wr95svyG3hFDJU5HW9E40dAvO9+z1S6bJU8AYBdt/rdv78zDhLA9A7svQYXlOjqDoJZG3uXhqS4n0CiH3Om4VftHJLbXFgOibKjf+wd6Jcro9sOfxEOhm0OkdmcYdiBGXs9bhEKZKGHmqwIDAQAB",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage"
+  ],
+  "action": {
+    "default_title": "Save to HireBoard",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "externally_connectable": {
+    "matches": [
+      "https://hireboard-mu.vercel.app/*",
+      "http://localhost:5173/*",
+      "http://localhost:5174/*"
+    ]
+  }
+}

@@ -45,7 +45,7 @@ describe('internal routes', () => {
     ]);
 
     const res = await api().post('/api/internal/cleanup').set('X-Cron-Secret', SECRET);
-    expect(res.body).toEqual({ deletedDemoUsers: 1 });
+    expect(res.body).toEqual({ deletedDemoUsers: 1, deletedImports: 0 });
     const left = await pool.query('SELECT id FROM users ORDER BY created_at');
     expect(left.rows.map((r) => r.id).sort()).toEqual([newDemo.body.user.id, real.user.id].sort());
     const orphans = await pool.query('SELECT COUNT(*)::int AS n FROM applications WHERE user_id = $1', [oldDemo.body.user.id]);

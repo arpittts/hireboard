@@ -16,8 +16,10 @@ import { requirementsRouter } from './routes/requirements.js';
 import { resumesRouter } from './routes/resumes.js';
 import { searchRouter } from './routes/search.js';
 import { actionsRouter, copilotRouter } from './routes/copilot.js';
+import { importsRouter } from './routes/imports.js';
 
-const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174', config.CLIENT_URL].filter(Boolean);
+// The web app, plus the Chrome extension (its popup calls the API from chrome-extension://<id>).
+const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174', config.CLIENT_URL, `chrome-extension://${config.EXTENSION_ID}`].filter(Boolean);
 
 // Builds the Express app without starting it, so tests can call it directly.
 export function createApp({ authRateLimit = config.AUTH_RATE_LIMIT, demoRateLimit = 10 } = {}) {
@@ -51,6 +53,7 @@ export function createApp({ authRateLimit = config.AUTH_RATE_LIMIT, demoRateLimi
   app.use('/api/search', searchRouter);
   app.use('/api/copilot', copilotRouter);
   app.use('/api/actions', actionsRouter);
+  app.use('/api/imports', importsRouter);
   app.use('/api/resumes', resumesRouter);
   app.use('/api/dashboard', dashboardRouter);
   app.use('/api/internal', internalRouter);

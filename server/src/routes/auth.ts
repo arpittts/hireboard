@@ -3,7 +3,7 @@ import crypto from 'node:crypto';
 import bcrypt from 'bcryptjs';
 import { z } from 'zod';
 import { pool, withTransaction } from '../db/pool.js';
-import { requireAuth, signToken, userIdOf } from '../middleware/auth.js';
+import { requireAuth, signToken, userIdOf, signExtensionToken, EXTENSION_TOKEN_DAYS } from '../middleware/auth.js';
 import { AppError, notFound } from '../middleware/errors.js';
 import { seedDemoData } from '../services/demoSeed.js';
 import type { RequestHandler } from 'express';
@@ -105,6 +105,14 @@ export function authRouter(limiters: AuthLimiters) {
     );
     if (!result.rows[0]) throw notFound('User');
     res.json(toPublicUser(result.rows[0]));
+  });
+
+  // A token for the Chrome extension, handed over by the Settings page. It can only
+  // save jobs (see requireAuthOrExtension), and only a normal login can create one.
+  router.post('/extension-token', requireAuth, async (req, res) => {
+    const result = await pool.query<UserRow>(`SELECT ${USER_COLUMNS} FROM users WHERE id = $1`, [userIdOf(req)]);
+    if (!result.rows[0]) throw notFound('User');
+    res.json({ token: signExtensionToken(result.rows[0]), expiresInDays: EXTENSION_TOKEN_DAYS, user: toPublicUser(result.rows[0]) });
   });
 
   router.put('/profile', requireAuth, async (req, res) => {

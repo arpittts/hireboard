@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Plus, Search, Trash2, Edit3, ExternalLink, MapPin, Calendar, Star, Sparkles } from 'lucide-react';
 import ApplicationModal from '../components/ApplicationModal';
 import ConfirmDialog from '../components/ConfirmDialog';
 import { STATUSES, capitalize } from '../constants';
-import { useApplications, useDeleteApplication, useSaveApplication, useSmartSearch } from '../services/queries';
+import { useApplications, useDeleteApplication, useImportedJob, useSaveApplication, useSmartSearch } from '../services/queries';
 import { errorMessage } from '../services/api';
 
 const formatDate = (d) => d ? new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) : '—';
@@ -28,6 +28,12 @@ export default function Applications() {
   const [statusFilter, setStatusFilter] = useState('');
   const [editing, setEditing] = useState(null); // null = closed, 'new', or an application
   const [deleting, setDeleting] = useState(null);
+
+  // /applications?import=<id>: a job saved with the Chrome extension, opened as a filled-in form.
+  const [searchParams, setSearchParams] = useSearchParams();
+  const importId = searchParams.get('import');
+  const imported = useImportedJob(importId);
+  const closeImport = () => setSearchParams((params) => { params.delete('import'); return params; }, { replace: true });
 
   // Typing filters by company and role. Enter runs smart search over job
   // descriptions and notes (keyword + meaning) until the text changes again.
@@ -154,6 +160,23 @@ export default function Applications() {
             </div>
           ))}
         </div>
+      )}
+
+      {importId && imported.isPending && <p className="search-hint">Opening the job you saved…</p>}
+      {importId && imported.isError && (
+        <div className="empty-state" role="alert" style={{ padding: 24 }}>
+          <div className="empty-state-title">{errorMessage(imported.error, "Couldn't open the saved job.")}</div>
+          <div className="empty-state-text">Saved jobs are kept for a day. Save it again from the extension.</div>
+          <button className="btn btn-secondary" onClick={closeImport}>Dismiss</button>
+        </div>
+      )}
+      {imported.data && (
+        <ApplicationModal
+          key={`import-${importId}`}
+          imported={imported.data}
+          onClose={closeImport}
+          onSave={(form) => save.mutateAsync({ data: form })}
+        />
       )}
 
       {editing && (

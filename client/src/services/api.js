@@ -3,7 +3,7 @@
 // error whose `response` is { status, data }, so callers can read the API's
 // { error: { code, message, fields } } body.
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+export const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
 
 // --- Slow-request tracking, for the "waking the server" banner -------------
 // The free server sleeps when idle, so the first request can take a minute.

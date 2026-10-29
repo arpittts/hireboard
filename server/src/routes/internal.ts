@@ -36,6 +36,8 @@ internalRouter.post('/cleanup', async (_req, res) => {
   const deleted = await pool.query(
     `DELETE FROM users WHERE is_demo AND created_at < NOW() - INTERVAL '24 hours' RETURNING id`,
   );
-  console.log(`🧹 Deleted ${deleted.rowCount} expired demo accounts`);
-  res.json({ deletedDemoUsers: deleted.rowCount });
+  // Jobs saved from the extension that were never opened.
+  const imports = await pool.query(`DELETE FROM jd_imports WHERE created_at < NOW() - INTERVAL '1 day'`);
+  console.log(`🧹 Deleted ${deleted.rowCount} expired demo accounts and ${imports.rowCount} old saved jobs`);
+  res.json({ deletedDemoUsers: deleted.rowCount, deletedImports: imports.rowCount });
 });

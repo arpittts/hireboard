@@ -64,6 +64,9 @@ interface CallLog {
 }
 
 export async function logCall(log: CallLog): Promise<void> {
+  // A replayed reply is not a model request: logging it would count offline eval
+  // runs against the daily quota.
+  if (config.AI_MODE === 'replay') return;
   await pool.query(
     `INSERT INTO llm_calls (user_id, feature, model, prompt_version, input_tokens, output_tokens, latency_ms, cached, status, error)
      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
