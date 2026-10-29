@@ -10,6 +10,8 @@ const envSchema = z.object({
   JWT_SECRET: z.string().min(1, 'JWT_SECRET is required'),
   JWT_EXPIRES_IN: z.string().default('7d'),
   CLIENT_URL: z.string().optional(),
+  // Fixed by the public key in extension/manifest.json, so every install has this id.
+  EXTENSION_ID: z.string().regex(/^[a-p]{32}$/).default('cnfkcgfemjafknicklcmdadgpokmajji'),
   // Failed login/register attempts allowed per IP in 15 minutes.
   AUTH_RATE_LIMIT: z.coerce.number().int().positive().default(10),
   // Shared with the GitHub Actions schedule; the /api/internal routes are off without it.

@@ -25,6 +25,7 @@
 - ✍️ **Writing assistant** — cover letters, recruiter messages, follow-ups and thank-you notes that appear as they are written, with every claim about you checked against your resume
 - 🔍 **Smart search** — type to filter by company or role; press Enter to search job descriptions and notes by keyword *and* by meaning ("chatbot jobs" finds RAG roles), with the matched words highlighted
 - 🤖 **Copilot** — ask about your applications in plain words ("what follow-ups do I have this week?", "what am I missing for the Brightloom job?"); it can prepare status changes, follow-ups and new applications, which happen only after you confirm a card
+- 🧩 **Save to HireBoard** — a Chrome extension: on any careers page, click Save and HireBoard opens the job as a filled-in form to check
 - ✨ **One-click demo** — a fresh account with 12 synthetic applications, deleted after 24 hours
 - ⌨️ **Keyboard friendly** — every Kanban card has a status menu as well as drag and drop
 - 🔒 **Your data, your call** — export everything as JSON or delete your account in Settings
@@ -107,11 +108,12 @@ hireboard/
 │   │   ├── db/migrate.ts        # Migration runner
 │   │   ├── middleware/          # auth, errors, rate limits
 │   │   ├── ai/                  # provider, runStructured, JD extraction, resume, requirements, questions, interviewer
-│   │   ├── routes/              # auth, applications, dashboard, ai, settings, internal
+│   │   ├── routes/              # auth, applications, dashboard, ai, search, copilot, imports, internal
 │   │   └── services/            # demo data, email reminders
 │   └── tests/                   # Vitest + Supertest
 ├── client/                      # React + Vite SPA
 │   └── src/{context,services,components,pages}/
+├── extension/                   # "Save to HireBoard" Chrome extension (Manifest V3, no build step)
 ├── evals/                       # datasets, recorded model replies, reports
 ├── docker-compose.yml           # Local Postgres
 ├── render.yaml                  # Render deploy
@@ -257,6 +259,24 @@ Latest results (from `evals/reports/summary.md`; each eval's own report there ha
 | Copilot | Same, with the change gate off | 0 | reported |
 | Copilot | Answers claiming a change already happened | 0 | = 0 |
 <!-- eval-metrics:end -->
+
+## 🧩 Save to HireBoard Chrome extension
+
+Save a job from any careers page in two clicks. The extension sends the posting to HireBoard, which reads it with the same AI extraction as "Paste a job description" and opens a filled-in form. Nothing becomes an application until you check the form and save it.
+
+**Install (Chrome or Edge on a computer):**
+
+1. Download this repository (green **Code** button → **Download ZIP**) and unzip it, or use your clone.
+2. Open `chrome://extensions`, turn on **Developer mode** (top right), click **Load unpacked** and choose the `extension` folder.
+3. Pin it: click the puzzle icon in Chrome's toolbar, then the pin next to **Save to HireBoard**.
+4. In HireBoard, open **Settings** → **Chrome extension** → **Connect Chrome extension**. (The demo account works too.)
+5. Open a job posting and click the HireBoard icon → **Save this job**. If the page has a lot besides the job, select the job description first.
+
+**How it is built** (`extension/`, `server/src/routes/imports.ts`):
+- Permissions are only `activeTab`, `scripting` and `storage`: the extension can read the tab you are on, and only at the moment you click Save. It never runs on pages by itself and has no access to other sites.
+- The connection is a one-click handover from the Settings page to the extension (Chrome's `externally_connectable`, limited to HireBoard's own pages). It gives the extension a token that lasts 30 days and can only call `POST /api/imports`; every other route refuses it (`EXTENSION_TOKEN`), so a leaked extension token can't read or change your applications.
+- The extension ID is fixed by the public key in `manifest.json`, so the API's CORS allow-list and the web app can name it (`EXTENSION_ID`).
+- Page text goes through the same prompt-injection-tested extraction as pasted job descriptions. Saved pages are kept for a day for you to open, then deleted by the daily cleanup job.
 
 ## 🧭 API Errors
 

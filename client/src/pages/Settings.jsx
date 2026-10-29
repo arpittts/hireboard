@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Bell, Download, Sparkles, Trash2 } from 'lucide-react';
 import { toast } from '../services/toast';
+import ChromeExtension from '../components/ChromeExtension';
 import ConfirmDialog from '../components/ConfirmDialog';
 import { useAuth } from '../context/auth';
 import api, { errorMessage } from '../services/api';
@@ -125,6 +126,8 @@ export default function Settings() {
         <h2 id="ai-title" className="chart-title"><Sparkles size={16} style={{ verticalAlign: 'middle', marginRight: 6 }} />AI usage</h2>
         <AiUsage />
       </section>
+
+      <ChromeExtension />
 
       <section className="card settings-section" aria-labelledby="export-title">
         <h2 id="export-title" className="chart-title"><Download size={16} style={{ verticalAlign: 'middle', marginRight: 6 }} />Export your data</h2>

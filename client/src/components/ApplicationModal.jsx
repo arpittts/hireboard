@@ -89,10 +89,20 @@ function PasteJobDescription({ onExtracted }) {
 const AI_FIELDS = ['company_name', 'role', 'location', 'type', 'salary', 'deadline', 'url'];
 const CONFIDENCE_KEY = { company_name: 'company_name', role: 'role', location: 'location', type: 'type', salary: 'salary', deadline: 'deadline' };
 
-export default function ApplicationModal({ onClose, onSave, application }) {
-  const [form, setForm] = useState(() => initialForm(application));
-  const [mode, setMode] = useState(application ? 'manual' : 'paste');
-  const [ai, setAi] = useState(null); // { extraction, warnings, model, promptVersion } after "Fill the form"
+// A job saved with the Chrome extension: the server already read the posting.
+function formFromImport({ text, url, result }) {
+  // Saved while browsing, so not applied to yet.
+  const form = { ...initialForm(null), status: 'wishlist', job_description: text };
+  for (const key of AI_FIELDS) if (result.fields[key]) form[key] = result.fields[key];
+  if (!form.url && url) form.url = url; // no apply link in the posting: keep the page it came from
+  return form;
+}
+
+// `imported` ({ text, url, title, result }) opens the form already filled from the extension.
+export default function ApplicationModal({ onClose, onSave, application, imported }) {
+  const [form, setForm] = useState(() => (imported ? formFromImport(imported) : initialForm(application)));
+  const [mode, setMode] = useState(application || imported ? 'manual' : 'paste');
+  const [ai, setAi] = useState(imported?.result ?? null); // { extraction, warnings, model, promptVersion } after "Fill the form"
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
 
@@ -124,7 +134,7 @@ export default function ApplicationModal({ onClose, onSave, application }) {
     try {
       const data = { ...form };
       if (ai) {
-        data.source = 'jd_paste';
+        data.source = imported ? 'extension' : 'jd_paste';
         data.jd_extraction = {
           requirements: ai.extraction.requirements,
           model: ai.model,
@@ -149,7 +159,7 @@ export default function ApplicationModal({ onClose, onSave, application }) {
           <button className="btn-icon" aria-label="Close" onClick={onClose}><X size={18} /></button>
         </div>
 
-        {!application && (
+        {!application && !imported && (
           <div className="tabs" role="tablist" style={{ padding: '0 24px', marginBottom: 0 }}>
             <button type="button" role="tab" className="tab" aria-selected={mode === 'paste'} onClick={() => setMode('paste')}>
               <Sparkles size={14} style={{ verticalAlign: 'middle', marginRight: 4 }} />Paste job description
@@ -167,7 +177,7 @@ export default function ApplicationModal({ onClose, onSave, application }) {
             <div className="modal-body">
               {ai && (
                 <div className="ai-filled-note" role="status">
-                  <strong>Filled from the job description{ai.cached ? ' (saved answer)' : ''}.</strong> Check the fields before saving
+                  <strong>Filled from {imported ? `the page you saved${imported.title ? ` ("${imported.title}")` : ''}` : 'the job description'}{ai.cached ? ' (saved answer)' : ''}.</strong> Check the fields before saving
                   {AI_FIELDS.some(needsCheck) ? '; highlighted ones need a closer look.' : '.'}
                   {ai.warnings.length > 0 && <ul>{ai.warnings.map(w => <li key={w}>{w}</li>)}</ul>}
                   {ai.extraction.requirements.length > 0 && (
