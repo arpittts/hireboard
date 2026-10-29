@@ -1,4 +1,5 @@
 import crypto from 'node:crypto';
+import { config } from '../config.js';
 import { pool } from '../db/pool.js';
 import { AppError } from '../middleware/errors.js';
 import { asDocument, asQuery, embedTexts, toVector } from '../ai/embed.js';
@@ -39,7 +40,7 @@ const hashOf = (text: string) => crypto.createHash('sha256').update(text).digest
 // Embeds the applications whose text changed since their last embedding.
 export async function refreshEmbeddings(userId: string, { quotaUserId = userId }: { quotaUserId?: string | null } = {}): Promise<number> {
   const apps = await pool.query<AppText>(
-    'SELECT id, company_name, role, location, job_description, notes, embedding_hash FROM applications WHERE user_id = $1',
+    'SELECT id, company_name, role, location, job_description, notes, embedding_hash FROM applications WHERE user_id = $1 ORDER BY id',
     [userId],
   );
   const stale = apps.rows.map((a) => ({ id: a.id, text: documentText(a), old: a.embedding_hash })).filter((a) => hashOf(a.text) !== a.old);
@@ -64,7 +65,7 @@ export async function keywordSearch(userId: string, q: string, { broad = false }
                        replace(plainto_tsquery('english', $2)::text, ' & ', ' | ')::tsquery AS query_any)
      SELECT id FROM applications, q
      WHERE user_id = $1 AND (search_tsv @@ query_all OR ($3 AND search_tsv @@ query_any))
-     ORDER BY search_tsv @@ query_all DESC, ts_rank_cd(search_tsv, query_any) DESC, updated_at DESC LIMIT ${CANDIDATES}`,
+     ORDER BY search_tsv @@ query_all DESC, ts_rank_cd(search_tsv, query_any) DESC, updated_at DESC, id LIMIT ${CANDIDATES}`,
     [userId, q, any],
   );
   return result.rows.map((r) => r.id);
@@ -97,16 +98,22 @@ export interface SearchResult {
   results: Record<string, unknown>[];
 }
 
-export async function hybridSearch(userId: string, q: string, limit = 10): Promise<SearchResult> {
+export async function hybridSearch(
+  userId: string,
+  q: string,
+  limit = 10,
+  { quotaUserId = userId }: { quotaUserId?: string | null } = {},
+): Promise<SearchResult> {
   let keyword: string[];
   let meaning: { id: string; similarity: number }[] = [];
   let mode: SearchResult['mode'] = 'hybrid';
   try {
-    meaning = await vectorSearch(userId, q);
+    meaning = await vectorSearch(userId, q, { quotaUserId });
     keyword = await keywordSearch(userId, q);
   } catch (err) {
     // No AI, quota used up or the provider is down: keyword results still work.
-    if (!(err instanceof AppError)) throw err;
+    // Not while recording an eval, though: a recording must not capture an outage.
+    if (!(err instanceof AppError) || config.AI_MODE === 'record') throw err;
     mode = 'keyword';
     keyword = await keywordSearch(userId, q, { broad: true });
   }

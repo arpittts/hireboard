@@ -1,0 +1,94 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "Your contact"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " for the Machine Learning Intern role at Bluepeak AI is Rahul Menon (rahul.men"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "on@example.com)."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0T7CfQsHUHULbJq1Qg6iHzlEh6OXjY+u9ibg0Bt2W14vMXtVTkW2LpopKrWYlll3JaMlLfn67q3ChP3XRPdzbH2Oq/5tlXlfXpf1/myCvRehRoME/ajz2X1Fc="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1556,
+          "noCache": 1556,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 26,
+          "text": 26,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1556,
+          "candidatesTokenCount": 26,
+          "totalTokenCount": 1582,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1556
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1556,
+            "candidatesTokenCount": 26,
+            "totalTokenCount": 1582,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1556
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

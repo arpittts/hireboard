@@ -1,0 +1,94 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "For the"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " Data Analyst Intern role at Pinecrest Labs, your notes are empty of personal entries"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": ", containing only the text copied from the recruiter's email."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0TVOji29wli86tqV9o4Ji+1WlpcQ3UfFE1TL0cead/baoN4RhpEcNeahXY63AiQUFfYYrIvrS887RhyRum/NOSjottWyBo+lcLscym4BlOA0DRBizD8fpI/Pw="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1617,
+          "noCache": 1617,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 31,
+          "text": 31,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1617,
+          "candidatesTokenCount": 31,
+          "totalTokenCount": 1648,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1617
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1617,
+            "candidatesTokenCount": 31,
+            "totalTokenCount": 1648,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1617
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

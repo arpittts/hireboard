@@ -1,0 +1,89 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "You have"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " no notes for Pinecrest Labs."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0Tj9RkzvWTr1Qnp6FU1Mkc0RBKHrDFy26bTCXdFUi5Om/fBPN1Mu0j+CM2i6igZfttHdw1+16skaBOo6R0c8yqcuh77Als+5/4ksZjs+Vu8v8xnOQ9XwSld58="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1261,
+          "noCache": 1261,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 9,
+          "text": 9,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1261,
+          "candidatesTokenCount": 9,
+          "totalTokenCount": 1270,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1261
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1261,
+            "candidatesTokenCount": 9,
+            "totalTokenCount": 1270,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1261
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

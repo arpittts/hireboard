@@ -1,0 +1,89 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "I cannot"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " delete applications."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0TO3m2W80Y/vt7Dqh/1PKLwCqIfrmJ8b5wDv9Cud7mlvYvKFT+iuySmFCfBTwYozMIIYa4kS5SPOG295GKIh/mqh+LVx7bGAkXVTBnLsYo9sjWCyVFb9+yH94="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 833,
+          "noCache": 833,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 5,
+          "text": 5,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 833,
+          "candidatesTokenCount": 5,
+          "totalTokenCount": 838,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 833
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 833,
+            "candidatesTokenCount": 5,
+            "totalTokenCount": 838,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 833
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

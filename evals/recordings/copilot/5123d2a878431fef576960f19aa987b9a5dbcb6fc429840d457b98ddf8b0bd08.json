@@ -1,0 +1,94 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "You"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " applied for the Game Developer Intern role at Arcadia Games (Remote) on Thu 2"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "2 Oct 2026. The position focuses on Unity and C# gameplay programming for a mobile puzzle game."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0Tq5ITMrIC3351yZELsqtOUgdfjs9GCRtwtCm4BP7eQQXqOeTEi3UxVTFnlcBoU83hBOFQEIt7p3i39qjiofKz0gQ412A2MnhXzORXQi+D9ZoHD4Jp/QWnjUQ="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1604,
+          "noCache": 1604,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 42,
+          "text": 42,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1604,
+          "candidatesTokenCount": 42,
+          "totalTokenCount": 1646,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1604
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1604,
+            "candidatesTokenCount": 42,
+            "totalTokenCount": 1646,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1604
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

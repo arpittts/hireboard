@@ -75,6 +75,15 @@ describe('search API', () => {
     expect(embedded()).toBe(4);
   });
 
+  it('does not count refreshing embeddings as an update', async () => {
+    fakeEmbeddings();
+    const { auth, kafka } = await threeApplications();
+    const before = (await pool.query('SELECT updated_at FROM applications WHERE id = $1', [kafka.id])).rows[0].updated_at;
+    await api().get('/api/search').query({ q: 'Kafka' }).set('Authorization', auth);
+    const after = await pool.query('SELECT updated_at, embedding IS NOT NULL AS embedded FROM applications WHERE id = $1', [kafka.id]);
+    expect(after.rows[0]).toEqual({ updated_at: before, embedded: true });
+  });
+
   it('falls back to keyword search, accepting some of the words, when AI is off', async () => {
     const { auth, kafka } = await threeApplications(); // no fake model: AI is not configured
     const res = await api().get('/api/search').query({ q: 'Kafka streaming' }).set('Authorization', auth);

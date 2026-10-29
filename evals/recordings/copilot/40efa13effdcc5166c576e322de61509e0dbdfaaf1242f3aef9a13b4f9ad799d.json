@@ -1,0 +1,94 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "For the"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " Applied AI Intern role at Brightloom, you are missing **Time-series forecasting** and"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " **Kubernetes**."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0Tdu2LGmNxmROhMLHx3/yxqlhBOR41pyLZ+Ha//YlI5gNj5zRBY0nd3iTw9JZXiocit0G8FMXUS5MltFoeB82c414CuEnpv0FDXIZ8rUENDtVrIJOQMRigQK8="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1182,
+          "noCache": 1182,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 24,
+          "text": 24,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1182,
+          "candidatesTokenCount": 24,
+          "totalTokenCount": 1206,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1182
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1182,
+            "candidatesTokenCount": 24,
+            "totalTokenCount": 1206,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1182
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

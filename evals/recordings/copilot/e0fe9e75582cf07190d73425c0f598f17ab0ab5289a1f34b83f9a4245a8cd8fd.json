@@ -1,0 +1,109 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "Your mock"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " interview for the AI Engineer Intern role at Northwind Analytics on Mon 26 Oct scored"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " 3.6 for relevance, 3.0 for specificity, 2.8 for structure, and 2."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "2 for depth (on a 1 to 4 scale). To improve, the feedback suggested giving concrete product data examples for Northwind Analytics,"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " explaining the reasoning and trade-offs behind your database choices, and describing the exact data structures and multi-step flows you used in"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " StudyBuddy."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0THGIuct9/VcVEKPfk+nuStiAWd7owQfNSNkVteJpSlSJ3NpV1OUTLyGefgLRNMKl+UnJz9xIoqBQYmF6X4biyHdPzgYHFDaec0YN7jSTa4Hwwc76vQDAh6/Q="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1048,
+          "noCache": 1048,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 103,
+          "text": 103,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1048,
+          "candidatesTokenCount": 103,
+          "totalTokenCount": 1151,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1048
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1048,
+            "candidatesTokenCount": 103,
+            "totalTokenCount": 1151,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1048
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

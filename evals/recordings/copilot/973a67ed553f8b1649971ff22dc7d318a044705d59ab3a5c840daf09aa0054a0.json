@@ -1,0 +1,94 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "I have"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " prepared a proposal to move the Quillstack Backend Developer Intern application to interview. This"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " will take effect once you confirm the card."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0TRs8O7I+KBxGsAGqYioVPzKtyVYxueoyT39l5EsMzuF1P5gGUzrI/V8BXF+RRSu2NG5N9977Sa3FSmH8o4j2GD2KkluPH30tQzUzrDYRrx3x6gEsT6bYyxHo="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1500,
+          "noCache": 1500,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 27,
+          "text": 27,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1500,
+          "candidatesTokenCount": 27,
+          "totalTokenCount": 1527,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1500
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1500,
+            "candidatesTokenCount": 27,
+            "totalTokenCount": 1527,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1500
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

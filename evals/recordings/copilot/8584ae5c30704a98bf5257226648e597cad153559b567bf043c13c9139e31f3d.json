@@ -1,0 +1,89 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "The application"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " deadline for the Machine Learning Intern role at Bluepeak AI is Tue 3 Nov."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0T3CuPL9xlwlkqASSD0/7UxeHChrf/XdyNIaB7pay7u7qebzOcfPFMPgvbGiwFWmDgZJa7c80RD22x5hioRdHZtIcx6Fz2HdXrKUa5aSRjVSqJeFhkRs+Psdk="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1027,
+          "noCache": 1027,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 19,
+          "text": 19,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1027,
+          "candidatesTokenCount": 19,
+          "totalTokenCount": 1046,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1027
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1027,
+            "candidatesTokenCount": 19,
+            "totalTokenCount": 1046,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1027
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

@@ -369,3 +369,37 @@ export function useDeleteDraft(applicationId) {
     onError: (err) => toast.error(errorMessage(err)),
   });
 }
+
+// --- Copilot -----------------------------------------------------------------
+
+export function useCopilotMessages() {
+  return useQuery({ queryKey: ['copilot'], queryFn: async () => (await api.get('/copilot/messages')).data });
+}
+
+export function useClearCopilot() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async () => (await api.delete('/copilot/messages')).data,
+    onSuccess: () => queryClient.setQueryData(['copilot'], []),
+    onError: (err) => toast.error(errorMessage(err, "Couldn't clear the chat.")),
+  });
+}
+
+// Confirm or cancel a change the copilot proposed. A confirmed change touches
+// applications, so every list, detail page and the dashboard refresh.
+export function useResolveAction() {
+  const queryClient = useQueryClient();
+  const invalidate = useInvalidateApplications();
+  return useMutation({
+    mutationFn: async ({ id, confirm }) => (await api.post(`/actions/${id}/${confirm ? 'confirm' : 'cancel'}`)).data,
+    onSuccess: (data, { confirm }) => {
+      if (confirm) {
+        invalidate();
+        toast.success('Done: ' + data.action.summary);
+      }
+    },
+    onError: (err) => toast.error(errorMessage(err, "Couldn't do that.")),
+    onSettled: () => queryClient.invalidateQueries({ queryKey: ['copilot'] }),
+  });
+}
+

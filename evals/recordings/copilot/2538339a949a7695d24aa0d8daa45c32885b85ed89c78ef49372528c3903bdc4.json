@@ -1,0 +1,94 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "For the"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " Robotics Software Intern role at Vantage Robotics, the requirements are C++17,"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " Python, and linear algebra, with ROS experience being a plus."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0Tsni6YHBjj4DZ0iFG0xEUHRu4Bs1q3adrXJNW7eT4HpWULjQVPIdlhIRTIJO/yHqL5WVfKVzQ8NShXpbcMIexJ9AFbz1Yaabl44/YnWzVQFPp2cdPU0Yp1yM="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1728,
+          "noCache": 1728,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 31,
+          "text": 31,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1728,
+          "candidatesTokenCount": 31,
+          "totalTokenCount": 1759,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1728
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1728,
+            "candidatesTokenCount": 31,
+            "totalTokenCount": 1759,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1728
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}

@@ -1,15 +1,17 @@
-import { Suspense, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/auth';
-import { LayoutDashboard, Columns3, List, LogOut, Settings, FileText } from 'lucide-react';
+import { LayoutDashboard, Columns3, List, LogOut, Settings, FileText, Bot } from 'lucide-react';
 import { toast } from '../services/toast';
 import { errorMessage } from '../services/api';
+import { Menu, X } from 'lucide-react';
 
 const NAV = [
   { to: '/', label: 'Dashboard', icon: LayoutDashboard, end: true },
   { to: '/board', label: 'Kanban Board', icon: Columns3 },
   { to: '/applications', label: 'Applications', icon: List },
   { to: '/resume', label: 'Resume', icon: FileText },
+  { to: '/copilot', label: 'Copilot', icon: Bot },
   { to: '/settings', label: 'Settings', icon: Settings },
 ];
 
@@ -47,18 +49,65 @@ export default function Layout() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
+  // Below 768px the sidebar becomes a drawer opened from the top bar.
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuButtonRef = useRef(null);
+  const sidebarRef = useRef(null);
+
   const handleLogout = () => { logout(); navigate('/login'); };
+
+  const closeMenu = () => {
+    if (!menuOpen) return;
+    setMenuOpen(false);
+    menuButtonRef.current?.focus();
+  };
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    sidebarRef.current?.querySelector('a')?.focus();
+    const onKeyDown = (e) => {
+      if (e.key !== 'Escape') return;
+      setMenuOpen(false);
+      menuButtonRef.current?.focus();
+    };
+    // Widening past the breakpoint shows the normal sidebar, so drop the drawer state.
+    const wide = window.matchMedia('(min-width: 769px)');
+    const onWide = (e) => { if (e.matches) setMenuOpen(false); };
+    document.addEventListener('keydown', onKeyDown);
+    wide.addEventListener('change', onWide);
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      wide.removeEventListener('change', onWide);
+    };
+  }, [menuOpen]);
 
   return (
     <div className="layout">
-      <aside className="sidebar">
+      <header className="mobile-topbar">
+        <div className="logo">
+          <div className="logo-icon">📋</div>
+          <span>HireBoard</span>
+        </div>
+        <button
+          ref={menuButtonRef}
+          className="btn-icon"
+          aria-label="Menu"
+          aria-expanded={menuOpen}
+          aria-controls="app-sidebar"
+          onClick={() => setMenuOpen((open) => !open)}
+        >
+          {menuOpen ? <X size={20} /> : <Menu size={20} />}
+        </button>
+      </header>
+      {menuOpen && <div className="sidebar-backdrop" aria-hidden="true" onClick={closeMenu} />}
+      <aside id="app-sidebar" ref={sidebarRef} className={`sidebar ${menuOpen ? 'open' : ''}`}>
         <div className="logo">
           <div className="logo-icon">📋</div>
           <span>HireBoard</span>
         </div>
         <nav className="nav-links">
           {NAV.map(({ to, label, icon: Icon, end }) => (
-            <NavLink key={to} to={to} end={end} className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
+            <NavLink key={to} to={to} end={end} onClick={closeMenu} className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}>
               <Icon size={18} /> {label}
             </NavLink>
           ))}
@@ -80,7 +129,8 @@ export default function Layout() {
           </button>
         </div>
       </aside>
-      <main className="main-content">
+      {/* inert keeps Tab inside the top bar and drawer while the drawer is open. */}
+      <main className="main-content" inert={menuOpen}>
         {user?.isDemo && <DemoBanner />}
         {/* Keeps the sidebar on screen while the next page's code loads. */}
         <Suspense fallback={<div style={{ display: 'flex', justifyContent: 'center', paddingTop: 100 }}><div className="spinner" /></div>}>

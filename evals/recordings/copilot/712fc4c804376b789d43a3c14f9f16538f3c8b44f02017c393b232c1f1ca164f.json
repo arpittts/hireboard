@@ -1,0 +1,89 @@
+{
+  "parts": [
+    {
+      "type": "stream-start",
+      "warnings": []
+    },
+    {
+      "type": "text-start",
+      "id": "0"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "The stipend"
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": " for the AI Engineer Intern role at Northwind Analytics is ₹45k/month."
+    },
+    {
+      "type": "text-delta",
+      "id": "0",
+      "delta": "",
+      "providerMetadata": {
+        "google": {
+          "thoughtSignature": "EmAKXgFpFH0T9Xk7j43xMuomatgHOap2c/HrWAygLsxFA5hIUSAHCO2FaJcMG+4a9uraOyyKZXjD/nK5v2ImOtohcg0NvmUqQ2CVikZDkYhIvx7EcvsGt9IfewRnAqmFyjY="
+        }
+      }
+    },
+    {
+      "type": "text-end",
+      "id": "0"
+    },
+    {
+      "type": "finish",
+      "finishReason": {
+        "unified": "stop",
+        "raw": "STOP"
+      },
+      "usage": {
+        "inputTokens": {
+          "total": 1194,
+          "noCache": 1194,
+          "cacheRead": 0
+        },
+        "outputTokens": {
+          "total": 20,
+          "text": 20,
+          "reasoning": 0
+        },
+        "raw": {
+          "promptTokenCount": 1194,
+          "candidatesTokenCount": 20,
+          "totalTokenCount": 1214,
+          "serviceTier": "standard",
+          "promptTokensDetails": [
+            {
+              "modality": "TEXT",
+              "tokenCount": 1194
+            }
+          ]
+        }
+      },
+      "providerMetadata": {
+        "google": {
+          "promptFeedback": null,
+          "groundingMetadata": null,
+          "urlContextMetadata": null,
+          "safetyRatings": null,
+          "usageMetadata": {
+            "promptTokenCount": 1194,
+            "candidatesTokenCount": 20,
+            "totalTokenCount": 1214,
+            "serviceTier": "standard",
+            "promptTokensDetails": [
+              {
+                "modality": "TEXT",
+                "tokenCount": 1194
+              }
+            ]
+          },
+          "finishMessage": null,
+          "serviceTier": "standard"
+        }
+      }
+    }
+  ]
+}
